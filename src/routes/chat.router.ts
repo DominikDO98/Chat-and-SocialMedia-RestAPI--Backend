@@ -1,6 +1,6 @@
 import { Request, Response, Router } from "express";
 
-const ChatRouter = Router();
+export const ChatRouter = Router();
 
 ChatRouter
     .get('/', (req: Request, res: Response) => {

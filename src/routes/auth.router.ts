@@ -1,6 +1,6 @@
 import { Request, Response, Router } from "express";
 
-const AuthRouter = Router();
+export const AuthRouter = Router();
 
 AuthRouter
     .get('/', (req: Request, res: Response) => {

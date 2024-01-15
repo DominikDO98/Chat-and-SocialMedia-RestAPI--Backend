@@ -1,6 +1,6 @@
 import { Request, Response, Router } from "express";
 
-const PostRouter = Router();
+export const PostRouter = Router();
 
 PostRouter
     .get('/', (req: Request, res: Response) => {
