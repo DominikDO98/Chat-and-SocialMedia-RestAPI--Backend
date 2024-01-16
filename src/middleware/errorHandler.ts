@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import { CustomError } from "./middleware_utils/errors";
 
-const handleError = (
+export const handleError = (
     err: CustomError | Error,
     req: Request,
     res: Response,
