@@ -26,5 +26,5 @@ export class CustomError extends Error {
 };
 
 export class ValidationError extends CustomError {};
-export class InternalError extends CustomError {};
+export class AuthenticationError extends CustomError {};
 export class ContentNotFoundError extends CustomError {};
