@@ -11,7 +11,7 @@ export const handleError = (
 
         if (err instanceof CustomError){
             res
-                .sendStatus(err.code)
+                .status(err.code)
                 .json({
                     message: err.message
                 });
@@ -19,7 +19,7 @@ export const handleError = (
 
         if (err instanceof Error) {
             res
-                .sendStatus(500)
+                .status(500)
                 .json({
                     message: 'Server internal error. Please, try again later'
                 });
