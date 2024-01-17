@@ -1,4 +1,5 @@
 import { Request, Response, NextFunction } from "express";
+import { ZodError } from "zod";
 import { CustomError } from "./middleware_utils/errors";
 
 export const handleError = (
@@ -17,11 +18,19 @@ export const handleError = (
                 });
         }
 
+        if (err instanceof ZodError) {
+            res
+                .status(400)
+                .json({
+                    message: err.issues
+                });
+        }
+
         if (err instanceof Error) {
             res
                 .status(500)
                 .json({
-                    message: 'Server internal error. Please, try again later'
+                    message: 'Internal server error. Please, try again later'
                 });
         }
         
