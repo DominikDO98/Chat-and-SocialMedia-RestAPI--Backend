@@ -2,7 +2,6 @@ export {}
 declare global {
     namespace NodeJS {
         interface ProcessEnv {
-            NODE_ENV: string,
             DB: string,
             USER: string,
             PASSWORD: string,
