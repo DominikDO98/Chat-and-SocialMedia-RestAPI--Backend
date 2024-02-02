@@ -7,9 +7,6 @@ declare global {
             USER: string,
             PASSWORD: string,
             TEST_DB: string,
-            TEST_HOST: string,
-            TEST_USER: string,
-            TEST_PASSWORD: string,
         }
     }
 }
