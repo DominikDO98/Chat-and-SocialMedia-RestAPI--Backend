@@ -18,4 +18,11 @@ export const testConfig: PoolConfig = {
     port: 5432
 };
 
+export const initConfig: PoolConfig = {
+    host: process.env.HOST,
+    user: process.env.USER,
+    password: process.env.PASSWORD,
+    port: 5432
+};
+
 export * as Config from './db.config';
