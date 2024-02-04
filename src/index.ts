@@ -1,4 +1,5 @@
 import express, { Request, Response } from "express";
+import 'express-async-errors';
 import { UserRouter } from "./routes/user.router";
 import { ChatRouter } from "./routes/chat.router";
 import { PostRouter } from "./routes/post.router";
