@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import { ZodError } from "zod";
-import { CustomError } from "./middleware_utils/errors";
+import { CustomError } from "../utils/middlewareUtils/errors";
 
 export const handleError = (
     err: CustomError | Error,

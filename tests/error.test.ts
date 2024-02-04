@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction} from 'express';
 import {handleError} from '../src/middleware/errorHandler';
 import {ZodError, z} from 'zod';
-import {CustomError} from '../src/middleware/middleware_utils/errors';
+import {CustomError} from '../src/utils/middlewareUtils/errors';
 
 
 describe('test if error handler is throwing errors', () => {
