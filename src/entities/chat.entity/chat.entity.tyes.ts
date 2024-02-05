@@ -8,3 +8,14 @@ type MessageEntity = {
     picture?: Blob;
     attachment?: string;
 }
+
+type ConversationEntity = {
+    id: string;
+    is_group: boolean;
+    name: string;
+}
+
+type ContactEntity = {
+    id: string;
+    converation_id: string;
+}
