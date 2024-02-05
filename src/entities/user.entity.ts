@@ -1,21 +1,29 @@
-// import {v4 as uuid} from 'uuid';
-// import {hash} from 'bcrypt';
-// import { UserEntity } from './types/user.types';
+import {v4 as uuid} from 'uuid';
+
+class NewUserEnitity {
+
+    private id: string;
+    private username: string;
+    private password: string;
 
 
+    constructor(username: string, hashedpassword: string){
+        this.id = uuid(),
+        this.username = username,
+        this.password = hashedpassword
+    }
 
-// class NewUser implements Pick<UserEntity, "id" |'username' | 'password'> {
+}
 
-//     id: string;
-//     username: string;
-//     password: string;
+interface UserDataEntity extends NewUserEnitity{
+    profile_photo?: Blob;
+    lastname?: string;
+    firstname?: string;
+    birthday?: Date;
+    country?: string;
+    city?: string;
+    occupation?: string;
+    school?: string;
+    description?: string;
 
-
-//     constructor(username: string, hashedpassword: string){
-//         this.id = uuid(),
-//         this.username = username,
-//         this.password = hashedpassword,
-//     }
-
-// }
-
+}
