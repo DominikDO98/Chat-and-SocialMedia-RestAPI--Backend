@@ -4,7 +4,7 @@ type MessageEntity = {
     text: string;
     created_at: string;
     send_by: string;
-    is_deliverd: boolean;
+    is_delivered: boolean;
     picture?: Blob;
     attachment?: string;
 }
@@ -20,7 +20,7 @@ type ContactEntity = {
     converation_id: string;
 }
 
-type Invitation = {
+type InvitationEntity = {
     id: string;
     from_user_id: string;
     to_user_id: string;
