@@ -1,9 +1,9 @@
-import { hash } from 'bcrypt';
+import { hashSync } from 'bcrypt';
 import { v4 as uuid } from 'uuid';
-import { NewUserEnitity } from './user.entity.types';
+import { NewUserEnitity } from './user.types';
 
-const userFactory = async (newUser: Omit<NewUserEnitity, 'id'>): Promise<NewUserEnitity> => {
-    const hashedPassword = await hash(newUser.password, 10);
+const userFactory = (newUser: Omit<NewUserEnitity, 'id'>): NewUserEnitity => {
+    const hashedPassword = hashSync(newUser.password, 10);
     const user: NewUserEnitity = {
         id: uuid(),
         username: newUser.username,
