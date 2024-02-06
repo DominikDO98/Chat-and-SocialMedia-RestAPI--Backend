@@ -1,4 +1,4 @@
-type GroupEnitiy = {
+export type GroupEnitiy = {
     id: string;
     admin_id: string;
     name: string;

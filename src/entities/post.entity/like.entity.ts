@@ -1,4 +1,5 @@
 import { v4 as uuid } from "uuid";
+import { LikeEntity } from "./post.types";
 
 const likeFactory = (newLike: Omit<LikeEntity, 'id' | 'created_at'>) => {
     const like = {

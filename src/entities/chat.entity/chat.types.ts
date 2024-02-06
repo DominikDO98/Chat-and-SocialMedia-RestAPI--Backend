@@ -1,4 +1,4 @@
-type MessageEntity = {
+export type MessageEntity = {
     id: string;
     conversaiton_id: string;
     text: string;
@@ -9,18 +9,18 @@ type MessageEntity = {
     attachment?: string;
 }
 
-type ConversationEntity = {
+export type ConversationEntity = {
     id: string;
     is_group: boolean;
     name?: string;
 }
 
-type ContactEntity = {
+export type ContactEntity = {
     id: string;
     converation_id: string;
 }
 
-type InvitationEntity = {
+export type InvitationEntity = {
     id: string;
     from_user_id: string;
     to_user_id: string;

@@ -1,4 +1,5 @@
 import { v4 as uuid } from "uuid";
+import { GroupEnitiy } from "./group.types";
 
 const groupFactory = (newGroup: Omit<GroupEnitiy, 'id' | 'created_at'>) => {
     const group: GroupEnitiy = {

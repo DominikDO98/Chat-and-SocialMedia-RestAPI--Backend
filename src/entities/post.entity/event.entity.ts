@@ -1,4 +1,5 @@
 import { v4 as uuid } from "uuid";
+import { EventEntity } from "./post.types";
 
 const eventFactory = (newEvent: EventEntity) => {
     const event = {

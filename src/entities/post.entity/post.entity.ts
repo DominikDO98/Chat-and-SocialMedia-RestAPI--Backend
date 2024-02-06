@@ -1,4 +1,5 @@
 import { v4 as uuid } from "uuid";
+import { PostEntity } from "./post.types";
 
 const postFactory = (newPost: Omit<PostEntity, 'id' | 'created_at'>) => {
     const post: PostEntity = {

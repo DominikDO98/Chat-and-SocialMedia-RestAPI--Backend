@@ -1,4 +1,4 @@
-type PostEntity = {
+export type PostEntity = {
     id: string;
     user_id: string;
     group_id?: string;
@@ -10,7 +10,7 @@ type PostEntity = {
     type: number;
 }
 
-type CommentEntity = {
+export type CommentEntity = {
     id: string;
     post_id: string;
     user_id: string;
@@ -20,14 +20,14 @@ type CommentEntity = {
     attachment?: string;
 }
 
-type LikeEntity = {
+export type LikeEntity = {
     id: string;
     post_id: string;
     user_id: string;
     created_at: string;
 }
 
-type EventEntity = {
+export type EventEntity = {
     post_id: string;
     date: string;
     lat: number;
