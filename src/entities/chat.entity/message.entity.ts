@@ -1,7 +1,7 @@
 import { v4 as uuid } from "uuid";
 import { MessageEntity } from "./chat.types";
 
-const messageFactory = (newMessage: Omit<MessageEntity, 'id' | 'created_at' | 'is_delivered'>) => {
+const messageFactory = (newMessage: Omit<MessageEntity, 'id' | 'created_at' | 'is_delivered'>) : MessageEntity => {
     const message: MessageEntity = {
         id: uuid(),
         conversaiton_id: newMessage.conversaiton_id,

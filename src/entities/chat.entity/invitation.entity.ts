@@ -1,7 +1,7 @@
 import { v4 as uuid } from "uuid";
 import { InvitationEntity } from "./chat.types";
 
-const invitationFactory = (newInvitation: Omit<InvitationEntity, 'id'>) => {
+const invitationFactory = (newInvitation: Omit<InvitationEntity, 'id'>) : InvitationEntity => {
     const invitation: InvitationEntity = {
         id: uuid(),
         from_user_id: newInvitation.from_user_id,

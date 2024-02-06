@@ -1,7 +1,7 @@
 import { v4 as uuid } from "uuid";
 import { CommentEntity } from "./post.types";
 
-const commentFactory = (newComment: Omit<CommentEntity, 'id' | 'created_at'>) => {
+const commentFactory = (newComment: Omit<CommentEntity, 'id' | 'created_at'>) : CommentEntity => {
     const comment: CommentEntity = {
         id: uuid(),
         post_id: newComment.post_id,

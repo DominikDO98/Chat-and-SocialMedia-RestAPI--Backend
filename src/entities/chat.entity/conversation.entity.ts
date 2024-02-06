@@ -1,7 +1,7 @@
 import { v4 as uuid } from "uuid";
 import { ConversationEntity } from "./chat.types";
 
-const conversationFactory = (newConversation: Omit <ConversationEntity, 'id'>) => {
+const conversationFactory = (newConversation: Omit <ConversationEntity, 'id'>) : ConversationEntity => {
     const converstion: ConversationEntity = {
         id: uuid(),
         is_group: newConversation.is_group ? newConversation.is_group : false,
