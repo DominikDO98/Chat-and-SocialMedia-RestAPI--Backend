@@ -1,6 +1,6 @@
 import { v4 as uuid } from "uuid";
 
-const postFactory = (newPost: Omit<PostEntity, 'id'>) => {
+const postFactory = (newPost: Omit<PostEntity, 'id' | 'created_at'>) => {
     const post: PostEntity = {
         id: uuid(),
         user_id: newPost.user_id,
