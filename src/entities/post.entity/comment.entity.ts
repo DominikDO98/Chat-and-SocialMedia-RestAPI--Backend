@@ -7,6 +7,8 @@ const commentFactory = (newComment: Omit<CommentEntity, 'id' | 'created_at'>) =>
         user_id: newComment.user_id,
         text: newComment.text,
         created_at: new Date().toLocaleString(),
-        
+        picture: newComment.picture ? newComment.picture : undefined,
+        attachment: newComment.attachment ? newComment.attachment : undefined,
     }
+    return comment
 }
