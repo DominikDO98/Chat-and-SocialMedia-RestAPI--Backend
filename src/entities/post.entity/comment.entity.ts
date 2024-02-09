@@ -1,8 +1,8 @@
 import { v4 as uuid } from "uuid";
-import { CommentEntity } from "./post.types";
 import { z } from "zod";
+import { CommentEntity } from "./post.types";
 
-const commentSchema = z.object({
+export const commentSchema = z.object({
     id: z.string().uuid(),
     post_id: z.string().uuid(),
     user_id: z.string().uuid(),
@@ -12,7 +12,7 @@ const commentSchema = z.object({
     created_at: z.string().datetime(),
 })
 
-const commentFactory = (newComment: Omit<CommentEntity, 'id' | 'created_at'>) : CommentEntity => {
+export const commentFactory = (newComment: Omit<CommentEntity, 'id' | 'created_at'>) : CommentEntity => {
     const comment: CommentEntity = {
         id: uuid(),
         post_id: newComment.post_id,

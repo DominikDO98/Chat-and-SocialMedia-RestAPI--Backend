@@ -2,7 +2,7 @@ import { v4 as uuid } from "uuid";
 import { z } from "zod";
 import { MessageEntity } from "./chat.types";
 
-const newMessageSchema = z.object({
+export const newMessageSchema = z.object({
     id: z.string().uuid(),
     conversaiton_id: z.string().uuid(),
     created_at: z.string().datetime(),
@@ -12,7 +12,7 @@ const newMessageSchema = z.object({
     attachment: z.string().min(3).max(200).optional(),
 })
 
-const messageFactory = (newMessage: Omit<MessageEntity, 'id' | 'created_at' | 'is_delivered'>) : MessageEntity => {
+export const messageFactory = (newMessage: Omit<MessageEntity, 'id' | 'created_at' | 'is_delivered'>) : MessageEntity => {
     const message: MessageEntity = {
         id: uuid(),
         conversaiton_id: newMessage.conversaiton_id,

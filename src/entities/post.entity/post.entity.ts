@@ -1,9 +1,9 @@
 import { v4 as uuid } from "uuid";
-import { PostEntity } from "./post.types";
 import { z } from "zod";
+import { PostEntity } from "./post.types";
 
 
-const newPostSchema = z.object({
+export const newPostSchema = z.object({
     id: z.string().uuid(),
     user_id: z.string().uuid(),
     group_id: z.string().uuid().optional(),
@@ -15,7 +15,7 @@ const newPostSchema = z.object({
     type: z.number(),
 })
 
-const postFactory = (newPost: Omit<PostEntity, 'id' | 'created_at'>) : PostEntity => {
+export const postFactory = (newPost: Omit<PostEntity, 'id' | 'created_at'>) : PostEntity => {
     const post: PostEntity = {
         id: uuid(),
         user_id: newPost.user_id,
