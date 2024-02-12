@@ -6,7 +6,7 @@ import { NewUserEnitity } from './user.types';
 export const newUserSchema = z.object({
     id: z.string().uuid(),
     username: z.string().min(5).max(36),
-    password: z.string().length(72),
+    password: z.string().length(60),
     email_address: z.string().email().max(320),
 })
 
