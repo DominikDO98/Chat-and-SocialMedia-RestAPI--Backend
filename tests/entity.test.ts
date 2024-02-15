@@ -3,11 +3,12 @@ import { ZodError, ZodIssue, ZodIssueCode } from "zod";
 import { newUserSchema, userFactory } from "../src/entities/user.entity/user.entity";
 import { NewUserEnitity } from "../src/entities/user.entity/user.types";
 import { handleError } from "../src/middleware/errorHandler";
-import { EventEntity, LikeEntity, PostEntity } from "../src/entities/post.entity/post.types";
+import { CommentEntity, EventEntity, LikeEntity, PostEntity } from "../src/entities/post.entity/post.types";
 import {v4 as uuid} from 'uuid';
 import { newPostSchema, postFactory } from "../src/entities/post.entity/post.entity";
 import { likeFactory, newLikeSchema } from "../src/entities/post.entity/like.entity";
 import { eventFactory, newEventSchema } from "../src/entities/post.entity/event.entity";
+import { commentFactory, newCommentSchema } from "../src/entities/post.entity/comment.entity";
 
 describe('enitity tests', () => {
     
@@ -29,8 +30,9 @@ describe('enitity tests', () => {
             test('newUserSchema correctly parses user object', () => {
                 const user = userFactory(newUser)
                 const parsedUser = newUserSchema.parse(user)
-                expect(parsedUser.username).toBe(newUser.username)
-                expect(parsedUser.email_address).toBe(newUser.email_address)
+
+                expect(parsedUser.username).toBe(user.username)
+                expect(parsedUser.email_address).toBe(user.email_address)
                 expect(parsedUser.password).toHaveLength(60)
                 expect(typeof parsedUser.password).toBe('string')
                 expect(parsedUser.id).toBeDefined()
@@ -77,14 +79,15 @@ describe('enitity tests', () => {
             test('postFactory create correct instance of the post object', () => {
                 const post = postFactory(newPost);
                 expect(post.id).toBeDefined();
-                expect(post.user_id).toBeDefined();
-                expect(post.group_id).toBeDefined();
+                expect(post.user_id).toEqual(newPost.user_id);
+                expect(post.group_id).toEqual(newPost.group_id);
                 expect(post.title).toBe(newPost.title);
                 expect(post.text).toBe(newPost.text);
                 expect(post.attachment).toBe(newPost.attachment);
                 expect(post.picture).toBeInstanceOf(Blob);
+                expect(post.picture).toEqual(post.picture);
                 expect(post.created_at).toBeInstanceOf(Date);
-                expect(post.type).toBe(post.type);
+                expect(post.type).toBe(newPost.type);
             })
             test('newPostSchema correctly parses post object', () => {
                 const post = postFactory(newPost);
@@ -147,8 +150,8 @@ describe('enitity tests', () => {
             test('likeFactory create correct instance of like', () => {
                 const like = likeFactory(newLike);
                 expect(like.id).toBeDefined();
-                expect(like.post_id).toBeDefined();
-                expect(like.user_id).toBeDefined();
+                expect(like.post_id).toEqual(newLike.post_id);
+                expect(like.user_id).toEqual(newLike.user_id);
                 expect(like.created_at).toBeInstanceOf(Date);
             })
             test('newLikeSchema correctly parses like object', () => {
@@ -198,12 +201,10 @@ describe('enitity tests', () => {
             test('eventFactory create correct instance of event', () => {
                 const event = eventFactory(newEvent);
                 
-                expect(event.post_id).toBeDefined();
+                expect(event.post_id).toEqual(newEvent.post_id);
                 expect(event.date).toBeInstanceOf(Date);
-                expect(event.lat).toBeGreaterThanOrEqual(0);
-                expect(event.lat).toBeLessThanOrEqual(90);
-                expect(event.lon).toBeGreaterThanOrEqual(0);
-                expect(event.lon).toBeLessThanOrEqual(180);
+                expect(event.lat).toEqual(newEvent.lat);
+                expect(event.lon).toEqual(newEvent.lon);
             })
             test('newEventSchema correctly parses event object', () => {
                 const event = eventFactory(newEvent);
@@ -239,6 +240,54 @@ describe('enitity tests', () => {
                 expect(throwZodError).toThrow('Expected date, received string');
                 expect(throwZodError).toThrow('Number must be less than or equal to 90');
                 expect(throwZodError).toThrow('Number must be a multiple of 0.000001');
+            })
+        })
+        describe('comment entity', () => {
+            const newComment: Omit<CommentEntity, 'id' | 'created_at'> = {
+                post_id: uuid(),
+                user_id: uuid(),
+                text: 'some text',
+                picture: new Blob(),
+                attachment: 'link.com'
+            }
+            const newPlainComment: Omit<CommentEntity, 'id' | 'created_at'> = {
+                post_id: uuid(),
+                user_id: uuid(),
+                text: 'some text',
+            }
+            test('commentFactory create correct instance of event', () => {
+                const comment = commentFactory(newComment);
+                const plainComment = commentFactory(newPlainComment);
+
+                expect(comment.id).toBeDefined();
+                expect(comment.created_at).toBeInstanceOf(Date);
+                expect(comment.picture).toBeInstanceOf(Blob);
+                expect(comment.picture).toEqual(newComment.picture);
+                expect(comment.attachment).toEqual(newComment.attachment)
+
+                expect(plainComment.id).toBeDefined();
+                expect(plainComment.created_at).toBeInstanceOf(Date);
+                expect(plainComment.picture).toBeUndefined();
+                expect(plainComment.attachment).toBeUndefined();
+            })
+
+            test('newCommentSchema correctly parses comment object', () => {
+                const comment = commentFactory(newComment);
+                const plainComment = commentFactory(newPlainComment);
+
+                const parsedComment = newCommentSchema.parse(comment);
+                const parsedPlainComment = newCommentSchema.parse(plainComment);
+
+                expect(parsedComment.created_at).toBeInstanceOf(Date)
+                expect(parsedComment.created_at).toEqual(comment.created_at);
+                expect(parsedComment.picture).toBeInstanceOf(Blob)
+                expect(parsedComment.picture).toEqual(comment.picture);
+                expect(parsedComment.attachment).toEqual(comment.attachment);
+
+                expect(parsedPlainComment.created_at).toBeInstanceOf(Date);
+                expect(parsedPlainComment.created_at).toEqual(plainComment.created_at);
+                expect(parsedPlainComment.picture).toBeUndefined()
+                expect(parsedPlainComment.attachment).toBeUndefined();
             })
         })
     })
