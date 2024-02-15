@@ -15,7 +15,7 @@ export type CommentEntity = {
     post_id: string;
     user_id: string;
     text: string;
-    created_at: string;
+    created_at: Date;
     picture?: Blob;
     attachment?: string;
 }
@@ -24,7 +24,7 @@ export type LikeEntity = {
     id: string;
     post_id: string;
     user_id: string;
-    created_at: string;
+    created_at: Date;
 }
 
 export type EventEntity = {
