@@ -7,6 +7,7 @@ import { EventEntity, LikeEntity, PostEntity } from "../src/entities/post.entity
 import {v4 as uuid} from 'uuid';
 import { newPostSchema, postFactory } from "../src/entities/post.entity/post.entity";
 import { likeFactory, newLikeSchema } from "../src/entities/post.entity/like.entity";
+import { eventFactory, newEventSchema } from "../src/entities/post.entity/event.entity";
 
 describe('enitity tests', () => {
     
@@ -73,7 +74,6 @@ describe('enitity tests', () => {
                 attachment: 'link.com',
                 type: 1
             }
-            
             test('postFactory create correct instance of the post object', () => {
                 const post = postFactory(newPost);
                 expect(post.id).toBeDefined();
@@ -151,17 +151,17 @@ describe('enitity tests', () => {
                 expect(like.user_id).toBeDefined();
                 expect(like.created_at).toBeInstanceOf(Date);
             })
-            test('newLikeSchema correctly parses post object', () => {
+            test('newLikeSchema correctly parses like object', () => {
                 const like = likeFactory(newLike);
-                
                 const parsedLike = newLikeSchema.parse(like);
+
                 expect(parsedLike.id).toBe(like.id);
                 expect(parsedLike.post_id).toBe(like.post_id);
                 expect(parsedLike.user_id).toBe(like.user_id);
                 expect(parsedLike.created_at).toBeInstanceOf(Date);
                 expect(parsedLike.created_at).toEqual(like.created_at);
             })
-            test('newLikeSchema throws error when wrong post data is being parsed', () => {
+            test('newLikeSchema throws error when wrong like data is being parsed', () => {
                 const wrongLike = {
                     post_id: 'wrong string',
                     user_id: 'another wrong string',
@@ -171,8 +171,6 @@ describe('enitity tests', () => {
                     try {
                         newLikeSchema.parse(wrongLike)
                     } catch (err) {
-                        console.log(err);
-                                             
                         throw new ZodError(err as ZodIssue[])
                     }
                 }
@@ -197,8 +195,51 @@ describe('enitity tests', () => {
                 lat: 45.668278,
                 lon: 11.182738,
             }
+            test('eventFactory create correct instance of event', () => {
+                const event = eventFactory(newEvent);
+                
+                expect(event.post_id).toBeDefined();
+                expect(event.date).toBeInstanceOf(Date);
+                expect(event.lat).toBeGreaterThanOrEqual(0);
+                expect(event.lat).toBeLessThanOrEqual(90);
+                expect(event.lon).toBeGreaterThanOrEqual(0);
+                expect(event.lon).toBeLessThanOrEqual(180);
+            })
+            test('newEventSchema correctly parses event object', () => {
+                const event = eventFactory(newEvent);
+                const parsedEvent = newEventSchema.parse(event);
 
-            test('EventFactory create correct instance of like', () => {
+                expect(parsedEvent.post_id).toEqual(event.post_id);
+                expect(parsedEvent.date).toEqual(event.date);
+                expect(parsedEvent.lat).toEqual(event.lat);
+                expect(parsedEvent.lon).toEqual(event.lon);
+            })
+            test('newEventSchema throws error when wrong like data is being parsed', () => {
+                const wrongEvent = {
+                    post_id: 'yet another wrong id',
+                    date: 'definitely not a date',
+                    lat: 100,
+                    lon: 1.1234567,
+                }
+                const throwZodError = () => {
+                    try {
+                        newEventSchema.parse(wrongEvent)
+                    } catch (err) {
+                        throw new ZodError(err as ZodIssue[])
+                    } 
+                }
+                expect(throwZodError).toThrow(ZodError);
+
+                expect(throwZodError).toThrow('post_id');
+                expect(throwZodError).toThrow('date');
+                expect(throwZodError).toThrow('lat');
+                expect(throwZodError).toThrow('lon');
+
+                expect(throwZodError).toThrow('Invalid uuid');
+                expect(throwZodError).toThrow('Expected date, received string');
+                expect(throwZodError).toThrow('Number must be less than or equal to 90');
+                expect(throwZodError).toThrow('Number must be a multiple of 0.000001');
+            })
         })
     })
     
