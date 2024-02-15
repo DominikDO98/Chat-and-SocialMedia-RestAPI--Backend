@@ -6,7 +6,7 @@ export type PostEntity = {
     text: string;
     picture?: Blob;
     attachment?: string;
-    created_at: string;
+    created_at: Date;
     type: number;
 }
 
