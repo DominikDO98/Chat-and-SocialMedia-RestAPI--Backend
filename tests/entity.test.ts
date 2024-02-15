@@ -76,33 +76,53 @@ describe('enitity tests', () => {
                 attachment: 'link.com',
                 type: 1
             }
+            const newPlainPost: Omit<PostEntity, 'id' | 'created_at'> = {
+                user_id: uuid(),
+                title: 'nothing',
+                text: 'nothingness',
+                type: 1
+            }
             test('postFactory create correct instance of the post object', () => {
                 const post = postFactory(newPost);
+                const plainPost = postFactory(newPlainPost);
+
                 expect(post.id).toBeDefined();
-                expect(post.user_id).toEqual(newPost.user_id);
                 expect(post.group_id).toEqual(newPost.group_id);
-                expect(post.title).toBe(newPost.title);
-                expect(post.text).toBe(newPost.text);
-                expect(post.attachment).toBe(newPost.attachment);
                 expect(post.picture).toBeInstanceOf(Blob);
-                expect(post.picture).toEqual(post.picture);
+                expect(post.picture).toEqual(newPost.picture);
+                expect(post.attachment).toBe(newPost.attachment);
                 expect(post.created_at).toBeInstanceOf(Date);
                 expect(post.type).toBe(newPost.type);
+
+                expect(plainPost.id).toBeDefined();
+                expect(plainPost.group_id).toBeUndefined();
+                expect(plainPost.picture).toBeUndefined();
+                expect(plainPost.attachment).toBeUndefined();
+                expect(plainPost.created_at).toBeInstanceOf(Date);
+                expect(plainPost.type).toBe(newPlainPost.type);
             })
             test('newPostSchema correctly parses post object', () => {
                 const post = postFactory(newPost);
+                const plainPost = postFactory(newPlainPost);
+
                 const parsedPost = newPostSchema.parse(post);
-                
+                const parsedPlainPost = newPostSchema.parse(plainPost);
+
                 expect(parsedPost.id).toBeDefined();
-                expect(parsedPost.user_id).toBe(post.user_id);
                 expect(parsedPost.group_id).toBe(post.group_id);
-                expect(parsedPost.title).toBe(post.title);
-                expect(parsedPost.text).toBe(post.text);
-                expect(parsedPost.attachment).toBe(post.attachment);
                 expect(parsedPost.picture).toBe(post.picture);
+                expect(parsedPost.attachment).toBe(post.attachment);
                 expect(parsedPost.created_at).toBeInstanceOf(Date);
                 expect(parsedPost.created_at).toEqual(post.created_at);
                 expect(parsedPost.type).toBe(post.type);
+
+                expect(parsedPlainPost.id).toBeDefined();
+                expect(parsedPlainPost.group_id).toBeUndefined();
+                expect(parsedPlainPost.picture).toBeUndefined();
+                expect(parsedPlainPost.attachment).toBeUndefined();
+                expect(parsedPlainPost.created_at).toBeInstanceOf(Date);
+                expect(parsedPlainPost.created_at).toEqual(post.created_at);
+                expect(parsedPlainPost.type).toBe(post.type);
             })
             test('newPostSchema throws error when wrong post data is being parsed', () => {
                 const wrongPost = {
@@ -118,10 +138,11 @@ describe('enitity tests', () => {
                 const throwZodError = () => {
                     try {
                         newPostSchema.parse(wrongPost)
-                    } catch (err) {                     
+                    } catch (err) { 
                         throw new ZodError(err as ZodIssue[])
                     }
                 }
+                
                 expect(throwZodError).toThrow(ZodError);
     
                 expect(throwZodError).toThrow('id');
