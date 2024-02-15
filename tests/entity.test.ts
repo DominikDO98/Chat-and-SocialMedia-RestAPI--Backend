@@ -21,20 +21,20 @@ describe('enitity tests', () => {
             }
             test('userFactory create correct user instance', () => {
                 const user = userFactory(newUser)
-                expect(user.username).toBe(newUser.username)
-                expect(user.email_address).toBe(newUser.email_address)
+                expect(user.username).toStrictEqual(newUser.username)
+                expect(user.email_address).toStrictEqual(newUser.email_address)
                 expect(user.password).toHaveLength(60)
-                expect(typeof user.password).toBe('string')
+                expect(typeof user.password).toStrictEqual('string')
                 expect(user.id).toBeDefined()
             })
             test('newUserSchema correctly parses user object', () => {
                 const user = userFactory(newUser)
                 const parsedUser = newUserSchema.parse(user)
 
-                expect(parsedUser.username).toBe(user.username)
-                expect(parsedUser.email_address).toBe(user.email_address)
+                expect(parsedUser.username).toStrictEqual(user.username)
+                expect(parsedUser.email_address).toStrictEqual(user.email_address)
                 expect(parsedUser.password).toHaveLength(60)
-                expect(typeof parsedUser.password).toBe('string')
+                expect(typeof parsedUser.password).toStrictEqual('string')
                 expect(parsedUser.id).toBeDefined()
             })
             test('newUserShema throws error when wrong user data is being parsed', () => {
@@ -87,19 +87,19 @@ describe('enitity tests', () => {
                 const plainPost = postFactory(newPlainPost);
 
                 expect(post.id).toBeDefined();
-                expect(post.group_id).toEqual(newPost.group_id);
+                expect(post.group_id).toStrictEqual(newPost.group_id);
                 expect(post.picture).toBeInstanceOf(Blob);
-                expect(post.picture).toEqual(newPost.picture);
-                expect(post.attachment).toBe(newPost.attachment);
+                expect(post.picture).toStrictEqual(newPost.picture);
+                expect(post.attachment).toStrictEqual(newPost.attachment);
                 expect(post.created_at).toBeInstanceOf(Date);
-                expect(post.type).toBe(newPost.type);
+                expect(post.type).toStrictEqual(newPost.type);
 
                 expect(plainPost.id).toBeDefined();
                 expect(plainPost.group_id).toBeUndefined();
                 expect(plainPost.picture).toBeUndefined();
                 expect(plainPost.attachment).toBeUndefined();
                 expect(plainPost.created_at).toBeInstanceOf(Date);
-                expect(plainPost.type).toBe(newPlainPost.type);
+                expect(plainPost.type).toStrictEqual(newPlainPost.type);
             })
             test('newPostSchema correctly parses post object', () => {
                 const post = postFactory(newPost);
@@ -109,20 +109,20 @@ describe('enitity tests', () => {
                 const parsedPlainPost = newPostSchema.parse(plainPost);
 
                 expect(parsedPost.id).toBeDefined();
-                expect(parsedPost.group_id).toBe(post.group_id);
-                expect(parsedPost.picture).toBe(post.picture);
-                expect(parsedPost.attachment).toBe(post.attachment);
+                expect(parsedPost.group_id).toStrictEqual(post.group_id);
+                expect(parsedPost.picture).toStrictEqual(post.picture);
+                expect(parsedPost.attachment).toStrictEqual(post.attachment);
                 expect(parsedPost.created_at).toBeInstanceOf(Date);
-                expect(parsedPost.created_at).toEqual(post.created_at);
-                expect(parsedPost.type).toBe(post.type);
+                expect(parsedPost.created_at).toStrictEqual(post.created_at);
+                expect(parsedPost.type).toStrictEqual(post.type);
 
                 expect(parsedPlainPost.id).toBeDefined();
                 expect(parsedPlainPost.group_id).toBeUndefined();
                 expect(parsedPlainPost.picture).toBeUndefined();
                 expect(parsedPlainPost.attachment).toBeUndefined();
                 expect(parsedPlainPost.created_at).toBeInstanceOf(Date);
-                expect(parsedPlainPost.created_at).toEqual(post.created_at);
-                expect(parsedPlainPost.type).toBe(post.type);
+                expect(parsedPlainPost.created_at).toStrictEqual(post.created_at);
+                expect(parsedPlainPost.type).toStrictEqual(post.type);
             })
             test('newPostSchema throws error when wrong post data is being parsed', () => {
                 const wrongPost = {
@@ -171,19 +171,19 @@ describe('enitity tests', () => {
             test('likeFactory create correct instance of like', () => {
                 const like = likeFactory(newLike);
                 expect(like.id).toBeDefined();
-                expect(like.post_id).toEqual(newLike.post_id);
-                expect(like.user_id).toEqual(newLike.user_id);
+                expect(like.post_id).toStrictEqual(newLike.post_id);
+                expect(like.user_id).toStrictEqual(newLike.user_id);
                 expect(like.created_at).toBeInstanceOf(Date);
             })
             test('newLikeSchema correctly parses like object', () => {
                 const like = likeFactory(newLike);
                 const parsedLike = newLikeSchema.parse(like);
 
-                expect(parsedLike.id).toBe(like.id);
-                expect(parsedLike.post_id).toBe(like.post_id);
-                expect(parsedLike.user_id).toBe(like.user_id);
+                expect(parsedLike.id).toStrictEqual(like.id);
+                expect(parsedLike.post_id).toStrictEqual(like.post_id);
+                expect(parsedLike.user_id).toStrictEqual(like.user_id);
                 expect(parsedLike.created_at).toBeInstanceOf(Date);
-                expect(parsedLike.created_at).toEqual(like.created_at);
+                expect(parsedLike.created_at).toStrictEqual(like.created_at);
             })
             test('newLikeSchema throws error when wrong like data is being parsed', () => {
                 const wrongLike = {
@@ -222,19 +222,19 @@ describe('enitity tests', () => {
             test('eventFactory create correct instance of event', () => {
                 const event = eventFactory(newEvent);
                 
-                expect(event.post_id).toEqual(newEvent.post_id);
+                expect(event.post_id).toStrictEqual(newEvent.post_id);
                 expect(event.date).toBeInstanceOf(Date);
-                expect(event.lat).toEqual(newEvent.lat);
-                expect(event.lon).toEqual(newEvent.lon);
+                expect(event.lat).toStrictEqual(newEvent.lat);
+                expect(event.lon).toStrictEqual(newEvent.lon);
             })
             test('newEventSchema correctly parses event object', () => {
                 const event = eventFactory(newEvent);
                 const parsedEvent = newEventSchema.parse(event);
 
-                expect(parsedEvent.post_id).toEqual(event.post_id);
-                expect(parsedEvent.date).toEqual(event.date);
-                expect(parsedEvent.lat).toEqual(event.lat);
-                expect(parsedEvent.lon).toEqual(event.lon);
+                expect(parsedEvent.post_id).toStrictEqual(event.post_id);
+                expect(parsedEvent.date).toStrictEqual(event.date);
+                expect(parsedEvent.lat).toStrictEqual(event.lat);
+                expect(parsedEvent.lon).toStrictEqual(event.lon);
             })
             test('newEventSchema throws error when wrong like data is being parsed', () => {
                 const wrongEvent = {
@@ -283,8 +283,8 @@ describe('enitity tests', () => {
                 expect(comment.id).toBeDefined();
                 expect(comment.created_at).toBeInstanceOf(Date);
                 expect(comment.picture).toBeInstanceOf(Blob);
-                expect(comment.picture).toEqual(newComment.picture);
-                expect(comment.attachment).toEqual(newComment.attachment)
+                expect(comment.picture).toStrictEqual(newComment.picture);
+                expect(comment.attachment).toStrictEqual(newComment.attachment)
 
                 expect(plainComment.id).toBeDefined();
                 expect(plainComment.created_at).toBeInstanceOf(Date);
@@ -300,13 +300,13 @@ describe('enitity tests', () => {
                 const parsedPlainComment = newCommentSchema.parse(plainComment);
 
                 expect(parsedComment.created_at).toBeInstanceOf(Date)
-                expect(parsedComment.created_at).toEqual(comment.created_at);
+                expect(parsedComment.created_at).toStrictEqual(comment.created_at);
                 expect(parsedComment.picture).toBeInstanceOf(Blob)
-                expect(parsedComment.picture).toEqual(comment.picture);
-                expect(parsedComment.attachment).toEqual(comment.attachment);
+                expect(parsedComment.picture).toStrictEqual(comment.picture);
+                expect(parsedComment.attachment).toStrictEqual(comment.attachment);
 
                 expect(parsedPlainComment.created_at).toBeInstanceOf(Date);
-                expect(parsedPlainComment.created_at).toEqual(plainComment.created_at);
+                expect(parsedPlainComment.created_at).toStrictEqual(plainComment.created_at);
                 expect(parsedPlainComment.picture).toBeUndefined()
                 expect(parsedPlainComment.attachment).toBeUndefined();
             })
