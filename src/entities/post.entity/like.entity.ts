@@ -6,7 +6,7 @@ export const newLikeSchema = z.object({
     id: z.string().uuid(),
     post_id: z.string().uuid(),
     user_id: z.string().uuid(),
-    created_at: z.string().datetime(),
+    created_at: z.date(),
 })
 
 export const likeFactory = (newLike: Omit<LikeEntity, 'id' | 'created_at'>) : LikeEntity => {
@@ -14,7 +14,7 @@ export const likeFactory = (newLike: Omit<LikeEntity, 'id' | 'created_at'>) : Li
         id: uuid(),
         post_id: newLike.post_id,
         user_id: newLike.user_id,
-        created_at: new Date().toLocaleString(),
+        created_at: new Date(),
     }
     return like
 }

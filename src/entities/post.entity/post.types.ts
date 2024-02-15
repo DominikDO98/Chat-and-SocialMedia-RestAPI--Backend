@@ -29,7 +29,7 @@ export type LikeEntity = {
 
 export type EventEntity = {
     post_id: string;
-    date: string;
+    date: Date;
     lat: number;
     lon: number;
 }
