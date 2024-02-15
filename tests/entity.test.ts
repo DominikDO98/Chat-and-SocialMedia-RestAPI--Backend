@@ -291,7 +291,6 @@ describe('enitity tests', () => {
                 expect(plainComment.picture).toBeUndefined();
                 expect(plainComment.attachment).toBeUndefined();
             })
-
             test('newCommentSchema correctly parses comment object', () => {
                 const comment = commentFactory(newComment);
                 const plainComment = commentFactory(newPlainComment);
@@ -309,6 +308,40 @@ describe('enitity tests', () => {
                 expect(parsedPlainComment.created_at).toStrictEqual(plainComment.created_at);
                 expect(parsedPlainComment.picture).toBeUndefined()
                 expect(parsedPlainComment.attachment).toBeUndefined();
+            })
+            test('newCommentSchema throws error when wrong like data is being parsed', () => {
+                const wrongComment = {
+                    post_id: 'not uuid',
+                    user_id: 1,
+                    text: 2,
+                    created_at: 'date',
+                    picture: {},
+                    attachment: 'no',
+                }
+                const throwZodError = () => {
+                    try {
+                        newCommentSchema.parse(wrongComment)
+                    } catch (err) {
+                        throw new ZodError(err as ZodIssue[])
+                    } 
+                }
+
+                expect(throwZodError).toThrow(ZodError);
+
+                expect(throwZodError).toThrow('id');
+                expect(throwZodError).toThrow('post_id');
+                expect(throwZodError).toThrow('user_id');
+                expect(throwZodError).toThrow('text');
+                expect(throwZodError).toThrow('picture');
+                expect(throwZodError).toThrow('attachment');
+
+                expect(throwZodError).toThrow('Required');
+                expect(throwZodError).toThrow('Invalid uuid');
+                expect(throwZodError).toThrow('Expected string, received number');
+                expect(throwZodError).toThrow('Expected date, received string');
+                expect(throwZodError).toThrow('Input not instance of Blob');
+                expect(throwZodError).toThrow('String must contain at least 3 character(s)');
+
             })
         })
     })
