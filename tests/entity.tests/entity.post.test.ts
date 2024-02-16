@@ -62,8 +62,8 @@ describe('post', () => {
             expect(parsedPlainPost.picture).toBeUndefined();
             expect(parsedPlainPost.attachment).toBeUndefined();
             expect(parsedPlainPost.created_at).toBeInstanceOf(Date);
-            expect(parsedPlainPost.created_at).toStrictEqual(post.created_at);
-            expect(parsedPlainPost.type).toStrictEqual(post.type);
+            expect(parsedPlainPost.created_at).toStrictEqual(plainPost.created_at);
+            expect(parsedPlainPost.type).toStrictEqual(plainPost.type);
         })
         test('newPostSchema throws error when wrong post data is being parsed', () => {
             const wrongPost = {
