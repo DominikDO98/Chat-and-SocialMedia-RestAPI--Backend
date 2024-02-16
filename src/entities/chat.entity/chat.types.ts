@@ -2,7 +2,7 @@ export type MessageEntity = {
     id: string;
     conversaiton_id: string;
     text: string;
-    created_at: string;
+    created_at: Date;
     send_by: string;
     is_delivered: boolean;
     picture?: Blob;
