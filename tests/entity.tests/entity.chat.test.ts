@@ -1,7 +1,9 @@
 import { v4 as uuid } from 'uuid';
 import { ZodError, ZodIssue } from "zod";
-import { MessageEntity } from '../../src/entities/chat.entity/chat.types';
+import { ConversationEntity, InvitationEntity, MessageEntity } from '../../src/entities/chat.entity/chat.types';
 import { messageFactory, newMessageSchema } from '../../src/entities/chat.entity/message.entity';
+import { invitationFactory, newInvitationSchema } from '../../src/entities/chat.entity/invitation.entity';
+import { conversationFactory, newConversationSchema } from '../../src/entities/chat.entity/conversation.entity';
 
 describe('chat', () => {
     describe('message entity', () => {
@@ -98,6 +100,108 @@ describe('chat', () => {
             expect(throwZodError).toThrow('Input not instance of Blob');                       
             expect(throwZodError).toThrow('Expected string, received number');
             expect(throwZodError).toThrow("Expected date, received null");
+        })
+    })
+    describe('invitation entity', () => {
+        const newInvitation: Omit<InvitationEntity, 'id'> = {
+            from_user_id: uuid(),
+            to_user_id: uuid(),
+        }
+        test('invitationFactory create correct instance of the invitation object', () => {
+            const invitation = invitationFactory(newInvitation);
+
+            expect(invitation.id).toBeDefined();
+            expect(invitation.from_user_id).toStrictEqual(newInvitation.from_user_id);
+            expect(invitation.to_user_id).toStrictEqual(newInvitation.to_user_id);
+        })
+        test('newInvitationSchema correctly parses invitation object', () => {
+            const invitation = invitationFactory(newInvitation);
+
+            const parsedInvitation = newInvitationSchema.parse(invitation);
+
+            expect(parsedInvitation.id).toBeDefined();
+            expect(parsedInvitation.from_user_id).toStrictEqual(invitation.from_user_id);
+            expect(parsedInvitation.to_user_id).toStrictEqual(invitation.to_user_id);
+        })
+        test('newInvitationSchema throws error when wrong invitation data is being parsed', () => {
+            const wrongInvitation: Omit<InvitationEntity, 'id'> = {
+                from_user_id: "not uuid",
+                to_user_id: "not uuid, too",
+            }
+            const throwZodError = () => {
+                try {
+                    newInvitationSchema.parse(wrongInvitation)
+                } catch (err) {                    
+                    throw new ZodError(err as ZodIssue[])
+                }
+            }
+            expect(throwZodError).toThrow(ZodError);
+
+            expect(throwZodError).toThrow('id');
+            expect(throwZodError).toThrow('from_user_id');
+            expect(throwZodError).toThrow('to_user_id');
+
+            expect(throwZodError).toThrow('Required');
+            expect(throwZodError).toThrow('Invalid uuid');
+        })
+    })
+    describe('conversation entity', () => {
+        const newConversation: Omit <ConversationEntity, 'id'> = {
+            is_group: true,
+            name: 'Name',
+        }
+        const newPlainConversation = {
+            is_group: false,
+            name: undefined,
+        }
+        test('conversationFactory create correct instance of the conversation object', () => {
+            const conversation = conversationFactory(newConversation);
+            const plainConversation = conversationFactory(newPlainConversation);
+
+            expect(conversation.id).toBeDefined();
+            expect(conversation.is_group).toStrictEqual(true);
+            expect(conversation.name).toStrictEqual(newConversation.name);
+
+            expect(plainConversation.id).toBeDefined();
+            expect(plainConversation.is_group).toStrictEqual(false);
+            expect(plainConversation.name).toStrictEqual(newPlainConversation.name);
+        })
+        test('newConversationSchema correctly parses conversation object', () => {
+            const conversation = conversationFactory(newConversation);
+            const plainConversation = conversationFactory(newPlainConversation);
+
+            const parsedConversation = newConversationSchema.parse(conversation);
+            const parsedPlainConversation = newConversationSchema.parse(plainConversation);
+
+            expect(parsedConversation.id).toStrictEqual(conversation.id);
+            expect(parsedConversation.is_group).toStrictEqual(true);
+            expect(parsedConversation.name).toStrictEqual(conversation.name);
+
+            expect(parsedPlainConversation.id).toStrictEqual(plainConversation.id);
+            expect(parsedPlainConversation.is_group).toStrictEqual(false);
+            expect(parsedPlainConversation.name).toStrictEqual(plainConversation.name);
+        })
+        test('newInvitationSchema throws error when wrong invitation data is being parsed', () => {
+            const wrongConversation= {
+                is_group: 1,
+                name: 1,
+            }
+            const throwZodError = () => {
+                try {
+                    newConversationSchema.parse(wrongConversation)
+                } catch (err) {                    
+                    throw new ZodError(err as ZodIssue[])
+                }
+            }
+            expect(throwZodError).toThrow(ZodError);
+
+            expect(throwZodError).toThrow('id');
+            expect(throwZodError).toThrow('is_group');
+            expect(throwZodError).toThrow('name');
+
+            expect(throwZodError).toThrow('Required');
+            expect(throwZodError).toThrow('Expected boolean, received number');
+            expect(throwZodError).toThrow('Expected string, received number');
         })
     })
 })
