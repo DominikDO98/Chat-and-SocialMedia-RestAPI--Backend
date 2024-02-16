@@ -1,9 +1,10 @@
 import { v4 as uuid } from 'uuid';
 import { ZodError, ZodIssue } from "zod";
-import { ConversationEntity, InvitationEntity, MessageEntity } from '../../src/entities/chat.entity/chat.types';
+import { ContactEntity, ConversationEntity, InvitationEntity, MessageEntity } from '../../src/entities/chat.entity/chat.types';
 import { messageFactory, newMessageSchema } from '../../src/entities/chat.entity/message.entity';
 import { invitationFactory, newInvitationSchema } from '../../src/entities/chat.entity/invitation.entity';
 import { conversationFactory, newConversationSchema } from '../../src/entities/chat.entity/conversation.entity';
+import { contactFactory, newContactSchema } from '../../src/entities/chat.entity/contact.entity';
 
 describe('chat', () => {
     describe('message entity', () => {
@@ -202,6 +203,25 @@ describe('chat', () => {
             expect(throwZodError).toThrow('Required');
             expect(throwZodError).toThrow('Expected boolean, received number');
             expect(throwZodError).toThrow('Expected string, received number');
+        })
+    })
+    describe('contact entity', () => {
+        const newContact: Omit<ContactEntity, 'id'> = {
+            converation_id: uuid(),
+        }
+        test('contactFactory create correct instance of the contact object', () => {
+            const contact = contactFactory(newContact);
+
+            expect(contact.id).toBeDefined();
+            expect(contact.converation_id).toStrictEqual(newContact.converation_id);
+        })
+        test('newContactSchema correctly parses contact object', () => {
+            const contact = contactFactory(newContact);
+            
+            const parsedContact = newContactSchema.parse(contact);
+
+            expect(parsedContact.id).toStrictEqual(contact.id);
+            expect(parsedContact.converation_id).toStrictEqual(contact.converation_id);
         })
     })
 })
