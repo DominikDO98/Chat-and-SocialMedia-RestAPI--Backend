@@ -33,7 +33,7 @@ describe('group', () => {
             expect(plainGroup.is_private).toStrictEqual(true);
             expect(plainGroup.profile_photo).toBeUndefined();
         })
-        test('newPostSchema correctly parses post object', () => {
+        test('newMessageSchema correctly parses message object', () => {
             const group = groupFactory(newGroup);
             const plainGroup = groupFactory(newPlainGroup);
 
@@ -59,7 +59,7 @@ describe('group', () => {
             expect(parsedPlainGroup.description).toStrictEqual(plainGroup.description);
             expect(parsedPlainGroup.profile_photo).toBeUndefined();
         })
-        test('newPostSchema throws error when wrong post data is being parsed', () => {
+        test('newMessageSchema throws error when wrong message data is being parsed', () => {
             const wrongGroup = {
                 admin_id: 'not uuid',
                 name: 2,
@@ -71,9 +71,7 @@ describe('group', () => {
             const throwZodError = () => {
                 try {
                     newGroupSchema.parse(wrongGroup)
-                } catch (err) { 
-                    console.log(err);
-                    
+                } catch (err) {                    
                     throw new ZodError(err as ZodIssue[])
                 }
             }

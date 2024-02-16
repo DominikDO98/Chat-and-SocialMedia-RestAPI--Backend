@@ -5,6 +5,7 @@ import { MessageEntity } from "./chat.types";
 export const newMessageSchema = z.object({
     id: z.string().uuid(),
     conversaiton_id: z.string().uuid(),
+    text: z.string().max(100),
     created_at: z.date(),
     send_by: z.string().uuid(),
     is_delivered: z.boolean(),
