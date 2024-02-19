@@ -13,7 +13,7 @@ describe("chat", () => {
 			text: "message",
 			send_by: uuid(),
 			picture: new Blob(),
-			attachment: "link.com"
+			attachment: "link.com",
 		};
 		const newPlainMessage: Omit<MessageEntity, "id" | "created_at" | "is_delivered"> = {
 			conversaiton_id: uuid(),
@@ -80,7 +80,7 @@ describe("chat", () => {
 			const throwZodError = () => {
 				try {
 					newMessageSchema.parse(wrongMessage);
-				} catch (err) {    
+				} catch (err) {
 					throw new ZodError(err as ZodIssue[]);
 				}
 			};
@@ -98,7 +98,7 @@ describe("chat", () => {
 			expect(throwZodError).toThrow("Required");
 			expect(throwZodError).toThrow("Invalid uuid");
 			expect(throwZodError).toThrow("Expected boolean, received string");
-			expect(throwZodError).toThrow("Input not instance of Blob");                       
+			expect(throwZodError).toThrow("Input not instance of Blob");
 			expect(throwZodError).toThrow("Expected string, received number");
 			expect(throwZodError).toThrow("Expected date, received null");
 		});
@@ -132,7 +132,7 @@ describe("chat", () => {
 			const throwZodError = () => {
 				try {
 					newInvitationSchema.parse(wrongInvitation);
-				} catch (err) {                    
+				} catch (err) {
 					throw new ZodError(err as ZodIssue[]);
 				}
 			};
@@ -147,7 +147,7 @@ describe("chat", () => {
 		});
 	});
 	describe("conversation entity", () => {
-		const newConversation: Omit <ConversationEntity, "id"> = {
+		const newConversation: Omit<ConversationEntity, "id"> = {
 			is_group: true,
 			name: "Name",
 		};
@@ -182,15 +182,15 @@ describe("chat", () => {
 			expect(parsedPlainConversation.is_group).toStrictEqual(false);
 			expect(parsedPlainConversation.name).toStrictEqual(plainConversation.name);
 		});
-		test("newInvitationSchema throws error when wrong invitation data is being parsed", () => {
-			const wrongConversation= {
+		test("newConversationSchema throws error when wrong conversation data is being parsed", () => {
+			const wrongConversation = {
 				is_group: 1,
 				name: 1,
 			};
 			const throwZodError = () => {
 				try {
 					newConversationSchema.parse(wrongConversation);
-				} catch (err) {                    
+				} catch (err) {
 					throw new ZodError(err as ZodIssue[]);
 				}
 			};
@@ -217,7 +217,7 @@ describe("chat", () => {
 		});
 		test("newContactSchema correctly parses contact object", () => {
 			const contact = contactFactory(newContact);
-            
+
 			const parsedContact = newContactSchema.parse(contact);
 
 			expect(parsedContact.id).toStrictEqual(contact.id);
