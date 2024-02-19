@@ -1,7 +1,7 @@
 import { v4 as uuid } from 'uuid'
 import { ZodError, ZodIssue } from "zod"
-import { GroupEnitiy } from '../../src/entities/group.entity/group.types';
-import { groupFactory, newGroupSchema } from '../../src/entities/group.entity/group.entity';
+import { GroupEnitiy } from '../../entities/group.entity/group.types';
+import { groupFactory, newGroupSchema } from '../../entities/group.entity/group.entity';
 
 describe('group', () => {
     describe('group entity', () => {

@@ -1,10 +1,10 @@
 import { v4 as uuid } from 'uuid'
 import { ZodError, ZodIssue } from "zod"
-import { commentFactory, newCommentSchema } from "../../src/entities/post.entity/comment.entity"
-import { eventFactory, newEventSchema } from "../../src/entities/post.entity/event.entity"
-import { likeFactory, newLikeSchema } from "../../src/entities/post.entity/like.entity"
-import { newPostSchema, postFactory } from "../../src/entities/post.entity/post.entity"
-import { CommentEntity, EventEntity, LikeEntity, PostEntity } from "../../src/entities/post.entity/post.types"
+import { commentFactory, newCommentSchema } from "../../entities/post.entity/comment.entity"
+import { eventFactory, newEventSchema } from "../../entities/post.entity/event.entity"
+import { likeFactory, newLikeSchema } from "../../entities/post.entity/like.entity"
+import { newPostSchema, postFactory } from "../../entities/post.entity/post.entity"
+import { CommentEntity, EventEntity, LikeEntity, PostEntity } from "../../entities/post.entity/post.types"
 
 describe('post', () => {
     describe('post entity', () => {

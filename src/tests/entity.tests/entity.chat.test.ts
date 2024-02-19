@@ -1,10 +1,10 @@
 import { v4 as uuid } from 'uuid';
 import { ZodError, ZodIssue } from "zod";
-import { ContactEntity, ConversationEntity, InvitationEntity, MessageEntity } from '../../src/entities/chat.entity/chat.types';
-import { messageFactory, newMessageSchema } from '../../src/entities/chat.entity/message.entity';
-import { invitationFactory, newInvitationSchema } from '../../src/entities/chat.entity/invitation.entity';
-import { conversationFactory, newConversationSchema } from '../../src/entities/chat.entity/conversation.entity';
-import { contactFactory, newContactSchema } from '../../src/entities/chat.entity/contact.entity';
+import { ContactEntity, ConversationEntity, InvitationEntity, MessageEntity } from '../../entities/chat.entity/chat.types';
+import { messageFactory, newMessageSchema } from '../../entities/chat.entity/message.entity';
+import { invitationFactory, newInvitationSchema } from '../../entities/chat.entity/invitation.entity';
+import { conversationFactory, newConversationSchema } from '../../entities/chat.entity/conversation.entity';
+import { contactFactory, newContactSchema } from '../../entities/chat.entity/contact.entity';
 
 describe('chat', () => {
     describe('message entity', () => {

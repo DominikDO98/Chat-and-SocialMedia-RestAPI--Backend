@@ -1,6 +1,6 @@
 import { ZodError, ZodIssue, } from "zod";
-import { newUserSchema, userFactory } from "../../src/entities/user.entity/user.entity";
-import { NewUserEnitity } from "../../src/entities/user.entity/user.types";
+import { newUserSchema, userFactory } from "../../entities/user.entity/user.entity";
+import { NewUserEnitity } from "../../entities/user.entity/user.types";
 
 describe('enitity tests', () => {
     describe('user', () => {
