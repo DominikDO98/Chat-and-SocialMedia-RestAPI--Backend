@@ -1,17 +1,8 @@
-import { NextFunction, Request, Response } from "express";
-import { ZodError, ZodIssue, ZodIssueCode } from "zod";
+import { ZodError, ZodIssue, } from "zod";
 import { newUserSchema, userFactory } from "../../src/entities/user.entity/user.entity";
 import { NewUserEnitity } from "../../src/entities/user.entity/user.types";
-import { handleError } from "../../src/middleware/errorHandler";
-import { CommentEntity, EventEntity, LikeEntity, PostEntity } from "../../src/entities/post.entity/post.types";
-import {v4 as uuid} from 'uuid';
-import { newPostSchema, postFactory } from "../../src/entities/post.entity/post.entity";
-import { likeFactory, newLikeSchema } from "../../src/entities/post.entity/like.entity";
-import { eventFactory, newEventSchema } from "../../src/entities/post.entity/event.entity";
-import { commentFactory, newCommentSchema } from "../../src/entities/post.entity/comment.entity";
 
 describe('enitity tests', () => {
-    
     describe('user', () => {
         describe('user entity', () => {
             const newUser: Omit<NewUserEnitity, 'id'> = {
@@ -64,7 +55,4 @@ describe('enitity tests', () => {
             })    
         })
     })
-    
-   
-    
 })

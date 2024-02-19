@@ -149,8 +149,6 @@ describe('post', () => {
             expect(throwZodError).toThrow('Required');
             expect(throwZodError).toThrow('Invalid uuid');
             expect(throwZodError).toThrow('Expected date, received string');
-
-
         })
     })
     describe('event entity', () => {
