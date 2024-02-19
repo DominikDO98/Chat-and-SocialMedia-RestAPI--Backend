@@ -14,4 +14,4 @@ export type UserEntity = {
     description?: string;
 }
 
-export type NewUserEnitity = Pick<UserEntity, 'id' | 'username' | 'password' | 'email_address'> 
+export type NewUserEnitity = Pick<UserEntity, "id" | "username" | "password" | "email_address"> 
