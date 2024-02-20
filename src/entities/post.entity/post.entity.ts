@@ -2,7 +2,7 @@ import { v4 as uuid } from "uuid";
 import { z } from "zod";
 import { PostEntity } from "./post.types";
 
-export const newPostSchema = z.object({
+export const PostSchema = z.object({
 	id: z.string().uuid(),
 	user_id: z.string().uuid(),
 	group_id: z.string().uuid().optional(),

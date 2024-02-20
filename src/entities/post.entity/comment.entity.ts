@@ -2,7 +2,7 @@ import { v4 as uuid } from "uuid";
 import { z } from "zod";
 import { CommentEntity } from "./post.types";
 
-export const newCommentSchema = z.object({
+export const CommentSchema = z.object({
 	id: z.string().uuid(),
 	post_id: z.string().uuid(),
 	user_id: z.string().uuid(),

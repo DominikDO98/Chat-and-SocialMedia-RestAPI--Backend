@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { EventEntity } from "./post.types";
 
-export const newEventSchema = z.object({
+export const EventSchema = z.object({
 	post_id: z.string().uuid(),
 	date: z.date(),
 	lat: z.number().max(90).multipleOf(0.000001),

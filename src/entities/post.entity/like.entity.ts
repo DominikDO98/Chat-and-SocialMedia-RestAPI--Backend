@@ -2,7 +2,7 @@ import { v4 as uuid } from "uuid";
 import { z } from "zod";
 import { LikeEntity } from "./post.types";
 
-export const newLikeSchema = z.object({
+export const LikeSchema = z.object({
 	id: z.string().uuid(),
 	post_id: z.string().uuid(),
 	user_id: z.string().uuid(),
