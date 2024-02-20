@@ -1,7 +1,7 @@
 import { v4 as uuid } from "uuid";
 import { ZodError, ZodIssue } from "zod";
 import { GroupEnitiy } from "../../entities/group.entity/group.types";
-import { groupFactory, newGroupSchema } from "../../entities/group.entity/group.entity";
+import { groupFactory, GroupSchema } from "../../entities/group.entity/group.entity";
 
 describe("group", () => {
 	describe("group entity", () => {
@@ -37,8 +37,8 @@ describe("group", () => {
 			const group = groupFactory(newGroup);
 			const plainGroup = groupFactory(newPlainGroup);
 
-			const parsedGroup = newGroupSchema.parse(group);
-			const parsedPlainGroup = newGroupSchema.parse(plainGroup);
+			const parsedGroup = GroupSchema.parse(group);
+			const parsedPlainGroup = GroupSchema.parse(plainGroup);
 
 			expect(parsedGroup.id).toBeDefined();
 			expect(parsedGroup.admin_id).toStrictEqual(group.admin_id);
@@ -65,13 +65,13 @@ describe("group", () => {
 				name: 2,
 				created_at: "date",
 				is_private: 3,
-				description: "2", 
+				description: "2",
 				profile_photo: {},
 			};
 			const throwZodError = () => {
 				try {
-					newGroupSchema.parse(wrongGroup);
-				} catch (err) {                    
+					GroupSchema.parse(wrongGroup);
+				} catch (err) {
 					throw new ZodError(err as ZodIssue[]);
 				}
 			};
@@ -87,7 +87,7 @@ describe("group", () => {
 
 			expect(throwZodError).toThrow("Required");
 			expect(throwZodError).toThrow("Invalid uuid");
-			expect(throwZodError).toThrow("Input not instance of Blob");                       
+			expect(throwZodError).toThrow("Input not instance of Blob");
 			expect(throwZodError).toThrow("Expected string, received number");
 			expect(throwZodError).toThrow("Expected boolean, received number");
 			expect(throwZodError).toThrow("String must contain at least 3 character(s)");
