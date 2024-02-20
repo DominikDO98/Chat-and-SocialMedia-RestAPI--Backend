@@ -1,11 +1,11 @@
-import { ZodError, ZodIssue, } from "zod";
-import { newUserSchema, userFactory } from "../../entities/user.entity/user.entity";
-import { NewUserEnitity } from "../../entities/user.entity/user.types";
+import { ZodError, ZodIssue } from "zod";
+import { UserCreationSchema, userFactory } from "../../entities/user.entity/user.entity";
+import { UserCreationEnitity } from "../../entities/user.entity/user.types";
 
 describe("enitity tests", () => {
 	describe("user", () => {
 		describe("user entity", () => {
-			const newUser: Omit<NewUserEnitity, "id"> = {
+			const newUser: Omit<UserCreationEnitity, "id"> = {
 				username: "Tester",
 				password: "TestPass1",
 				email_address: "testing@gmail.com",
@@ -20,7 +20,7 @@ describe("enitity tests", () => {
 			});
 			test("newUserSchema correctly parses user object", () => {
 				const user = userFactory(newUser);
-				const parsedUser = newUserSchema.parse(user);
+				const parsedUser = UserCreationSchema.parse(user);
 
 				expect(parsedUser.username).toStrictEqual(user.username);
 				expect(parsedUser.email_address).toStrictEqual(user.email_address);
@@ -36,8 +36,8 @@ describe("enitity tests", () => {
 				};
 				const throwZodError = () => {
 					try {
-						newUserSchema.parse(wrongUser);
-					} catch (err) {                  
+						UserCreationSchema.parse(wrongUser);
+					} catch (err) {
 						throw new ZodError(err as ZodIssue[]);
 					}
 				};
@@ -52,7 +52,7 @@ describe("enitity tests", () => {
 				expect(throwZodError).toThrow("Expected string, received number");
 				expect(throwZodError).toThrow("Expected string, received boolean");
 				expect(throwZodError).toThrow("Invalid email");
-			});    
+			});
 		});
 	});
 });
