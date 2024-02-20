@@ -8,7 +8,7 @@ export const newInvitationSchema = z.object({
 	to_user_id: z.string().uuid(),
 });
 
-export const invitationFactory = (newInvitation: Omit<InvitationEntity, "id">) : InvitationEntity => {
+export const invitationFactory = (newInvitation: Omit<InvitationEntity, "id">): InvitationEntity => {
 	const invitation: InvitationEntity = {
 		id: uuid(),
 		from_user_id: newInvitation.from_user_id,

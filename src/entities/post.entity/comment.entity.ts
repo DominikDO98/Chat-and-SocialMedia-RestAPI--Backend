@@ -12,7 +12,7 @@ export const newCommentSchema = z.object({
 	attachment: z.string().min(3).max(200).optional(),
 });
 
-export const commentFactory = (newComment: Omit<CommentEntity, "id" | "created_at">) : CommentEntity => {
+export const commentFactory = (newComment: Omit<CommentEntity, "id" | "created_at">): CommentEntity => {
 	const comment: CommentEntity = {
 		id: uuid(),
 		post_id: newComment.post_id,

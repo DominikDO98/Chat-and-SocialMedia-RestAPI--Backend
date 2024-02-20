@@ -12,11 +12,11 @@ export const newGroupSchema = z.object({
 	profile_photo: z.instanceof(Blob).optional(),
 });
 
-export const groupFactory = (newGroup: Omit<GroupEnitiy, "id" | "created_at">) : GroupEnitiy => {
+export const groupFactory = (newGroup: Omit<GroupEnitiy, "id" | "created_at">): GroupEnitiy => {
 	const group: GroupEnitiy = {
 		id: uuid(),
 		admin_id: newGroup.admin_id,
-		name: newGroup.name? newGroup.name : "Group",
+		name: newGroup.name ? newGroup.name : "Group",
 		created_at: new Date(),
 		is_private: newGroup.is_private ? newGroup.is_private : true,
 		description: newGroup.description,

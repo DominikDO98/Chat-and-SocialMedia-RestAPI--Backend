@@ -13,7 +13,7 @@ export const newMessageSchema = z.object({
 	attachment: z.string().min(3).max(200).optional(),
 });
 
-export const messageFactory = (newMessage: Omit<MessageEntity, "id" | "created_at" | "is_delivered">) : MessageEntity => {
+export const messageFactory = (newMessage: Omit<MessageEntity, "id" | "created_at" | "is_delivered">): MessageEntity => {
 	const message: MessageEntity = {
 		id: uuid(),
 		conversaiton_id: newMessage.conversaiton_id,

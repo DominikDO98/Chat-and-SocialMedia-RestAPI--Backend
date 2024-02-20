@@ -7,8 +7,8 @@ export const newContactSchema = z.object({
 	converation_id: z.string().uuid(),
 });
 
-export const contactFactory = (newContact: Omit<ContactEntity, "id">) : ContactEntity => {
-	const contact: ContactEntity = { 
+export const contactFactory = (newContact: Omit<ContactEntity, "id">): ContactEntity => {
+	const contact: ContactEntity = {
 		id: uuid(),
 		converation_id: newContact.converation_id,
 	};

@@ -9,7 +9,7 @@ export const newLikeSchema = z.object({
 	created_at: z.date(),
 });
 
-export const likeFactory = (newLike: Omit<LikeEntity, "id" | "created_at">) : LikeEntity => {
+export const likeFactory = (newLike: Omit<LikeEntity, "id" | "created_at">): LikeEntity => {
 	const like = {
 		id: uuid(),
 		post_id: newLike.post_id,

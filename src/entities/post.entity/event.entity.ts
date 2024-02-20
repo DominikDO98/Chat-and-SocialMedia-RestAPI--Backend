@@ -8,7 +8,7 @@ export const newEventSchema = z.object({
 	lon: z.number().max(180).multipleOf(0.000001),
 });
 
-export const eventFactory = (newEvent: EventEntity) : EventEntity => {
+export const eventFactory = (newEvent: EventEntity): EventEntity => {
 	const event = {
 		post_id: newEvent.post_id,
 		date: newEvent.date,

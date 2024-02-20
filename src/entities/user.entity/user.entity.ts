@@ -20,6 +20,3 @@ export const userFactory = (newUser: Omit<NewUserEnitity, "id">): NewUserEnitity
 	};
 	return user;
 };
-
-
-
