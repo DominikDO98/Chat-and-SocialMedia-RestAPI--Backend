@@ -2,7 +2,7 @@ import { v4 as uuid } from "uuid";
 import { z } from "zod";
 import { GroupEnitiy } from "./group.types";
 
-export const newGroupSchema = z.object({
+export const GroupSchema = z.object({
 	id: z.string().uuid(),
 	admin_id: z.string().uuid(),
 	name: z.string().min(3).max(20),

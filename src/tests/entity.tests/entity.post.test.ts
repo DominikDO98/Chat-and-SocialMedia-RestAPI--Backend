@@ -1,9 +1,9 @@
 import { v4 as uuid } from "uuid";
 import { ZodError, ZodIssue } from "zod";
-import { commentFactory, newCommentSchema } from "../../entities/post.entity/comment.entity";
-import { eventFactory, newEventSchema } from "../../entities/post.entity/event.entity";
-import { likeFactory, newLikeSchema } from "../../entities/post.entity/like.entity";
-import { newPostSchema, postFactory } from "../../entities/post.entity/post.entity";
+import { commentFactory, CommentSchema } from "../../entities/post.entity/comment.entity";
+import { eventFactory, EventSchema } from "../../entities/post.entity/event.entity";
+import { likeFactory, LikeSchema } from "../../entities/post.entity/like.entity";
+import { PostSchema, postFactory } from "../../entities/post.entity/post.entity";
 import { CommentEntity, EventEntity, LikeEntity, PostEntity } from "../../entities/post.entity/post.types";
 
 describe("post", () => {
@@ -15,13 +15,13 @@ describe("post", () => {
 			text: "nothingness",
 			picture: new Blob(),
 			attachment: "link.com",
-			type: 1
+			type: 1,
 		};
 		const newPlainPost: Omit<PostEntity, "id" | "created_at"> = {
 			user_id: uuid(),
 			title: "nothing",
 			text: "nothingness",
-			type: 1
+			type: 1,
 		};
 		test("postFactory create correct instance of the post object", () => {
 			const post = postFactory(newPost);
@@ -46,8 +46,8 @@ describe("post", () => {
 			const post = postFactory(newPost);
 			const plainPost = postFactory(newPlainPost);
 
-			const parsedPost = newPostSchema.parse(post);
-			const parsedPlainPost = newPostSchema.parse(plainPost);
+			const parsedPost = PostSchema.parse(post);
+			const parsedPlainPost = PostSchema.parse(plainPost);
 
 			expect(parsedPost.id).toBeDefined();
 			expect(parsedPost.group_id).toStrictEqual(post.group_id);
@@ -78,12 +78,12 @@ describe("post", () => {
 			};
 			const throwZodError = () => {
 				try {
-					newPostSchema.parse(wrongPost);
-				} catch (err) { 
+					PostSchema.parse(wrongPost);
+				} catch (err) {
 					throw new ZodError(err as ZodIssue[]);
 				}
 			};
-            
+
 			expect(throwZodError).toThrow(ZodError);
 
 			expect(throwZodError).toThrow("id");
@@ -97,7 +97,7 @@ describe("post", () => {
 			expect(throwZodError).toThrow("type");
 
 			expect(throwZodError).toThrow("Required");
-			expect(throwZodError).toThrow("Invalid uuid");            
+			expect(throwZodError).toThrow("Invalid uuid");
 			expect(throwZodError).toThrow("Expected string, received number");
 			expect(throwZodError).toThrow("Expected string, received boolean");
 			expect(throwZodError).toThrow("Input not instance of Blob");
@@ -118,7 +118,7 @@ describe("post", () => {
 		});
 		test("newLikeSchema correctly parses like object", () => {
 			const like = likeFactory(newLike);
-			const parsedLike = newLikeSchema.parse(like);
+			const parsedLike = LikeSchema.parse(like);
 
 			expect(parsedLike.id).toStrictEqual(like.id);
 			expect(parsedLike.post_id).toStrictEqual(like.post_id);
@@ -134,7 +134,7 @@ describe("post", () => {
 			};
 			const throwZodError = () => {
 				try {
-					newLikeSchema.parse(wrongLike);
+					LikeSchema.parse(wrongLike);
 				} catch (err) {
 					throw new ZodError(err as ZodIssue[]);
 				}
@@ -160,7 +160,7 @@ describe("post", () => {
 		};
 		test("eventFactory create correct instance of event", () => {
 			const event = eventFactory(newEvent);
-            
+
 			expect(event.post_id).toStrictEqual(newEvent.post_id);
 			expect(event.date).toBeInstanceOf(Date);
 			expect(event.lat).toStrictEqual(newEvent.lat);
@@ -168,7 +168,7 @@ describe("post", () => {
 		});
 		test("newEventSchema correctly parses event object", () => {
 			const event = eventFactory(newEvent);
-			const parsedEvent = newEventSchema.parse(event);
+			const parsedEvent = EventSchema.parse(event);
 
 			expect(parsedEvent.post_id).toStrictEqual(event.post_id);
 			expect(parsedEvent.date).toStrictEqual(event.date);
@@ -184,10 +184,10 @@ describe("post", () => {
 			};
 			const throwZodError = () => {
 				try {
-					newEventSchema.parse(wrongEvent);
+					EventSchema.parse(wrongEvent);
 				} catch (err) {
 					throw new ZodError(err as ZodIssue[]);
-				} 
+				}
 			};
 			expect(throwZodError).toThrow(ZodError);
 
@@ -208,7 +208,7 @@ describe("post", () => {
 			user_id: uuid(),
 			text: "some text",
 			picture: new Blob(),
-			attachment: "link.com"
+			attachment: "link.com",
 		};
 		const newPlainComment: Omit<CommentEntity, "id" | "created_at"> = {
 			post_id: uuid(),
@@ -234,8 +234,8 @@ describe("post", () => {
 			const comment = commentFactory(newComment);
 			const plainComment = commentFactory(newPlainComment);
 
-			const parsedComment = newCommentSchema.parse(comment);
-			const parsedPlainComment = newCommentSchema.parse(plainComment);
+			const parsedComment = CommentSchema.parse(comment);
+			const parsedPlainComment = CommentSchema.parse(plainComment);
 
 			expect(parsedComment.created_at).toBeInstanceOf(Date);
 			expect(parsedComment.created_at).toStrictEqual(comment.created_at);
@@ -259,10 +259,10 @@ describe("post", () => {
 			};
 			const throwZodError = () => {
 				try {
-					newCommentSchema.parse(wrongComment);
+					CommentSchema.parse(wrongComment);
 				} catch (err) {
 					throw new ZodError(err as ZodIssue[]);
-				} 
+				}
 			};
 
 			expect(throwZodError).toThrow(ZodError);
@@ -280,7 +280,6 @@ describe("post", () => {
 			expect(throwZodError).toThrow("Expected date, received string");
 			expect(throwZodError).toThrow("Input not instance of Blob");
 			expect(throwZodError).toThrow("String must contain at least 3 character(s)");
-
 		});
 	});
 });
