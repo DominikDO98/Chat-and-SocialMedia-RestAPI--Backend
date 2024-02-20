@@ -2,7 +2,7 @@ import { v4 as uuid } from "uuid";
 import { z } from "zod";
 import { ConversationEntity } from "./chat.types";
 
-export const newConversationSchema = z.object({
+export const ConversationSchema = z.object({
 	id: z.string().uuid(),
 	is_group: z.boolean(),
 	name: z.string().min(3).max(20).optional(),

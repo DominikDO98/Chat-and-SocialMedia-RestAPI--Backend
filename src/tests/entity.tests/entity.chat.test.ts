@@ -1,10 +1,10 @@
 import { v4 as uuid } from "uuid";
 import { ZodError, ZodIssue } from "zod";
 import { ContactEntity, ConversationEntity, InvitationEntity, MessageEntity } from "../../entities/chat.entity/chat.types";
-import { messageFactory, newMessageSchema } from "../../entities/chat.entity/message.entity";
-import { invitationFactory, newInvitationSchema } from "../../entities/chat.entity/invitation.entity";
-import { conversationFactory, newConversationSchema } from "../../entities/chat.entity/conversation.entity";
-import { contactFactory, newContactSchema } from "../../entities/chat.entity/contact.entity";
+import { messageFactory, MessageSchema } from "../../entities/chat.entity/message.entity";
+import { invitationFactory, InvitationSchema } from "../../entities/chat.entity/invitation.entity";
+import { conversationFactory, ConversationSchema } from "../../entities/chat.entity/conversation.entity";
+import { contactFactory, ContactSchema } from "../../entities/chat.entity/contact.entity";
 
 describe("chat", () => {
 	describe("message entity", () => {
@@ -43,8 +43,8 @@ describe("chat", () => {
 			const message = messageFactory(newMessage);
 			const plainMessage = messageFactory(newPlainMessage);
 
-			const parsedMessage = newMessageSchema.parse(message);
-			const parsedPlainMessage = newMessageSchema.parse(plainMessage);
+			const parsedMessage = MessageSchema.parse(message);
+			const parsedPlainMessage = MessageSchema.parse(plainMessage);
 
 			expect(parsedMessage.id).toStrictEqual(message.id);
 			expect(parsedMessage.conversaiton_id).toStrictEqual(message.conversaiton_id);
@@ -79,7 +79,7 @@ describe("chat", () => {
 			};
 			const throwZodError = () => {
 				try {
-					newMessageSchema.parse(wrongMessage);
+					MessageSchema.parse(wrongMessage);
 				} catch (err) {
 					throw new ZodError(err as ZodIssue[]);
 				}
@@ -118,7 +118,7 @@ describe("chat", () => {
 		test("newInvitationSchema correctly parses invitation object", () => {
 			const invitation = invitationFactory(newInvitation);
 
-			const parsedInvitation = newInvitationSchema.parse(invitation);
+			const parsedInvitation = InvitationSchema.parse(invitation);
 
 			expect(parsedInvitation.id).toBeDefined();
 			expect(parsedInvitation.from_user_id).toStrictEqual(invitation.from_user_id);
@@ -131,7 +131,7 @@ describe("chat", () => {
 			};
 			const throwZodError = () => {
 				try {
-					newInvitationSchema.parse(wrongInvitation);
+					InvitationSchema.parse(wrongInvitation);
 				} catch (err) {
 					throw new ZodError(err as ZodIssue[]);
 				}
@@ -171,8 +171,8 @@ describe("chat", () => {
 			const conversation = conversationFactory(newConversation);
 			const plainConversation = conversationFactory(newPlainConversation);
 
-			const parsedConversation = newConversationSchema.parse(conversation);
-			const parsedPlainConversation = newConversationSchema.parse(plainConversation);
+			const parsedConversation = ConversationSchema.parse(conversation);
+			const parsedPlainConversation = ConversationSchema.parse(plainConversation);
 
 			expect(parsedConversation.id).toStrictEqual(conversation.id);
 			expect(parsedConversation.is_group).toStrictEqual(true);
@@ -189,7 +189,7 @@ describe("chat", () => {
 			};
 			const throwZodError = () => {
 				try {
-					newConversationSchema.parse(wrongConversation);
+					ConversationSchema.parse(wrongConversation);
 				} catch (err) {
 					throw new ZodError(err as ZodIssue[]);
 				}
@@ -218,7 +218,7 @@ describe("chat", () => {
 		test("newContactSchema correctly parses contact object", () => {
 			const contact = contactFactory(newContact);
 
-			const parsedContact = newContactSchema.parse(contact);
+			const parsedContact = ContactSchema.parse(contact);
 
 			expect(parsedContact.id).toStrictEqual(contact.id);
 			expect(parsedContact.converation_id).toStrictEqual(contact.converation_id);

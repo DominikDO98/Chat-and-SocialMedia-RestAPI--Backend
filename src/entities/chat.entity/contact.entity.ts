@@ -2,7 +2,7 @@ import { v4 as uuid } from "uuid";
 import { z } from "zod";
 import { ContactEntity } from "./chat.types";
 
-export const newContactSchema = z.object({
+export const ContactSchema = z.object({
 	id: z.string().uuid(),
 	converation_id: z.string().uuid(),
 });
