@@ -3,8 +3,6 @@ import { ZodError } from "zod";
 import { CustomError } from "../utils/middlewareUtils/errors";
 
 export const handleError = (err: CustomError | Error, req: Request, res: Response, next: NextFunction) => {
-	console.error(err);
-
 	if (err instanceof CustomError) {
 		res.status(err.code).json({ message: err.message });
 	} else if (err instanceof ZodError) {
