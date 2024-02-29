@@ -17,3 +17,12 @@ export type UserEntity = {
 export type UserCreationEnitity = Pick<UserEntity, "id" | "username" | "password" | "email_address">;
 export type UserLoginByNameData = Pick<UserEntity, "username" | "password">;
 export type UserLoginByEmailData = Pick<UserEntity, "email_address" | "password">;
+
+export type UserRegistrationReturnedData = {
+	user: Pick<UserEntity, "username" | "email_address">;
+	id: string;
+};
+export type UserLoginReturnedData = {
+	user: Pick<UserEntity, "username" | "email_address" | "password">;
+	id: string;
+};
