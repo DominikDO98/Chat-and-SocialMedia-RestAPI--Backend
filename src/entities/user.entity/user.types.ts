@@ -19,10 +19,11 @@ export type UserLoginByNameData = Pick<UserEntity, "username" | "password">;
 export type UserLoginByEmailData = Pick<UserEntity, "email_address" | "password">;
 
 export type UserRegistrationReturnedData = {
-	user: Pick<UserEntity, "username" | "email_address">;
+	userData: Omit<UserEntity, "id" | "password">;
 	id: string;
 };
 export type UserLoginReturnedData = {
-	user: Pick<UserEntity, "username" | "email_address" | "password">;
+	userData: Omit<UserEntity, "id" | "password">;
 	id: string;
+	password: string;
 };
