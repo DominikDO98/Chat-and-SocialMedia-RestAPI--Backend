@@ -10,7 +10,7 @@ export const registerUserService = async (userRegistrationData: Omit<UserCreatio
 	//TODO: generate access token
 	console.log(newUserData);
 
-	return newUserData; //TODO: change to user w/o id
+	return newUserData.userData;
 };
 export const loginUserByNameService = async (userLoginData: UserLoginByNameData): Promise<Omit<UserCreationEnitity, "password" | "id">> => {
 	const user = await loginUserByNameRepo(userLoginData.username);
@@ -19,7 +19,7 @@ export const loginUserByNameService = async (userLoginData: UserLoginByNameData)
 		throw new ValidationError("Wrong password", 401);
 	}
 	//TODO: generate access token
-	return user; //TODO: change to user w/o password and id
+	return user.userData;
 };
 export const loginUserByEmailService = async (userLoginData: UserLoginByNameData): Promise<Omit<UserCreationEnitity, "password" | "id">> => {
 	const user = await loginUserByEmailRepo(userLoginData.username);
@@ -28,5 +28,5 @@ export const loginUserByEmailService = async (userLoginData: UserLoginByNameData
 		throw new ValidationError("Wrong password", 401);
 	}
 	//TODO: generate access token
-	return user; //TODO: change to user w/o password and id
+	return user.userData;
 };
