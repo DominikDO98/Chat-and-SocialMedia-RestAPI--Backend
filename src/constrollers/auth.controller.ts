@@ -3,6 +3,7 @@ import { loginUserByEmailService, loginUserByNameService, registerUserService } 
 
 export const registerUserController = async (req: Request, res: Response, next: NextFunction) => {
 	try {
+		//TODO: zod
 		const recivedData = await registerUserService(req.body.userRegistrationData);
 		res.status(200).json(recivedData);
 	} catch (err) {
@@ -11,6 +12,7 @@ export const registerUserController = async (req: Request, res: Response, next: 
 };
 export const loginUserByNameController = async (req: Request, res: Response, next: NextFunction) => {
 	try {
+		//TODO: zod
 		const recivedData = await loginUserByNameService(req.body.userLoginData);
 		res.status(200).json(recivedData);
 	} catch (err) {
@@ -19,6 +21,7 @@ export const loginUserByNameController = async (req: Request, res: Response, nex
 };
 export const loginUserByEmailController = async (req: Request, res: Response, next: NextFunction) => {
 	try {
+		//TODO: zod
 		const recivedData = await loginUserByEmailService(req.body.userLoginData);
 		res.status(200).json(recivedData);
 	} catch (err) {
