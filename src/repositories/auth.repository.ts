@@ -28,5 +28,6 @@ export const loginUserByEmailRepo = async (email: string): Promise<UserLoginRetu
 		username: rows[0].username,
 		email_address: rows[0].email_address,
 	};
+
 	return { userData, id, password };
 };

@@ -1,6 +1,6 @@
 import bcrypt from "bcrypt";
 import { userFactory } from "../entities/user.entity/user.entity";
-import { UserCreationEnitity, UserLoginByNameData } from "../entities/user.entity/user.types";
+import { UserCreationEnitity, UserLoginByEmailData, UserLoginByNameData } from "../entities/user.entity/user.types";
 import { loginUserByEmailRepo, loginUserByNameRepo, registerUserRepo } from "../repositories/auth.repository";
 import { ValidationError } from "../utils/middlewareUtils/errors";
 
@@ -19,14 +19,18 @@ export const loginUserByNameService = async (userLoginData: UserLoginByNameData)
 		throw new ValidationError("Wrong password", 401);
 	}
 	//TODO: generate access token
+	console.log(user.userData);
+
 	return user.userData;
 };
-export const loginUserByEmailService = async (userLoginData: UserLoginByNameData): Promise<Omit<UserCreationEnitity, "password" | "id">> => {
-	const user = await loginUserByEmailRepo(userLoginData.username);
+export const loginUserByEmailService = async (userLoginData: UserLoginByEmailData): Promise<Omit<UserCreationEnitity, "password" | "id">> => {
+	const user = await loginUserByEmailRepo(userLoginData.email_address);
 	const validationResult = await bcrypt.compare(userLoginData.password, user.password);
 	if (!validationResult) {
 		throw new ValidationError("Wrong password", 401);
 	}
 	//TODO: generate access token
+	console.log(user.userData);
+
 	return user.userData;
 };
