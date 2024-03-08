@@ -5,7 +5,7 @@ import { loginUserByEmailRepo, loginUserByNameRepo, registerUserRepo } from "../
 import { ValidationError } from "../utils/middlewareUtils/errors";
 import { generateAccessToken } from "../utils/authenticationUtils/jwt.utils";
 
-export const registerUserService = async (userRegistrationData: Omit<UserCreationEnitity, "id">): Promise<UserRegistrationReturnedData> => {
+export const registerUserService = async (userRegistrationData: Omit<UserCreationEnitity, "id">): Promise<Omit<UserRegistrationReturnedData, "id">> => {
 	const newUser = userFactory(userRegistrationData);
 	const newUserData = await registerUserRepo(newUser);
 	const accessToken = generateAccessToken(newUserData);
@@ -16,7 +16,7 @@ export const registerUserService = async (userRegistrationData: Omit<UserCreatio
 		accessToken: accessToken,
 	};
 };
-export const loginUserByNameService = async (userLoginData: UserLoginByNameData): Promise<Omit<UserLoginReturnedData, "password">> => {
+export const loginUserByNameService = async (userLoginData: UserLoginByNameData): Promise<Omit<UserLoginReturnedData, "id" | "password">> => {
 	const user = await loginUserByNameRepo(userLoginData.username);
 	const validationResult = await bcrypt.compare(userLoginData.password, user.password);
 	if (!validationResult) {
@@ -30,7 +30,7 @@ export const loginUserByNameService = async (userLoginData: UserLoginByNameData)
 		accessToken: accessToken,
 	};
 };
-export const loginUserByEmailService = async (userLoginData: UserLoginByEmailData): Promise<Omit<UserLoginReturnedData, "password">> => {
+export const loginUserByEmailService = async (userLoginData: UserLoginByEmailData): Promise<Omit<UserLoginReturnedData, "id" | "password">> => {
 	const user = await loginUserByEmailRepo(userLoginData.email_address);
 	const validationResult = await bcrypt.compare(userLoginData.password, user.password);
 	if (!validationResult) {

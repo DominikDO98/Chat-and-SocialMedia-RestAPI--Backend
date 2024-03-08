@@ -20,12 +20,12 @@ export type UserLoginByEmailData = Pick<UserEntity, "email_address" | "password"
 
 export type UserRegistrationReturnedData = {
 	userData: Omit<UserEntity, "id" | "password">;
-	id?: string;
+	id: string;
 	accessToken?: string;
 };
 export type UserLoginReturnedData = {
 	userData: Omit<UserEntity, "id" | "password">;
 	password: string;
-	id?: string;
+	id: string;
 	accessToken?: string;
 };
