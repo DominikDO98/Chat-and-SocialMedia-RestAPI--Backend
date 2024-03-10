@@ -13,10 +13,10 @@ AuthRouter
 		await registerUserController(req, res, next);
 	})
 	.post("/loginUserByName", async (req: Request, res: Response, next: NextFunction) => {
-		// TODO: validate request
+		validateReq(req, ['userLoginData']);
 		await loginUserByNameController(req, res, next);
 	})
 	.post("/loginUserByEmail", async (req: Request, res: Response, next: NextFunction) => {
-		// TODO: validate request
+		validateReq(req, ['userLoginData']);
 		await loginUserByEmailController(req, res, next);
 	});
