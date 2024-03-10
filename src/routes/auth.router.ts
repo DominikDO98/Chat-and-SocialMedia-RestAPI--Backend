@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response, Router } from "express";
 import { registerUserController, loginUserByNameController, loginUserByEmailController } from "../controllers/auth.controller";
+import { validateReq } from "../utils/validateReq/validateReq";
 
 export const AuthRouter = Router();
 //prettier-ignore
@@ -8,7 +9,7 @@ AuthRouter
 		res.send('ok')
 	})
 	.post("/registerUser", async (req: Request, res: Response, next: NextFunction) => {
-		// TODO: validate request
+		validateReq(req, ['userRegistrationData']);
 		await registerUserController(req, res, next);
 	})
 	.post("/loginUserByName", async (req: Request, res: Response, next: NextFunction) => {
