@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response, Router } from "express";
-import { loginUserByEmailController, loginUserByNameController, registerUserController } from "../constrollers/auth.controller";
+import { registerUserController, loginUserByNameController, loginUserByEmailController } from "../controllers/auth.controller";
 
 export const AuthRouter = Router();
 //prettier-ignore
