@@ -1,5 +1,6 @@
 import express from "express";
 import "express-async-errors";
+import cookieParser from "cookie-parser";
 import { UserRouter } from "./routes/user.router";
 import { ChatRouter } from "./routes/chat.router";
 import { PostRouter } from "./routes/post.router";
@@ -8,6 +9,7 @@ import { handleError } from "./middleware/errorHandler";
 
 const app = express();
 
+app.use(cookieParser());
 app.use(express.json());
 
 app.use("/auth", AuthRouter);
