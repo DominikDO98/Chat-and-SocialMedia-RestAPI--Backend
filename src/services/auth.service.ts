@@ -9,8 +9,6 @@ export const registerUserService = async (userRegistrationData: Omit<UserCreatio
 	const newUser = userFactory(userRegistrationData);
 	const newUserData = await registerUserRepo(newUser);
 	const accessToken = generateAccessToken(newUserData);
-	console.log(newUserData);
-
 	return {
 		userData: newUserData.userData,
 		accessToken: accessToken,
@@ -23,8 +21,6 @@ export const loginUserByNameService = async (userLoginData: UserLoginByNameData)
 		throw new ValidationError("Wrong password", 401);
 	}
 	const accessToken = generateAccessToken(user);
-	console.log(user.userData);
-
 	return {
 		userData: user.userData,
 		accessToken: accessToken,
@@ -37,8 +33,6 @@ export const loginUserByEmailService = async (userLoginData: UserLoginByEmailDat
 		throw new ValidationError("Wrong password", 401);
 	}
 	const accessToken = generateAccessToken(user);
-	console.log(user.userData);
-
 	return {
 		userData: user.userData,
 		accessToken: accessToken,
