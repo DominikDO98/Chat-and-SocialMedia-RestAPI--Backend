@@ -8,14 +8,16 @@ export const authorizeToken = (req: Request, res: Response, next: NextFunction) 
 	if (!authToken) {
 		throw new AuthenticationError("No token provided", 401);
 	}
-	jwt.verify(authToken, process.env.ACCESS_TOKEN_SECRET!, { algorithms: ["HS256"] }, (err: VerifyErrors | null, id: string | JwtPayload | undefined) => {
-		if (err || !id) {
+	const id = jwt.verify(authToken, process.env.ACCESS_TOKEN_SECRET!, { algorithms: ["HS256"] }, (err: VerifyErrors | null, decodedData: string | JwtPayload | undefined): string | undefined => {
+		if (err || !decodedData) {
 			throw new AuthenticationError("Access forbidden", 403);
 		}
-		req.body = {
-			...req.body,
-			id: id,
-		};
-		next();
+		if (typeof decodedData === "string") return decodedData;
+		if (typeof decodedData === "object") return decodedData.id;
 	});
+	req.body = {
+		...req.body,
+		id: id,
+	};
+	next();
 };
