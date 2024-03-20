@@ -29,7 +29,7 @@ describe("auth middleware", () => {
 		};
 		mockRequest = {
 			cookies: {
-				authToken: generateAccessToken(mockUser),
+				authToken: generateAccessToken(mockUser.id),
 			},
 		};
 		authorizeToken(mockRequest as Request, mockResponse as Response, nextFunction);

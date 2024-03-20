@@ -8,7 +8,7 @@ import { generateAccessToken } from "../utils/authenticationUtils/jwt.utils";
 export const registerUserService = async (userRegistrationData: Omit<UserCreationEnitity, "id">): Promise<Omit<UserRegistrationReturnedData, "id">> => {
 	const newUser = userFactory(userRegistrationData);
 	const newUserData = await registerUserRepo(newUser);
-	const accessToken = generateAccessToken(newUserData);
+	const accessToken = generateAccessToken(newUserData.id);
 	return {
 		userData: newUserData.userData,
 		accessToken: accessToken,
@@ -20,7 +20,7 @@ export const loginUserByNameService = async (userLoginData: UserLoginByNameData)
 	if (!validationResult) {
 		throw new ValidationError("Wrong password", 401);
 	}
-	const accessToken = generateAccessToken(user);
+	const accessToken = generateAccessToken(user.id);
 	return {
 		userData: user.userData,
 		accessToken: accessToken,
@@ -32,7 +32,7 @@ export const loginUserByEmailService = async (userLoginData: UserLoginByEmailDat
 	if (!validationResult) {
 		throw new ValidationError("Wrong password", 401);
 	}
-	const accessToken = generateAccessToken(user);
+	const accessToken = generateAccessToken(user.id);
 	return {
 		userData: user.userData,
 		accessToken: accessToken,
