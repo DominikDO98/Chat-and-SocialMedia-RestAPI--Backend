@@ -6,6 +6,7 @@ import { ChatRouter } from "./routes/chat.router";
 import { PostRouter } from "./routes/post.router";
 import { AuthRouter } from "./routes/auth.router";
 import { handleError } from "./middleware/errorHandler";
+import { handleDBErrors } from "./middleware/dbErrorHandler";
 import { authorizeToken } from "./middleware/authorizeToken";
 
 const app = express();
@@ -18,6 +19,7 @@ app.use("/user", authorizeToken, UserRouter);
 app.use("/chat", authorizeToken, ChatRouter);
 app.use("/post", authorizeToken, PostRouter);
 
+app.use(handleDBErrors);
 app.use(handleError);
 
 app.listen(3000, "127.0.0.1", () => {
