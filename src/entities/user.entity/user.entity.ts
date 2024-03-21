@@ -6,7 +6,7 @@ import { UserCreationEnitity } from "./user.types";
 export const UserSchema = z.object({
 	id: z.string().uuid(),
 	username: z.string().min(5).max(36),
-	password: z.string().length(60),
+	password: z.string().min(8).max(60),
 	email_address: z.string().email().max(320),
 	profile_photo: z.instanceof(Blob).optional(),
 	lastname: z.string().max(20).optional(),
@@ -19,6 +19,7 @@ export const UserSchema = z.object({
 	description: z.string().max(200).optional(),
 });
 export const UserCreationSchema = UserSchema.omit({
+	id: true,
 	profile_photo: true,
 	lastname: true,
 	firstname: true,
@@ -28,6 +29,12 @@ export const UserCreationSchema = UserSchema.omit({
 	occupation: true,
 	school: true,
 	description: true,
+});
+export const UserLoginByNameSchema = UserCreationSchema.omit({
+	email_address: true,
+});
+export const UserLoginByEmailSchema = UserCreationSchema.omit({
+	username: true,
 });
 
 export const userFactory = (newUser: Omit<UserCreationEnitity, "id">): UserCreationEnitity => {
