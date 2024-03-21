@@ -5,18 +5,18 @@ import { validateReq } from "../utils/validateReq/validateReq";
 export const AuthRouter = Router();
 //prettier-ignore
 AuthRouter
-	.get('/', async (req, res) => {
-		res.send('ok')
+	.get("/", async (req, res) => {
+		res.send("ok");
 	})
 	.post("/registerUser", async (req: Request, res: Response, next: NextFunction) => {
-		validateReq(req, ['userRegistrationData']);
+		validateReq(req, ["userRegistrationData"]);
 		await registerUserController(req, res, next);
 	})
 	.post("/loginUserByName", async (req: Request, res: Response, next: NextFunction) => {
-		validateReq(req, ['userLoginData']);
+		validateReq(req, ["userLoginData"]);
 		await loginUserByNameController(req, res, next);
 	})
 	.post("/loginUserByEmail", async (req: Request, res: Response, next: NextFunction) => {
-		validateReq(req, ['userLoginData']);
+		validateReq(req, ["userLoginData"]);
 		await loginUserByEmailController(req, res, next);
 	});
