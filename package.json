@@ -1,6 +1,6 @@
 {
 	"name": "chatbackend",
-	"version": "0.1.1",
+	"version": "0.1.2",
 	"description": "Backend for socket.io chat application and social media",
 	"main": "index.ts",
 	"scripts": {
