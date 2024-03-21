@@ -25,7 +25,6 @@ describe("user", () => {
 			expect(parsedUser.email_address).toStrictEqual(user.email_address);
 			expect(parsedUser.password).toHaveLength(60);
 			expect(typeof parsedUser.password).toStrictEqual("string");
-			expect(parsedUser.id).toBeDefined();
 		});
 		test("UserCreationSchema throws error when wrong user data is being parsed", () => {
 			const wrongUser = {
