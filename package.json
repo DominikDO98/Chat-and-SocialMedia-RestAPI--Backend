@@ -7,7 +7,6 @@
 		"start": "ts-node ./src/index.ts",
 		"start:build": "npm run build && node ./out/index.js",
 		"watch": "nodemon ./src/index.ts",
-		"watch:build": "npm run build && nodemon ./out/index.js",
 		"build": "rimraf ./out && tsc",
 		"test": "jest",
 		"db:init": "ts-node src/utils/db/db.init",
