@@ -4,7 +4,7 @@ import { generateAccessToken } from "../../utils/authenticationUtils/jwt.utils";
 import { v4 as uuid } from "uuid";
 import { UserLoginReturnedData } from "../../entities/user.entity/user.types";
 import { handleError } from "../../middleware/errorHandler";
-import { AuthenticationError } from "../../utils/middlewareUtils/errors";
+import { ValidationError } from "../../utils/middlewareUtils/errors";
 import jwt from "jsonwebtoken";
 
 describe("auth middleware", () => {
@@ -41,7 +41,7 @@ describe("auth middleware", () => {
 		try {
 			authorizeToken(mockRequest as Request, mockResponse as Response, nextFunction);
 		} catch (err) {
-			handleError(err as AuthenticationError, mockRequest as Request, mockResponse as Response, nextFunction);
+			handleError(err as ValidationError, mockRequest as Request, mockResponse as Response, nextFunction);
 		}
 		expect(mockResponse.status).toHaveBeenCalledWith(401);
 		expect(mockResponse.json).toHaveBeenCalledWith({ message: "No token provided" });
@@ -63,7 +63,7 @@ describe("auth middleware", () => {
 		try {
 			authorizeToken(mockRequest as Request, mockResponse as Response, nextFunction);
 		} catch (err) {
-			handleError(err as AuthenticationError, mockRequest as Request, mockResponse as Response, nextFunction);
+			handleError(err as ValidationError, mockRequest as Request, mockResponse as Response, nextFunction);
 		}
 		expect(mockResponse.status).toHaveBeenCalledWith(403);
 		expect(mockResponse.json).toHaveBeenCalledWith({ message: "Access forbidden" });
