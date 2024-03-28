@@ -8,9 +8,15 @@ import { AuthRouter } from "./routes/auth.router";
 import { handleError } from "./middleware/errorHandler";
 import { handleDBErrors } from "./middleware/dbErrorHandler";
 import { authorizeToken } from "./middleware/authorizeToken";
+import cors from "cors";
 
 const app = express();
 
+app.use(
+	cors({
+		origin: "http://localhost:5173",
+	}),
+);
 app.use(cookieParser());
 app.use(express.json());
 
