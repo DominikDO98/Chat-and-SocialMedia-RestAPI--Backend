@@ -18,17 +18,10 @@ export const UserSchema = z.object({
 	school: z.string().max(50).optional(),
 	description: z.string().max(200).optional(),
 });
-export const UserCreationSchema = UserSchema.omit({
-	id: true,
-	profile_photo: true,
-	lastname: true,
-	firstname: true,
-	birthday: true,
-	country: true,
-	city: true,
-	occupation: true,
-	school: true,
-	description: true,
+export const UserCreationSchema = UserSchema.pick({
+	username: true,
+	password: true,
+	email_address: true,
 });
 export const UserLoginByNameSchema = UserCreationSchema.omit({
 	email_address: true,
