@@ -4,7 +4,7 @@ module.exports = {
 		node: true,
 	},
 	extends: ["eslint:recommended", "plugin:@typescript-eslint/recommended"],
-	ignorePatterns: ["dbErrorHandler.ts", ".eslintrc.js"],
+	ignorePatterns: ["out", "dbErrorHandler.ts", ".eslintrc.js"],
 	overrides: [
 		{
 			env: {
