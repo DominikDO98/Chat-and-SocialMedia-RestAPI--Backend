@@ -10,6 +10,5 @@ export const handleError = (err: CustomError | Error, req: Request, res: Respons
 	} else if (err instanceof Error) {
 		res.status(500).json({ message: "Internal server error. Please, try again later" });
 	}
-
 	next();
 };
