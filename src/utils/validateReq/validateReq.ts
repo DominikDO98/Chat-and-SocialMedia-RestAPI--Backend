@@ -4,7 +4,7 @@ import { CustomError } from "../middlewareUtils/errors";
 export const validateReq = (req: Request, requiredData: string[]) => {
 	for (const properity of requiredData) {
 		if (!req.body[`${properity}`]) {
-			throw new CustomError("Data required");
+			throw new CustomError("Required data is missing");
 		}
 	}
 };
