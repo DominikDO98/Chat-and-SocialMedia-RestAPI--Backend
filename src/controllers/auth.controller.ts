@@ -4,8 +4,8 @@ import { UserCreationSchema, UserLoginByEmailSchema, UserLoginByNameSchema } fro
 
 export const registerUserController = async (req: Request, res: Response, next: NextFunction) => {
 	try {
-		UserCreationSchema.parse(req.body.userRegistrationData);
-		const recivedData = await registerUserService(req.body.userRegistrationData);
+		UserCreationSchema.parse(req.body.userAuthData);
+		const recivedData = await registerUserService(req.body.userAuthData);
 		res.cookie("authToken", recivedData.accessToken, { secure: true, httpOnly: true }).status(200).json(recivedData.userData);
 	} catch (err) {
 		next(err);
@@ -13,8 +13,8 @@ export const registerUserController = async (req: Request, res: Response, next: 
 };
 export const loginUserByNameController = async (req: Request, res: Response, next: NextFunction) => {
 	try {
-		UserLoginByNameSchema.parse(req.body.userLoginData);
-		const recivedData = await loginUserByNameService(req.body.userLoginData);
+		UserLoginByNameSchema.parse(req.body.userAuthData);
+		const recivedData = await loginUserByNameService(req.body.userAuthData);
 		res.cookie("authToken", recivedData.accessToken, { secure: true, httpOnly: true }).status(200).json(recivedData.userData);
 	} catch (err) {
 		next(err);
@@ -22,8 +22,8 @@ export const loginUserByNameController = async (req: Request, res: Response, nex
 };
 export const loginUserByEmailController = async (req: Request, res: Response, next: NextFunction) => {
 	try {
-		UserLoginByEmailSchema.parse(req.body.userLoginData);
-		const recivedData = await loginUserByEmailService(req.body.userLoginData);
+		UserLoginByEmailSchema.parse(req.body.userAuthData);
+		const recivedData = await loginUserByEmailService(req.body.userAuthData);
 		res.cookie("authToken", recivedData.accessToken, { secure: true, httpOnly: true }).status(200).json(recivedData.userData);
 	} catch (err) {
 		next(err);

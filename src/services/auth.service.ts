@@ -5,8 +5,8 @@ import { loginUserByEmailRepo, loginUserByNameRepo, registerUserRepo } from "../
 import { ValidationError } from "../utils/middlewareUtils/errors";
 import { generateAccessToken } from "../utils/authenticationUtils/jwt.utils";
 
-export const registerUserService = async (userRegistrationData: Omit<UserCreationEnitity, "id">): Promise<Omit<UserRegistrationReturnedData, "id">> => {
-	const newUser = userFactory(userRegistrationData);
+export const registerUserService = async (userAuthData: Omit<UserCreationEnitity, "id">): Promise<Omit<UserRegistrationReturnedData, "id">> => {
+	const newUser = userFactory(userAuthData);
 	const newUserData = await registerUserRepo(newUser);
 	const accessToken = generateAccessToken(newUserData.id);
 	return {
@@ -14,9 +14,9 @@ export const registerUserService = async (userRegistrationData: Omit<UserCreatio
 		accessToken: accessToken,
 	};
 };
-export const loginUserByNameService = async (userLoginData: UserLoginByNameData): Promise<Omit<UserLoginReturnedData, "id" | "password">> => {
-	const user = await loginUserByNameRepo(userLoginData.username);
-	const validationResult = await bcrypt.compare(userLoginData.password, user.password);
+export const loginUserByNameService = async (userAuthData: UserLoginByNameData): Promise<Omit<UserLoginReturnedData, "id" | "password">> => {
+	const user = await loginUserByNameRepo(userAuthData.username);
+	const validationResult = await bcrypt.compare(userAuthData.password, user.password);
 	if (!validationResult) {
 		throw new ValidationError("Wrong password", 401);
 	}
@@ -26,9 +26,9 @@ export const loginUserByNameService = async (userLoginData: UserLoginByNameData)
 		accessToken: accessToken,
 	};
 };
-export const loginUserByEmailService = async (userLoginData: UserLoginByEmailData): Promise<Omit<UserLoginReturnedData, "id" | "password">> => {
-	const user = await loginUserByEmailRepo(userLoginData.email_address);
-	const validationResult = await bcrypt.compare(userLoginData.password, user.password);
+export const loginUserByEmailService = async (userAuthData: UserLoginByEmailData): Promise<Omit<UserLoginReturnedData, "id" | "password">> => {
+	const user = await loginUserByEmailRepo(userAuthData.email_address);
+	const validationResult = await bcrypt.compare(userAuthData.password, user.password);
 	if (!validationResult) {
 		throw new ValidationError("Wrong password", 401);
 	}

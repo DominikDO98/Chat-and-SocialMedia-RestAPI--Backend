@@ -1,12 +1,12 @@
 import { UserCreationEnitity, UserLoginReturnedData, UserRegistrationReturnedData } from "../entities/user.entity/user.types";
 import { pool } from "../utils/db/db";
 
-export const registerUserRepo = async (userRegistrationData: UserCreationEnitity): Promise<UserRegistrationReturnedData> => {
-	const { rows } = await pool.query("INSERT INTO users (id, username, password, email_address) VALUES ($1, $2, $3, $4) RETURNING id", [userRegistrationData.id, userRegistrationData.username, userRegistrationData.password, userRegistrationData.email_address]);
+export const registerUserRepo = async (userAuthData: UserCreationEnitity): Promise<UserRegistrationReturnedData> => {
+	const { rows } = await pool.query("INSERT INTO users (id, username, password, email_address) VALUES ($1, $2, $3, $4) RETURNING id", [userAuthData.id, userAuthData.username, userAuthData.password, userAuthData.email_address]);
 	const id = rows[0].id;
 	const userData = {
-		username: userRegistrationData.username,
-		email_address: userRegistrationData.email_address,
+		username: userAuthData.username,
+		email_address: userAuthData.email_address,
 	};
 	return { userData, id };
 };
