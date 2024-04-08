@@ -1,15 +1,13 @@
 {
-    "compilerOptions": {
-        "module": "CommonJS",
-        "target": "ES2021",
-        "rootDir": "src",
-        "outDir": "out",
-        "noImplicitAny": true,
-        "sourceMap": true,
-        "esModuleInterop": true,
-        "strict": true,
-    },
-    "exclude": [
-        "node_modules"
-    ]
+	"compilerOptions": {
+		"module": "CommonJS",
+		"target": "ES2021",
+		"rootDir": "src",
+		"outDir": "out",
+		"noImplicitAny": true,
+		"sourceMap": true,
+		"esModuleInterop": true,
+		"strict": true
+	},
+	"exclude": ["node_modules", "src/tests"]
 }
