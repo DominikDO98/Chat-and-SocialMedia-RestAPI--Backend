@@ -6,7 +6,7 @@ export const registerUserController = async (req: Request, res: Response, next: 
 	try {
 		UserCreationSchema.parse(req.body.userAuthData);
 		const recivedData = await registerUserService(req.body.userAuthData);
-		res.cookie("authToken", recivedData.accessToken, { secure: true, httpOnly: true }).status(200).json(recivedData.userData);
+		res.cookie("authToken", recivedData.accessToken, { secure: true, httpOnly: true }).status(201).json(recivedData.userData);
 	} catch (err) {
 		next(err);
 	}
