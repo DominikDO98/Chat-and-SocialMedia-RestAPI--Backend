@@ -2,6 +2,7 @@ import { v4 as uuid } from "uuid";
 import { UserCreationEnitity } from "../../entities/user.entity/user.types";
 import { loginUserByEmailRepo, loginUserByNameRepo, registerUserRepo } from "../../repositories/auth.repository";
 import { initiateTestDB } from "../../utils/db/db.init";
+import { ValidationError } from "../../utils/middlewareUtils/errors";
 
 describe("auth repository tests", () => {
 	const userRegistrationData: UserCreationEnitity = {
@@ -29,6 +30,17 @@ describe("auth repository tests", () => {
 			expect(returnedData.id).toStrictEqual(userRegistrationData.id);
 			expect(returnedData.password).toStrictEqual(userRegistrationData.password);
 		});
+		test("loginUserByNameRepo throws error if user doesn't exist", async () => {
+			const wrongUsername = "noFoundTest";
+			const throwRepoError = async () => {
+				try {
+					await loginUserByNameRepo(wrongUsername);
+				} catch (error) {
+					throw new ValidationError(error as string);
+				}
+			};
+			expect(throwRepoError).rejects.toThrow("User with that username does not exist!");
+		});
 	});
 	describe("loginUserByEmailRepo", () => {
 		test("loginUserByEmailRepo returns correct data", async () => {
@@ -37,6 +49,17 @@ describe("auth repository tests", () => {
 			expect(returnedData.userData).toStrictEqual({ username: "Test", email_address: "test@gmail.pl" });
 			expect(returnedData.id).toStrictEqual(userRegistrationData.id);
 			expect(returnedData.password).toStrictEqual(userRegistrationData.password);
+		});
+		test("loginUserByEmailRepo throws error if user doesn't exist", async () => {
+			const wrong_email_address = "notfoundtest@gmail.pl";
+			const throwRepoError = async () => {
+				try {
+					await loginUserByEmailRepo(wrong_email_address);
+				} catch (error) {
+					throw new ValidationError(error as string);
+				}
+			};
+			expect(throwRepoError).rejects.toThrow("User with that e-mail address does not exist!");
 		});
 	});
 });
