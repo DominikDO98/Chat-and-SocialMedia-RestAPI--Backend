@@ -1,5 +1,5 @@
 export class CustomError extends Error {
-	private readonly _initialStatus = 400;
+	private _initialStatus = 400;
 	protected readonly _code: number;
 	protected readonly _message: string;
 	protected readonly _logging: boolean;
@@ -20,7 +20,16 @@ export class CustomError extends Error {
 		return this._logging;
 	}
 }
-
-export class ValidationError extends CustomError {}
-
 export class DataBaseError extends CustomError {}
+export class ValidationError extends CustomError {}
+export class AuthenticationError extends CustomError {
+	protected readonly _key: string;
+
+	constructor(message: string, key: "username" | "email_address" | "password", code?: number, logging?: boolean) {
+		super(message, code, logging);
+		this._key = key;
+	}
+	public get key() {
+		return this._key;
+	}
+}
