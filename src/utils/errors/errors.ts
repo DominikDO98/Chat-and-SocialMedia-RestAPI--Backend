@@ -22,7 +22,8 @@ export class CustomError extends Error {
 }
 export class DataBaseError extends CustomError {}
 export class ValidationError extends CustomError {}
-export class AuthenticationError extends CustomError {
+
+export class AuthenticationError extends ValidationError {
 	protected readonly _key: string;
 
 	constructor(message: string, key: "username" | "email_address" | "password", code?: number, logging?: boolean) {
