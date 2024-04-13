@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { AuthenticationError, CustomError, DataBaseError } from "../utils/middlewareUtils/errors";
+import { AuthenticationError, CustomError, DataBaseError } from "../utils/errors/errors";
 
 export const handleDBErrors = (err: CustomError | Error, req: Request, res: Response, next: NextFunction) => {
 	if (err.message === 'podwójna wartość klucza narusza ograniczenie unikalności "email_address_ukey"') {

@@ -2,7 +2,7 @@ import { v4 as uuid } from "uuid";
 import { UserCreationEnitity } from "../../entities/user.entity/user.types";
 import { loginUserByEmailRepo, loginUserByNameRepo, registerUserRepo } from "../../repositories/auth.repository";
 import { initiateTestDB } from "../../utils/db/db.init";
-import { ValidationError } from "../../utils/middlewareUtils/errors";
+import { ValidationError } from "../../utils/errors/errors";
 
 describe("auth repository tests", () => {
 	const userRegistrationData: UserCreationEnitity = {

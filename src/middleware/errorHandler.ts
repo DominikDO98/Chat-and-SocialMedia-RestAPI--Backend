@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import { ZodError } from "zod";
-import { AuthenticationError, CustomError } from "../utils/middlewareUtils/errors";
+import { AuthenticationError, CustomError } from "../utils/errors/errors";
 
 export const handleError = (err: CustomError | Error, req: Request, res: Response, next: NextFunction) => {
 	if (err instanceof AuthenticationError) {

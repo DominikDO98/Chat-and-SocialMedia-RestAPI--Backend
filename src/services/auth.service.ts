@@ -3,7 +3,7 @@ import { userFactory } from "../entities/user.entity/user.entity";
 import { UserCreationEnitity, UserLoginByEmailData, UserLoginByNameData, UserLoginReturnedData, UserRegistrationReturnedData } from "../entities/user.entity/user.types";
 import { loginUserByEmailRepo, loginUserByNameRepo, registerUserRepo } from "../repositories/auth.repository";
 import { generateAccessToken } from "../utils/authenticationUtils/jwt.utils";
-import { AuthenticationError } from "../utils/middlewareUtils/errors";
+import { AuthenticationError } from "../utils/errors/errors";
 
 export const registerUserService = async (userAuthData: Omit<UserCreationEnitity, "id">): Promise<Omit<UserRegistrationReturnedData, "id">> => {
 	const newUser = userFactory(userAuthData);

@@ -4,7 +4,7 @@ import { generateAccessToken } from "../../utils/authenticationUtils/jwt.utils";
 import { v4 as uuid } from "uuid";
 import { UserLoginReturnedData } from "../../entities/user.entity/user.types";
 import { handleError } from "../../middleware/errorHandler";
-import { ValidationError } from "../../utils/middlewareUtils/errors";
+import { ValidationError } from "../../utils/errors/errors";
 import jwt from "jsonwebtoken";
 
 describe("auth middleware", () => {

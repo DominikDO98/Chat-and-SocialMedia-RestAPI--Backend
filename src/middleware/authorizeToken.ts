@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { ValidationError } from "../utils/middlewareUtils/errors";
+import { ValidationError } from "../utils/errors/errors";
 import jwt, { JwtPayload, VerifyErrors } from "jsonwebtoken";
 import { config } from "dotenv";
 config();

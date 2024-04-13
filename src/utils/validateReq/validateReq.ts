@@ -1,5 +1,5 @@
 import { Request } from "express";
-import { CustomError } from "../middlewareUtils/errors";
+import { CustomError } from "../errors/errors";
 
 export const validateReq = (req: Request, requiredData: string[]) => {
 	for (const properity of requiredData) {
