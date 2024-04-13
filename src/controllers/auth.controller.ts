@@ -6,7 +6,7 @@ export const registerUserController = async (req: Request, res: Response, next: 
 	try {
 		UserCreationSchema.parse(req.body.userAuthData);
 		const recivedData = await registerUserService(req.body.userAuthData);
-		res.cookie("authToken", recivedData.accessToken, { secure: true, httpOnly: true }).status(201).json(recivedData.userData);
+		res.cookie("authToken", recivedData.accessToken, { secure: false, httpOnly: true }).status(201).json(recivedData.userData);
 	} catch (err) {
 		next(err);
 	}
@@ -15,7 +15,7 @@ export const loginUserByNameController = async (req: Request, res: Response, nex
 	try {
 		UserLoginByNameSchema.parse(req.body.userAuthData);
 		const recivedData = await loginUserByNameService(req.body.userAuthData);
-		res.cookie("authToken", recivedData.accessToken, { secure: true, httpOnly: true }).status(200).json(recivedData.userData);
+		res.cookie("authToken", recivedData.accessToken, { secure: false, httpOnly: true }).status(200).json(recivedData.userData);
 	} catch (err) {
 		next(err);
 	}
@@ -24,7 +24,7 @@ export const loginUserByEmailController = async (req: Request, res: Response, ne
 	try {
 		UserLoginByEmailSchema.parse(req.body.userAuthData);
 		const recivedData = await loginUserByEmailService(req.body.userAuthData);
-		res.cookie("authToken", recivedData.accessToken, { secure: true, httpOnly: true }).status(200).json(recivedData.userData);
+		res.cookie("authToken", recivedData.accessToken, { secure: false, httpOnly: true }).status(200).json(recivedData.userData);
 	} catch (err) {
 		next(err);
 	}
