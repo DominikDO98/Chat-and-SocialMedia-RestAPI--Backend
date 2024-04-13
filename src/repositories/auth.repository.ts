@@ -1,6 +1,6 @@
 import { UserCreationEnitity, UserLoginReturnedData, UserRegistrationReturnedData } from "../entities/user.entity/user.types";
 import { pool } from "../utils/db/db";
-import { AuthenticationError, ValidationError } from "../utils/middlewareUtils/errors";
+import { AuthenticationError } from "../utils/middlewareUtils/errors";
 
 export const registerUserRepo = async (userAuthData: UserCreationEnitity): Promise<UserRegistrationReturnedData> => {
 	const { rows } = await pool.query("INSERT INTO users (id, username, password, email_address) VALUES ($1, $2, $3, $4) RETURNING id", [userAuthData.id, userAuthData.username, userAuthData.password, userAuthData.email_address]);
