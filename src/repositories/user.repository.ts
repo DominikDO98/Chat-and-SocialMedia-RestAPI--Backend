@@ -20,3 +20,18 @@ export const loadUserData = async (userId: string): Promise<Omit<UserEntity, "id
 	};
 	return userData;
 };
+
+export const editUserAdditionalData = async (userId: string, newData: Omit<UserEntity, "id" | "password" | "username" | "email_address">): Promise<Omit<UserEntity, "id" | "password" | "username" | "email_address">> => {
+	const { rows } = await pool.query("INSERT INTO users (firstname, birthday, city, occupation, school, description) VALUES ( $1, $2, $3, $4, $5, $6) WHERE id = $7 RETURNING firstname, birthday, city, occupation, school, description", [newData.firstname, newData.birthday, newData.city, newData.occupation, newData.school, newData.description, userId]);
+
+	const savedData: Omit<UserEntity, "id" | "password" | "username" | "email_address"> = {
+		profile_photo: rows[0].profile_photo,
+		firstname: rows[0].firstname,
+		birthday: rows[0].birthday,
+		city: rows[0].city,
+		occupation: rows[0].occupation,
+		school: rows[0].school,
+		description: rows[0].description,
+	};
+	return savedData;
+};
