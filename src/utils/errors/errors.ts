@@ -21,6 +21,7 @@ export class CustomError extends Error {
 	}
 }
 export class DataBaseError extends CustomError {}
+export class ContentNotFoundError extends CustomError {}
 export class ValidationError extends CustomError {}
 
 export class AuthenticationError extends ValidationError {
