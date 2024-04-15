@@ -3,6 +3,7 @@ import { UserCreationEnitity, UserEntity } from "../../entities/user.entity/user
 import * as UserRepo from "../../repositories/user.repository";
 import { pool } from "../../utils/db/db";
 import { initiateTestDB } from "../../utils/db/db.init";
+import { convertImg } from "./testingAssets/readFile";
 
 describe("userRepository tests", () => {
 	const userTestData: UserCreationEnitity = {
@@ -11,6 +12,7 @@ describe("userRepository tests", () => {
 		password: "password",
 		email_address: "test@gmail.pl",
 	};
+	const profile_photo = convertImg();
 	const dataChanges: Omit<UserEntity, "id" | "password" | "username" | "email_address" | "profile_photo"> = {
 		lastname: "Smith",
 		firstname: "Matt",
