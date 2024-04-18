@@ -38,13 +38,12 @@ export const editUserAdditionalDataRepo = async (userId: string, newData: Omit<U
 	return savedData;
 };
 
-export const uploadProfilePhotoRepo = async (userId: string): Promise<boolean> => {
-	const buff = await convertImg();
-	console.log(buff);
-
-	const { rows } = await pool.query("UPDATE users SET profile_photo = $1 WHERE id = $2 RETURNING profile_photo", [buff, userId]);
-	const newBlob: Buffer = rows[0].profile_photo;
-	console.log(newBlob);
-
-	return true;
+export const uploadProfilePhotoRepo = async (photo: Buffer, userId: string): Promise<boolean> => {
+	let result = false;
+	const { rows } = await pool.query("UPDATE users SET profile_photo = $1 WHERE id = $2 RETURNING profile_photo", [photo, userId]);
+	const newBuffer: Buffer = rows[0].profile_photo;
+	if (newBuffer === photo) {
+		result = true;
+	}
+	return result;
 };
