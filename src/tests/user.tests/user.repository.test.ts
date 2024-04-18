@@ -26,7 +26,7 @@ describe("userRepository tests", () => {
 		await pool.query("INSERT INTO users (id, username, password, email_address) VALUES ($1, $2, $3, $4) RETURNING id", [userTestData.id, userTestData.username, userTestData.password, userTestData.email_address]);
 	};
 	const createDataForTests = async () => {
-		await pool.query("UPDATE  users SET lastname = $1, firstname = $2, birthday = $3, city = $4, occupation = $5, school = $6, description = $7 WHERE id = $8 RETURNING lastname, firstname, birthday, city, occupation, school, description", [dataChanges.lastname, dataChanges.firstname, dataChanges.birthday, dataChanges.city, dataChanges.occupation, dataChanges.school, dataChanges.description, userTestData.id]);
+		await pool.query("UPDATE  users SET lastname = $1, firstname = $2, birthday = $3, city = $4, occupation = $5, school = $6, description = $7, profile_photo = $8 WHERE id = $9 RETURNING lastname, firstname, birthday, city, occupation, school, description", [dataChanges.lastname, dataChanges.firstname, dataChanges.birthday, dataChanges.city, dataChanges.occupation, dataChanges.school, dataChanges.description, profile_photo, userTestData.id]);
 	};
 	beforeAll(async () => {
 		await initiateTestDB()
@@ -53,6 +53,26 @@ describe("userRepository tests", () => {
 			expect(receivedData.description).toStrictEqual(dataChanges.description);
 		});
 	});
-	// describe("loadUserDataRepo", () => {});
-	// describe("uploadProfilePhotoRepo", () => {});
+	describe("loadUserDataRepo", () => {
+		test("function loads all data the data", async () => {
+			const loadedData = await UserRepo.loadUserDataRepo(userTestData.id);
+			expect(loadedData.username).toStrictEqual(userTestData.username);
+			expect(loadedData.email_address).toStrictEqual(userTestData.email_address);
+			expect(loadedData.lastname).toStrictEqual(dataChanges.lastname);
+			expect(loadedData.firstname).toStrictEqual(dataChanges.firstname);
+			expect(loadedData.birthday).toStrictEqual(dataChanges.birthday);
+			expect(loadedData.city).toStrictEqual(dataChanges.city);
+			expect(loadedData.country).toStrictEqual(dataChanges.country);
+			expect(loadedData.description).toStrictEqual(dataChanges.description);
+			expect(loadedData.school).toStrictEqual(dataChanges.school);
+			expect(loadedData.profile_photo).toStrictEqual(profile_photo);
+		});
+	});
+	test("uploadProfilePhotoRepo", async () => {
+		await UserRepo.uploadProfilePhotoRepo(userTestData.id);
+		const { rows } = await pool.query("SELECT profile_photo FROM users WHERE id = $1", [userTestData.id]);
+		const uploadedPhoto = rows[0].profile_photo;
+
+		expect(uploadedPhoto).toStrictEqual(profile_photo);
+	});
 });
