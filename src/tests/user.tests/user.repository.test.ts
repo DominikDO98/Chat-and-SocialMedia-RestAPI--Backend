@@ -69,7 +69,7 @@ describe("userRepository tests", () => {
 		});
 	});
 	test("uploadProfilePhotoRepo", async () => {
-		await UserRepo.uploadProfilePhotoRepo(userTestData.id);
+		await UserRepo.uploadProfilePhotoRepo(convertImg(), userTestData.id);
 		const { rows } = await pool.query("SELECT profile_photo FROM users WHERE id = $1", [userTestData.id]);
 		const uploadedPhoto = rows[0].profile_photo;
 
