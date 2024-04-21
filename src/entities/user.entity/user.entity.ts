@@ -18,6 +18,7 @@ export const UserSchema = z.object({
 	school: z.string().max(50).optional(),
 	description: z.string().max(200).optional(),
 });
+//user authorization schemas
 export const UserCreationSchema = UserSchema.pick({
 	username: true,
 	password: true,
@@ -28,6 +29,17 @@ export const UserLoginByNameSchema = UserCreationSchema.omit({
 });
 export const UserLoginByEmailSchema = UserCreationSchema.omit({
 	username: true,
+});
+//edit userprofile schemas
+export const LoadFullUserData = UserSchema.omit({
+	id: true,
+	password: true,
+});
+export const EditUserAddtionalDataSchema = UserSchema.omit({
+	id: true,
+	password: true,
+	username: true,
+	email_address: true,
 });
 
 export const userFactory = (newUser: Omit<UserCreationEnitity, "id">): UserCreationEnitity => {

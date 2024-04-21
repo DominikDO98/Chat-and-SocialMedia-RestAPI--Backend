@@ -1,11 +1,11 @@
-import { AdditionalUserData, FullUserData } from "../entities/user.entity/user.types";
+import { EditAdditionalUserData, LoadFullUserData } from "../entities/user.entity/user.types";
 import { editUserAdditionalDataRepo, loadUserDataRepo } from "../repositories/user.repository";
 
-export const loadUserDataService = async (userId: string): Promise<FullUserData> => {
+export const loadUserDataService = async (userId: string): Promise<LoadFullUserData> => {
 	const userData = await loadUserDataRepo(userId);
 	return userData;
 };
-export const editUserAdditionalDataService = async (userId: string, newData: AdditionalUserData): Promise<AdditionalUserData> => {
+export const editUserAdditionalDataService = async (userId: string, newData: EditAdditionalUserData): Promise<EditAdditionalUserData> => {
 	const savedData = await editUserAdditionalDataRepo(userId, newData);
 	return savedData;
 };
