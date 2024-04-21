@@ -3,7 +3,7 @@ export type UserEntity = {
 	username: string;
 	password: string;
 	email_address: string;
-	profile_photo?: Blob;
+	profile_photo?: Buffer;
 	lastname?: string;
 	firstname?: string;
 	birthday?: Date;

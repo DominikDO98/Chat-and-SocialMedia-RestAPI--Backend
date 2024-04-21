@@ -8,7 +8,7 @@ export const UserSchema = z.object({
 	username: z.string().min(5).max(36),
 	password: z.string().min(8).max(60),
 	email_address: z.string().email().max(320),
-	profile_photo: z.instanceof(Blob).optional(),
+	profile_photo: z.instanceof(Buffer).optional(),
 	lastname: z.string().max(20).optional(),
 	firstname: z.string().max(20).optional(),
 	birthday: z.date().optional(),
