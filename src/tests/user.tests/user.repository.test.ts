@@ -68,11 +68,13 @@ describe("userRepository tests", () => {
 			expect(loadedData.profile_photo).toStrictEqual(profile_photo);
 		});
 	});
-	test("uploadProfilePhotoRepo", async () => {
-		await UserRepo.uploadProfilePhotoRepo(convertImg(), userTestData.id);
-		const { rows } = await pool.query("SELECT profile_photo FROM users WHERE id = $1", [userTestData.id]);
-		const uploadedPhoto = rows[0].profile_photo;
+	describe("uploadProfilePhotoRepo", () => {
+		test("photo is correcly uploaded", async () => {
+			await UserRepo.uploadProfilePhotoRepo(convertImg(), userTestData.id);
+			const { rows } = await pool.query("SELECT profile_photo FROM users WHERE id = $1", [userTestData.id]);
+			const uploadedPhoto = rows[0].profile_photo;
 
-		expect(uploadedPhoto).toStrictEqual(profile_photo);
+			expect(uploadedPhoto).toStrictEqual(profile_photo);
+		});
 	});
 });

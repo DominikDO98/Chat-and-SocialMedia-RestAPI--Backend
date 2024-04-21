@@ -37,12 +37,8 @@ export const editUserAdditionalDataRepo = async (userId: string, newData: Omit<U
 	return savedData;
 };
 
-export const uploadProfilePhotoRepo = async (photo: Buffer, userId: string): Promise<boolean> => {
-	let result = false;
+export const uploadProfilePhotoRepo = async (photo: Buffer, userId: string): Promise<Buffer> => {
 	const { rows } = await pool.query("UPDATE users SET profile_photo = $1 WHERE id = $2 RETURNING profile_photo", [photo, userId]);
-	const newBuffer: Buffer = rows[0].profile_photo;
-	if (newBuffer === photo) {
-		result = true;
-	}
-	return result;
+	const returnedPhoto: Buffer = rows[0].profile_photo;
+	return returnedPhoto;
 };
