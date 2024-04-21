@@ -1,6 +1,5 @@
 import { UserEntity } from "../entities/user.entity/user.types";
 import { pool } from "../utils/db/db";
-import { convertImg } from "../tests/user.tests/testingAssets/readFile";
 
 export const loadUserDataRepo = async (userId: string): Promise<Omit<UserEntity, "id" | "password">> => {
 	const { rows } = await pool.query("SELECT username, email_address, profile_photo, lastname, firstname, birthday, country, city, occupation, school, description FROM users WHERE id = $1", [userId]);
