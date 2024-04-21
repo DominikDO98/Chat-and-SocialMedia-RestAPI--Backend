@@ -13,7 +13,7 @@ export type UserEntity = {
 	school?: string;
 	description?: string;
 };
-
+//types for authtorization
 export type UserCreationEnitity = Pick<UserEntity, "id" | "username" | "password" | "email_address">;
 export type UserLoginByNameData = Pick<UserEntity, "username" | "password">;
 export type UserLoginByEmailData = Pick<UserEntity, "email_address" | "password">;
@@ -29,3 +29,6 @@ export type UserLoginReturnedData = {
 	id: string;
 	accessToken?: string;
 };
+//types for editing profile
+export type FullUserData = Omit<UserEntity, "id" | "password">;
+export type AdditionalUserData = Omit<UserEntity, "id" | "password" | "username" | "email_address" | "profile_photo">;
