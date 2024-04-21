@@ -30,5 +30,5 @@ export type UserLoginReturnedData = {
 	accessToken?: string;
 };
 //types for editing profile
-export type FullUserData = Omit<UserEntity, "id" | "password">;
-export type AdditionalUserData = Omit<UserEntity, "id" | "password" | "username" | "email_address" | "profile_photo">;
+export type LoadFullUserData = Omit<UserEntity, "id" | "password">;
+export type EditAdditionalUserData = Omit<UserEntity, "id" | "password" | "username" | "email_address" | "profile_photo">;
