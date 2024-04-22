@@ -31,7 +31,7 @@ export const UserLoginByEmailSchema = UserCreationSchema.omit({
 	username: true,
 });
 //edit userprofile schemas
-export const LoadFullUserData = UserSchema.omit({
+export const LoadFullUserDataSchema = UserSchema.omit({
 	id: true,
 	password: true,
 });
