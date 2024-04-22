@@ -13,6 +13,6 @@ export const editUserAdditionalDataService = async (userId: string, newData: Par
 };
 export const uploadProfilePhotoService = async (photo: Buffer, userId: string): Promise<boolean> => {
 	const returnedPhoto = await uploadProfilePhotoRepo(photo, userId);
-	if (returnedPhoto !== photo) throw new CustomError("Upload failed");
+	if (returnedPhoto !== photo) throw new CustomError("Upload failed", 500);
 	return true;
 };
