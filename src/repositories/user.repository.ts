@@ -23,8 +23,6 @@ export const loadUserDataRepo = async (userId: string): Promise<LoadFullUserData
 };
 
 export const editUserAdditionalDataRepo = async (userId: string, newData: EditAdditionalUserData): Promise<EditAdditionalUserData> => {
-	console.log(newData.lastname);
-
 	const { rows } = await pool.query("UPDATE  users SET lastname = $1, firstname = $2, birthday = $3, city = $4, occupation = $5, school = $6, description = $7 WHERE id = $8 RETURNING lastname, firstname, birthday, city, occupation, school, description", [newData.lastname, newData.firstname, newData.birthday, newData.city, newData.occupation, newData.school, newData.description, userId]);
 	if (!rows[0]) {
 		throw new CustomError("Failed to edit user data, please try again later");
