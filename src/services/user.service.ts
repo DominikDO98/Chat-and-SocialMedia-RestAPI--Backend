@@ -9,7 +9,8 @@ export const editUserAdditionalDataService = async (userId: string, newData: Edi
 	const savedData = await editUserAdditionalDataRepo(userId, newData);
 	return savedData;
 };
-export const uploadProfilePhotoService = async (photo: Buffer, userId: string): Promise<Buffer> => {
+export const uploadProfilePhotoService = async (photo: Buffer, userId: string): Promise<boolean> => {
 	const returnedPhoto = await uploadProfilePhotoRepo(photo, userId);
-	return returnedPhoto;
+	returnedPhoto;
+	return true;
 };
