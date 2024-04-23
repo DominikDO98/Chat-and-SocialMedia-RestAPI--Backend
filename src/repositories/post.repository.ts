@@ -16,3 +16,8 @@ export const editPostRepo = async (postEdtionData: PostEntity): Promise<boolean>
 	}
 	return true;
 };
+//@TODO: turn into transactions and delete like and comments also
+export const deletePostRepo = async (postDeletionData: Pick<PostEntity, "id" | "user_id">): Promise<boolean> => {
+	await pool.query("DELETE FROM posts WHERE id = $1 AND user_id = $2", [postDeletionData.id, postDeletionData.user_id]);
+	return true;
+};
