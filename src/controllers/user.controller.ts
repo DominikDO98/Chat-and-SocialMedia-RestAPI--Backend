@@ -13,8 +13,8 @@ export const loadUserDataController = async (req: Request, res: Response, next: 
 export const editUserAdditionalDataController = async (req: Request, res: Response, next: NextFunction) => {
 	try {
 		EditUserAddtionalDataSchema.parse(req.body.editUserData);
-		const savedData = await editUserAdditionalDataService(req.body.id, req.body.editUserData);
-		res.status(200).json({ editedUsetData: savedData });
+		const result = await editUserAdditionalDataService(req.body.id, req.body.editUserData);
+		res.status(200).json({ success: result });
 	} catch (err) {
 		next(err);
 	}
@@ -22,7 +22,7 @@ export const editUserAdditionalDataController = async (req: Request, res: Respon
 export const uploadProfilePhotoCOntroller = async (req: Request, res: Response, next: NextFunction) => {
 	try {
 		const result = await uploadProfilePhotoService(req.body.photo, req.body.id);
-		res.status(200).json(result);
+		res.status(200).json({ success: result });
 	} catch (err) {
 		next(err);
 	}
