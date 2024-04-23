@@ -6,10 +6,10 @@ export const loadUserDataService = async (userId: string): Promise<LoadFullUserD
 	const userData = await loadUserDataRepo(userId);
 	return userData;
 };
-export const editUserAdditionalDataService = async (userId: string, newData: Partial<EditAdditionalUserData>): Promise<EditAdditionalUserData> => {
+export const editUserAdditionalDataService = async (userId: string, newData: Partial<EditAdditionalUserData>): Promise<boolean> => {
 	const savedData = await editUserAdditionalDataRepo(userId, newData);
-	if (savedData !== newData) throw new CustomError("Failed to edit user data, please try again later");
-	return savedData;
+	if (savedData !== newData) throw new CustomError("Failed to edit user data, please try again later", 500);
+	return true;
 };
 export const uploadProfilePhotoService = async (photo: Buffer, userId: string): Promise<boolean> => {
 	const returnedPhoto = await uploadProfilePhotoRepo(photo, userId);
