@@ -1,7 +1,6 @@
 import { v4 as uuid } from "uuid";
 import { UserCreationEnitity } from "../../entities/user.entity/user.types";
 import { loginUserByEmailRepo, loginUserByNameRepo, registerUserRepo } from "../../repositories/auth.repository";
-import { initiateTestDB } from "../../utils/db/db.init";
 import { ValidationError } from "../../utils/errors/errors";
 
 describe("auth repository tests", () => {
@@ -11,9 +10,6 @@ describe("auth repository tests", () => {
 		password: "password",
 		email_address: "test@gmail.pl",
 	};
-	beforeAll(async () => {
-		await initiateTestDB();
-	});
 	describe("regusteruserRepo", () => {
 		test("function returns id and unchanged data", async () => {
 			const returnedData = await registerUserRepo(userRegistrationData);

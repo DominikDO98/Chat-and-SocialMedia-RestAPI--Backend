@@ -2,7 +2,6 @@ import { v4 as uuid } from "uuid";
 import { UserCreationEnitity, UserEntity } from "../../entities/user.entity/user.types";
 import * as UserRepo from "../../repositories/user.repository";
 import { pool } from "../../utils/db/db";
-import { initiateTestDB } from "../../utils/db/db.init";
 import { convertImg } from "./testingAssets/readFile";
 
 describe("userRepository tests", () => {
@@ -29,14 +28,7 @@ describe("userRepository tests", () => {
 		await pool.query("UPDATE  users SET lastname = $1, firstname = $2, birthday = $3, city = $4, occupation = $5, school = $6, description = $7, profile_photo = $8 WHERE id = $9 RETURNING lastname, firstname, birthday, city, occupation, school, description", [dataChanges.lastname, dataChanges.firstname, dataChanges.birthday, dataChanges.city, dataChanges.occupation, dataChanges.school, dataChanges.description, profile_photo, userTestData.id]);
 	};
 	beforeAll(async () => {
-		await initiateTestDB()
-			.then()
-			.catch((err) => {
-				console.log(err);
-			})
-			.finally(async () => {
-				await createUserForTests();
-			});
+		await createUserForTests();
 	});
 	afterEach(async () => {
 		await createDataForTests();
