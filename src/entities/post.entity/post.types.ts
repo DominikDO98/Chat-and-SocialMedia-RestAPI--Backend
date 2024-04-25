@@ -4,7 +4,7 @@ export type PostEntity = {
 	group_id?: string;
 	title: string;
 	text: string;
-	picture?: Blob;
+	picture?: Buffer;
 	attachment?: string;
 	created_at: Date;
 	type: number;
@@ -16,7 +16,7 @@ export type CommentEntity = {
 	user_id: string;
 	text: string;
 	created_at: Date;
-	picture?: Blob;
+	picture?: Buffer;
 	attachment?: string;
 };
 
