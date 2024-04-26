@@ -1,7 +1,7 @@
 import { UserEntity } from "../../entities/user.entity/user.types";
 import * as UserRepo from "../../repositories/user.repository";
 import { pool } from "../../utils/db/db";
-import { testIds } from "../initTestDB";
+import { testIds, userTestData } from "../initTestDB";
 import { convertImg } from "./testingAssets/readFile";
 
 describe("userRepository tests", () => {
