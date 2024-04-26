@@ -1,4 +1,4 @@
-import { LikeEntity, PostEntity } from "../entities/post.entity/post.types";
+import { CommentEntity, LikeEntity, PostEntity } from "../entities/post.entity/post.types";
 import { pool } from "../utils/db/db";
 import { CustomError } from "../utils/errors/errors";
 //posts
@@ -37,4 +37,16 @@ export const removeLike = async (likeData: Omit<LikeEntity, "created_at">) => {
 	await pool.query("DELETE FROM likes WHERE id = $1 AND user_id = $2 AND post_id = $3", [likeData.id, likeData.user_id, likeData.post_id]);
 
 	return true;
+};
+
+//comments
+export const addComment = async (commentData: CommentEntity): Promise<CommentEntity> => {
+	const { rows } = await pool.query("INSERT INTO comments (id, post_id, user_id, text, picture, attachment, created_at) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING id, post_id, user_id, text, picture, attachment, created_at", [commentData.id, commentData.post_id, commentData.user_id, commentData.text, commentData.picture, commentData.attachment, commentData.created_at]);
+	if (!rows[0]) {
+		throw new CustomError("Unable to add comment", 500);
+	}
+	const comment: CommentEntity = {
+		...rows[0],
+	};
+	return comment;
 };
