@@ -1,0 +1,30 @@
+import { convertImg } from "./user.tests/testingAssets/readFile";
+
+export const testIds = {
+	user_id: "d6781b71-b08f-42d3-b87e-34b37909f42a",
+	post_id: "ab104f91-6ab9-449c-a5da-71b3064fdaa1",
+};
+export const userTestData = {
+	id: testIds.user_id,
+	username: "testname",
+	password: "testpass",
+	email_address: "email@gmail.com",
+	lastname: "testlast",
+	firstname: "testfirst",
+	birthday: new Date("2024-04-25"),
+	city: "testingcity",
+	occupation: "physical worker",
+	school: "testingschool",
+	description: "hi",
+	profile_photo: convertImg(),
+};
+export const postTestData = {
+	id: testIds.post_id,
+	user_id: testIds.user_id,
+	title: "posttitle",
+	text: "post text",
+	picture: convertImg(),
+	attachment: "http://www.google.com",
+	created_at: new Date("2024-04-25"),
+	type: 0,
+};
