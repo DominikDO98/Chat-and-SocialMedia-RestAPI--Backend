@@ -19,7 +19,7 @@ export const initiateDevDB = async () => {
 
 	console.log("Groups");
 	await devPool.query(
-		"CREATE TABLE IF NOT EXISTS public.\"group\"(id uuid NOT NULL, admin_id uuid NOT NULL, name character varying(20) COLLATE pg_catalog.\"default\" NOT NULL, profile_photo bytea, created_at timestamp with time zone NOT NULL, is_private boolean NOT NULL, description character varying(200) COLLATE pg_catalog.\"default\" NOT NULL, CONSTRAINT \"Group_pkey\" PRIMARY KEY (id), CONSTRAINT admin_id_key FOREIGN KEY (admin_id) REFERENCES public.users (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID)",
+		"CREATE TABLE IF NOT EXISTS public.\"groups\"(id uuid NOT NULL, admin_id uuid NOT NULL, name character varying(20) COLLATE pg_catalog.\"default\" NOT NULL, profile_photo bytea, created_at timestamp with time zone NOT NULL, is_private boolean NOT NULL, description character varying(200) COLLATE pg_catalog.\"default\" NOT NULL, CONSTRAINT \"Group_pkey\" PRIMARY KEY (id), CONSTRAINT admin_id_key FOREIGN KEY (admin_id) REFERENCES public.users (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID)",
 	);
 
 	console.log("Posts");
@@ -92,7 +92,7 @@ export const initiateTestDB = async () => {
 
 	console.log("Groups");
 	await testPool.query(
-		'CREATE TABLE IF NOT EXISTS public."group"(id uuid NOT NULL, admin_id uuid NOT NULL, name character varying(20) COLLATE pg_catalog."default" NOT NULL, profile_photo bytea, created_at timestamp with time zone NOT NULL, is_private boolean NOT NULL, description character varying(200) COLLATE pg_catalog."default" NOT NULL, CONSTRAINT "Group_pkey" PRIMARY KEY (id), CONSTRAINT admin_id_key FOREIGN KEY (admin_id) REFERENCES public.users (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID)',
+		'CREATE TABLE IF NOT EXISTS public."groups"(id uuid NOT NULL, admin_id uuid NOT NULL, name character varying(20) COLLATE pg_catalog."default" NOT NULL, profile_photo bytea, created_at timestamp with time zone NOT NULL, is_private boolean NOT NULL, description character varying(200) COLLATE pg_catalog."default" NOT NULL, CONSTRAINT "Group_pkey" PRIMARY KEY (id), CONSTRAINT admin_id_key FOREIGN KEY (admin_id) REFERENCES public.users (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID)',
 	);
 
 	console.log("Posts");
