@@ -4,6 +4,7 @@ export const testIds = {
 	user_id: "d6781b71-b08f-42d3-b87e-34b37909f42a",
 	post_id: "ab104f91-6ab9-449c-a5da-71b3064fdaa1",
 	group_id: "ab104f91-6ab9-449c-a5da-71b3064fdaa1",
+	like_id: "ab104f91-6ab9-449c-a5da-71b3064fdaa1",
 };
 export const userTestData = {
 	id: testIds.user_id,
@@ -38,4 +39,11 @@ export const groupTestData = {
 	created_at: new Date(),
 	is_private: true,
 	description: "hi, it' a group",
+};
+
+export const likeTestData = {
+	id: testIds.like_id,
+	user_id: testIds.user_id,
+	post_id: testIds.post_id,
+	created_at: new Date(),
 };
