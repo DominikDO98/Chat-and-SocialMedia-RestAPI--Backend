@@ -5,6 +5,7 @@ export const testIds = {
 	post_id: "ab104f91-6ab9-449c-a5da-71b3064fdaa1",
 	group_id: "ab104f91-6ab9-449c-a5da-71b3064fdaa1",
 	like_id: "ab104f91-6ab9-449c-a5da-71b3064fdaa1",
+	comment_id: "ab104f91-6ab9-449c-a5da-71b3064fdaa1",
 };
 export const userTestData = {
 	id: testIds.user_id,
@@ -45,5 +46,15 @@ export const likeTestData = {
 	id: testIds.like_id,
 	user_id: testIds.user_id,
 	post_id: testIds.post_id,
+	created_at: new Date(),
+};
+
+export const commentTestData = {
+	id: testIds.comment_id,
+	post_id: testIds.post_id,
+	user_id: testIds.user_id,
+	text: "some text",
+	picture: convertImg(),
+	attachment: "http://www.someurlorsomethingidk.com",
 	created_at: new Date(),
 };
