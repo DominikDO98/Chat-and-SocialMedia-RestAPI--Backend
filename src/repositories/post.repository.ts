@@ -13,8 +13,8 @@ export const createPostRepo = async (postCreationData: PostEntity): Promise<Post
 
 	return post;
 };
-export const editPostRepo = async (postEdtionData: PostEntity): Promise<PostEntity> => {
-	const { rows } = await pool.query("UPADTE posts SET title = $1, text = $2, picture = $3, attachment = $4, WHERE id = $5 AND user_id = $6 RETURNING id, user_id, group_id, title, text, picture, attachment, created_at, type", [postEdtionData.title, postEdtionData.text, postEdtionData.picture, postEdtionData.attachment, postEdtionData.id, postEdtionData.user_id]);
+export const editPostRepo = async (postEdtionData: Omit<PostEntity, "created_at" | "group_id">): Promise<PostEntity> => {
+	const { rows } = await pool.query("UPDATE posts SET title = $1, text = $2, picture = $3, attachment = $4 WHERE id = $5 AND user_id = $6 RETURNING id, user_id, group_id, title, text, picture, attachment, created_at, type", [postEdtionData.title, postEdtionData.text, postEdtionData.picture, postEdtionData.attachment, postEdtionData.id, postEdtionData.user_id]);
 	if (!rows[0]) {
 		throw new CustomError("Failed to edit post! Please try again later", 500);
 	}
