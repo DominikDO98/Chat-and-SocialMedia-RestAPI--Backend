@@ -59,8 +59,8 @@ export const addComment = async (commentData: CommentEntity): Promise<CommentEnt
 	return comment;
 };
 
-export const editCommentRepo = async (commentChanges: CommentEntity): Promise<CommentEntity> => {
-	const { rows } = await pool.query("UPDATE comments SET text = $1, picture = $2, attachment = $3 WHERE id = $4 AND user_id = $5, AND post_id = $6 RETURNING id, post_id, user_id, text, picture, attachment, created_at", [commentChanges.text, commentChanges.picture, commentChanges.attachment, commentChanges.id, commentChanges.user_id, commentChanges.post_id]);
+export const editCommentRepo = async (commentChanges: Omit<CommentEntity, "created_at">): Promise<CommentEntity> => {
+	const { rows } = await pool.query("UPDATE comments SET text = $1, picture = $2, attachment = $3 WHERE id = $4 AND user_id = $5 AND post_id = $6 RETURNING id, post_id, user_id, text, picture, attachment, created_at", [commentChanges.text, commentChanges.picture, commentChanges.attachment, commentChanges.id, commentChanges.user_id, commentChanges.post_id]);
 	if (!rows[0]) {
 		throw new CustomError("Unable to add comment", 500);
 	}

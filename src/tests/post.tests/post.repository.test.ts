@@ -1,6 +1,6 @@
 import { v4 as uuid } from "uuid";
-import { LikeEntity, PostEntity } from "../../entities/post.entity/post.types";
-import { createPostRepo, editPostRepo, giveLike } from "../../repositories/post.repository";
+import { CommentEntity, LikeEntity, PostEntity } from "../../entities/post.entity/post.types";
+import { addComment, createPostRepo, editCommentRepo, editPostRepo, giveLike } from "../../repositories/post.repository";
 import { likeTestData, testIds } from "../dataForTest";
 import { convertImg } from "../user.tests/testingAssets/readFile";
 describe("post.repository tests", () => {
@@ -41,13 +41,43 @@ describe("post.repository tests", () => {
 	describe("likes", () => {
 		test("giveLike", async () => {
 			const newLike: LikeEntity = {
-				id: testIds.like_id,
+				id: uuid(),
 				user_id: testIds.user_id,
 				post_id: testIds.post_id,
 				created_at: likeTestData.created_at,
 			};
 			const like = await giveLike(newLike);
 			expect(like).toStrictEqual(newLike);
+		});
+	});
+	describe("comments", () => {
+		test("addComment", async () => {
+			const newComment: CommentEntity = {
+				id: uuid(),
+				post_id: testIds.post_id,
+				user_id: testIds.user_id,
+				text: "textOfTheComment",
+				picture: convertImg(),
+				attachment: "http://www.someAttachment.com",
+				created_at: new Date(),
+			};
+			const comment = await addComment(newComment);
+			expect(comment).toStrictEqual(newComment);
+		});
+		test("editCommnet", async () => {
+			const dataChnages = {
+				id: testIds.comment_id,
+				post_id: testIds.post_id,
+				user_id: testIds.user_id,
+				text: "editedText",
+				picture: convertImg(),
+				attachment: "http://www.someNewUrl.com",
+			};
+			const editedComment = await editCommentRepo(dataChnages);
+			expect(editedComment).toStrictEqual({
+				created_at: expect.anything(),
+				...dataChnages,
+			});
 		});
 	});
 });
