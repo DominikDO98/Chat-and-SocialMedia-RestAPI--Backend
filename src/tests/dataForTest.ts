@@ -22,6 +22,7 @@ export const userTestData = {
 export const postTestData = {
 	id: testIds.post_id,
 	user_id: testIds.user_id,
+	group_id: testIds.group_id,
 	title: "posttitle",
 	text: "post text",
 	picture: convertImg(),
