@@ -39,7 +39,7 @@ describe("post.repository tests", () => {
 		});
 	});
 	describe("likes", () => {
-		test("giveLike", async () => {
+		test("giveLike save like data int DB", async () => {
 			const newLike: LikeEntity = {
 				id: uuid(),
 				user_id: testIds.user_id,
@@ -51,7 +51,7 @@ describe("post.repository tests", () => {
 		});
 	});
 	describe("comments", () => {
-		test("addComment", async () => {
+		test("addComment saves comment data into DB", async () => {
 			const newComment: CommentEntity = {
 				id: uuid(),
 				post_id: testIds.post_id,
@@ -64,7 +64,7 @@ describe("post.repository tests", () => {
 			const comment = await addComment(newComment);
 			expect(comment).toStrictEqual(newComment);
 		});
-		test("editCommnet", async () => {
+		test("editCommnet edits comment data in DB", async () => {
 			const dataChnages = {
 				id: testIds.comment_id,
 				post_id: testIds.post_id,
