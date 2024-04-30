@@ -9,7 +9,7 @@ export const GroupSchema = z.object({
 	created_at: z.date(),
 	is_private: z.boolean(),
 	description: z.string().min(3).max(200),
-	profile_photo: z.instanceof(Blob).optional(),
+	profile_photo: z.instanceof(Buffer).optional(),
 });
 
 export const groupFactory = (newGroup: Omit<GroupEntity, "id" | "created_at">): GroupEntity => {

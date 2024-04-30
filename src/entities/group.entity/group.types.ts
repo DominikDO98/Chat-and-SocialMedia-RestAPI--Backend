@@ -5,5 +5,5 @@ export type GroupEntity = {
 	created_at: Date;
 	is_private?: boolean;
 	description: string;
-	profile_photo?: Blob;
+	profile_photo?: Buffer;
 };
