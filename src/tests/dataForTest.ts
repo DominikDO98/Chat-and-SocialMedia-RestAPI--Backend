@@ -1,3 +1,6 @@
+import { GroupEntity } from "../entities/group.entity/group.types";
+import { CommentEntity, EventEntity, LikeEntity, PostEntity } from "../entities/post.entity/post.types";
+import { UserEntity } from "../entities/user.entity/user.types";
 import { convertImg } from "./user.tests/testingAssets/readFile";
 
 export const testIds = {
@@ -7,7 +10,7 @@ export const testIds = {
 	like_id: "ab104f91-6ab9-449c-a5da-71b3064fdaa1",
 	comment_id: "ab104f91-6ab9-449c-a5da-71b3064fdaa1",
 };
-export const userTestData = {
+export const userTestData: UserEntity = {
 	id: testIds.user_id,
 	username: "testname",
 	password: "testpass",
@@ -21,7 +24,7 @@ export const userTestData = {
 	description: "hi",
 	profile_photo: convertImg(),
 };
-export const postTestData = {
+export const postTestData: PostEntity = {
 	id: testIds.post_id,
 	user_id: testIds.user_id,
 	group_id: testIds.group_id,
@@ -32,7 +35,7 @@ export const postTestData = {
 	created_at: new Date("2024-04-25"),
 	type: 0,
 };
-export const groupTestData = {
+export const groupTestData: GroupEntity = {
 	id: testIds.group_id,
 	admin_id: testIds.user_id,
 	name: "nameOfTheTestGroup",
@@ -42,14 +45,14 @@ export const groupTestData = {
 	description: "hi, it' a group",
 };
 
-export const likeTestData = {
+export const likeTestData: LikeEntity = {
 	id: testIds.like_id,
 	user_id: testIds.user_id,
 	post_id: testIds.post_id,
 	created_at: new Date(),
 };
 
-export const commentTestData = {
+export const commentTestData: CommentEntity = {
 	id: testIds.comment_id,
 	post_id: testIds.post_id,
 	user_id: testIds.user_id,
@@ -57,4 +60,10 @@ export const commentTestData = {
 	picture: convertImg(),
 	attachment: "http://www.someurlorsomethingidk.com",
 	created_at: new Date(),
+};
+export const eventTestData: EventEntity = {
+	post_id: testIds.post_id,
+	date: new Date(),
+	lat: 11.111111,
+	lon: 11.111111,
 };
