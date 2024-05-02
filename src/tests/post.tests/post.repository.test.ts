@@ -1,6 +1,6 @@
 import { v4 as uuid } from "uuid";
-import { CommentEntity, LikeEntity, PostEntity } from "../../entities/post.entity/post.types";
-import { addComment, createPostRepo, editCommentRepo, editPostRepo, giveLike } from "../../repositories/post.repository";
+import { CommentEntity, EventEntity, LikeEntity, PostEntity } from "../../entities/post.entity/post.types";
+import { addComment, createEventRepo, createPostRepo, editCommentRepo, editPostRepo, giveLike } from "../../repositories/post.repository";
 import { likeTestData, testIds } from "../dataForTest";
 import { convertImg } from "../user.tests/testingAssets/readFile";
 describe("post.repository tests", () => {
@@ -78,6 +78,26 @@ describe("post.repository tests", () => {
 				created_at: expect.anything(),
 				...dataChnages,
 			});
+		});
+	});
+	describe("events", () => {
+		test("createEventRepo", async () => {
+			const newEvent: EventEntity = {
+				id: uuid(),
+				user_id: testIds.user_id,
+				group_id: testIds.group_id,
+				title: "EventForTests",
+				text: "descreption of the event",
+				picture: convertImg(),
+				attachment: "www.someUrl.com",
+				created_at: new Date(),
+				type: 1,
+				date: new Date(),
+				lat: 12.345678,
+				lon: 12.345678,
+			};
+			const result = await createEventRepo(newEvent);
+			expect(result).toStrictEqual(newEvent);
 		});
 	});
 });
