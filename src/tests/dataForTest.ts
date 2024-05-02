@@ -9,7 +9,9 @@ export const testIds = {
 	group_id: "ab104f91-6ab9-449c-a5da-71b3064fdaa1",
 	like_id: "ab104f91-6ab9-449c-a5da-71b3064fdaa1",
 	comment_id: "ab104f91-6ab9-449c-a5da-71b3064fdaa1",
+	event_id: "d6781b71-b08f-42d3-b87e-34b37909f42a",
 };
+
 export const userTestData: UserEntity = {
 	id: testIds.user_id,
 	username: "testname",
@@ -62,7 +64,15 @@ export const commentTestData: CommentEntity = {
 	created_at: new Date(),
 };
 export const eventTestData: EventEntity = {
-	post_id: testIds.post_id,
+	id: testIds.event_id,
+	user_id: testIds.user_id,
+	group_id: testIds.group_id,
+	title: "posttitle",
+	text: "post text",
+	picture: convertImg(),
+	attachment: "http://www.google.com",
+	created_at: new Date("2024-04-25"),
+	type: 0,
 	date: new Date(),
 	lat: 11.111111,
 	lon: 11.111111,
