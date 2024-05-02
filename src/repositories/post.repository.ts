@@ -1,4 +1,4 @@
-import { CommentEntity, LikeEntity, PostEntity } from "../entities/post.entity/post.types";
+import { CommentEntity, EventEntity, LikeEntity, PostEntity } from "../entities/post.entity/post.types";
 import { pool } from "../utils/db/db";
 import { CustomError } from "../utils/errors/errors";
 //posts
@@ -73,4 +73,27 @@ export const editCommentRepo = async (commentChanges: Omit<CommentEntity, "creat
 export const deleteCommentRepo = async (ids: Pick<CommentEntity, "id" | "user_id" | "post_id">): Promise<boolean> => {
 	await pool.query("DELETE FROM comments WHERE id = $1 AND user_id = $2 AND post_id = $3", [ids.id, ids.user_id, ids.post_id]);
 	return true;
+};
+
+//events
+//TODO: into transactions
+export const createEventRepo = async (eventData: EventEntity): Promise<false | EventEntity> => {
+	let result: EventEntity | false = false;
+	try {
+		await pool.query("BEGIN");
+		await pool.query("INSERT INTO posts (id, user_id, group_id, title, text, picture, attachment, created_at, type) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9);", [eventData.id, eventData.user_id, eventData.group_id, eventData.title, eventData.text, eventData.picture, eventData.attachment, eventData.created_at, eventData.type]);
+		await pool.query("INSERT INTO events (post_id, date, lat, lon) VALUES ($1, $2, $3, $4)", [eventData.id, eventData.date, eventData.lat, eventData.lon]);
+		await pool.query("COMMIT");
+		const { rows } = await pool.query("SELECT id, user_id, group_id, title, text, picture, attachment, created_at, type, date, lat, lon FROM posts FULL JOIN events ON posts.id = events.post_id WHERE id = $1 ", [eventData.id]);
+		result = {
+			...rows[0],
+			lat: Number(rows[0].lat),
+			lon: Number(rows[0].lon),
+		};
+		console.log(result);
+	} catch (err) {
+		console.log(err);
+		await pool.query("ROLLBACK");
+	}
+	return result;
 };
