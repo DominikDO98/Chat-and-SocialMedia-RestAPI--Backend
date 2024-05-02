@@ -27,8 +27,7 @@ export type LikeEntity = {
 	created_at: Date;
 };
 
-export type EventEntity = {
-	post_id: string;
+export type EventEntity = PostEntity & {
 	date: Date;
 	lat: number;
 	lon: number;
