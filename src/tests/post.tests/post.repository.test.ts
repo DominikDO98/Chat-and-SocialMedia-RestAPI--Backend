@@ -1,7 +1,7 @@
 import { v4 as uuid } from "uuid";
 import { CommentEntity, EventEntity, LikeEntity, PostEntity } from "../../entities/post.entity/post.types";
-import { addComment, createEventRepo, createPostRepo, editCommentRepo, editPostRepo, giveLike } from "../../repositories/post.repository";
-import { likeTestData, testIds } from "../dataForTest";
+import { addComment, createEventRepo, createPostRepo, editCommentRepo, editEventRepo, editPostRepo, giveLike } from "../../repositories/post.repository";
+import { eventTestData, likeTestData, testIds } from "../dataForTest";
 import { convertImg } from "../user.tests/testingAssets/readFile";
 describe("post.repository tests", () => {
 	describe("posts", () => {
@@ -90,7 +90,7 @@ describe("post.repository tests", () => {
 				text: "descreption of the event",
 				picture: convertImg(),
 				attachment: "www.someUrl.com",
-				created_at: new Date(),
+				created_at: eventTestData.created_at,
 				type: 1,
 				date: new Date(),
 				lat: 12.345678,
@@ -98,6 +98,24 @@ describe("post.repository tests", () => {
 			};
 			const result = await createEventRepo(newEvent);
 			expect(result).toStrictEqual(newEvent);
+		});
+		test("editEventRepo", async () => {
+			const dataChnages: EventEntity = {
+				id: testIds.event_id,
+				user_id: testIds.user_id,
+				group_id: testIds.group_id,
+				title: "SOME NEWTITLE",
+				text: "some text",
+				picture: convertImg(),
+				attachment: "http://www.someNewURL.com",
+				created_at: eventTestData.created_at,
+				type: 1,
+				date: new Date(),
+				lat: 12.121212,
+				lon: 12.121212,
+			};
+			const result = await editEventRepo(dataChnages);
+			expect(result).toStrictEqual(dataChnages);
 		});
 	});
 });
