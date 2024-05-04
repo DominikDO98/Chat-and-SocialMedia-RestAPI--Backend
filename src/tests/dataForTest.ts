@@ -72,7 +72,7 @@ export const eventTestData: EventEntity = {
 	picture: convertImg(),
 	attachment: "http://www.google.com",
 	created_at: new Date("2024-04-25"),
-	type: 0,
+	type: 1,
 	date: new Date(),
 	lat: 11.111111,
 	lon: 11.111111,
