@@ -91,7 +91,6 @@ export const createEventRepo = async (eventData: EventEntity): Promise<false | E
 			lat: Number(rows[0].lat),
 			lon: Number(rows[0].lon),
 		};
-		console.log(result);
 	} catch (err) {
 		console.log(err);
 		await pool.query("ROLLBACK;");
@@ -106,7 +105,7 @@ export const editEventRepo = async (eventData: EventEntity): Promise<EventEntity
 		await pool.query("UPDATE posts SET title = $1, text = $2, picture = $3, attachment = $4 WHERE id = $5 AND user_id = $6;", [eventData.title, eventData.text, eventData.picture, eventData.attachment, eventData.id, eventData.user_id]);
 		await pool.query("UPDATE events SET date = $1, lat = $2, lon = $3 FROM posts WHERE events.post_id = posts.id AND posts.user_id = $4 AND events.post_id = $5;", [eventData.date, eventData.lat, eventData.lon, eventData.user_id, eventData.id]);
 		await pool.query("COMMIT;");
-		const { rows } = await pool.query("SELECT  id, user_id, group_id, title, text, picture, attachment, created_at, type, date, lat, lon FROM posts FULL JOIN events ON posts.id = events.post_id WHERE id = $1;", [eventData.id]);
+		const { rows } = await pool.query("SELECT id, user_id, group_id, title, text, picture, attachment, created_at, type, date, lat, lon FROM posts FULL JOIN events ON posts.id = events.post_id WHERE id = $1; ", [eventData.id]);
 		result = {
 			...rows[0],
 			lat: Number(rows[0].lat),
