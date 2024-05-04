@@ -117,3 +117,7 @@ export const editEventRepo = async (eventData: EventEntity): Promise<EventEntity
 	}
 	return result;
 };
+
+export const joinEventRepo = async (user_id: string, event_id: string) => {
+	await pool.query("INSERT INTO user_events (user_id, event_id) VALUES ($1, $2);", [user_id, event_id]);
+};
