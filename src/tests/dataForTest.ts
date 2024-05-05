@@ -6,6 +6,7 @@ import { convertImg } from "./user.tests/testingAssets/readFile";
 export const testIds = {
 	user_id: "d6781b71-b08f-42d3-b87e-34b37909f42a",
 	post_id: "ab104f91-6ab9-449c-a5da-71b3064fdaa1",
+	post2_id: "9aa6ff40-9c77-4a8f-a925-dff3a0ca9a63",
 	group_id: "ab104f91-6ab9-449c-a5da-71b3064fdaa1",
 	like_id: "ab104f91-6ab9-449c-a5da-71b3064fdaa1",
 	comment_id: "ab104f91-6ab9-449c-a5da-71b3064fdaa1",
@@ -28,6 +29,17 @@ export const userTestData: UserEntity = {
 };
 export const postTestData: PostEntity = {
 	id: testIds.post_id,
+	user_id: testIds.user_id,
+	group_id: testIds.group_id,
+	title: "posttitle",
+	text: "post text",
+	picture: convertImg(),
+	attachment: "http://www.google.com",
+	created_at: new Date("2024-04-25"),
+	type: 0,
+};
+export const postTestData2: PostEntity = {
+	id: testIds.post2_id,
 	user_id: testIds.user_id,
 	group_id: testIds.group_id,
 	title: "posttitle",
