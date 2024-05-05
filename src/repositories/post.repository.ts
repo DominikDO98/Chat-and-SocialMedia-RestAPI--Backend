@@ -98,7 +98,6 @@ export const deleteCommentRepo = async (ids: Pick<CommentEntity, "id" | "user_id
 };
 
 //events
-//TODO: add client to all transacntion
 export const createEventRepo = async (eventData: EventEntity): Promise<false | EventEntity> => {
 	let result: EventEntity | false = false;
 	const client = await pool.connect();
