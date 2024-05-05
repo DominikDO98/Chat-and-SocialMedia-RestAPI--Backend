@@ -1,6 +1,6 @@
 import { v4 as uuid } from "uuid";
 import { CommentEntity, EventEntity, LikeEntity, PostEntity } from "../../entities/post.entity/post.types";
-import { addComment, createEventRepo, createPostRepo, editCommentRepo, editEventRepo, editPostRepo, giveLike } from "../../repositories/post.repository";
+import { addComment, createEventRepo, createPostRepo, editCommentRepo, editEventRepo, editPostRepo, giveLike, joinEventRepo } from "../../repositories/post.repository";
 import { eventTestData, likeTestData, testIds } from "../dataForTest";
 import { convertImg } from "../user.tests/testingAssets/readFile";
 describe("post.repository tests", () => {
@@ -116,6 +116,10 @@ describe("post.repository tests", () => {
 			};
 			const result = await editEventRepo(dataChnages);
 			expect(result).toStrictEqual(dataChnages);
+		});
+		test("joinEventRepo", async () => {
+			const result = await joinEventRepo(testIds.user_id, testIds.event_id);
+			expect(result).toStrictEqual(true);
 		});
 	});
 });
