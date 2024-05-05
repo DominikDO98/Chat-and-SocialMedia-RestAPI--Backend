@@ -1,7 +1,6 @@
 import { CommentEntity, EventEntity, LikeEntity, PostEntity } from "../entities/post.entity/post.types";
 import { pool } from "../utils/db/db";
 import { CustomError } from "../utils/errors/errors";
-//TODO: add client to all transactions
 //posts
 export const createPostRepo = async (postCreationData: PostEntity): Promise<PostEntity> => {
 	const { rows } = await pool.query("INSERT INTO posts (id, user_id, group_id, title, text, picture, attachment, created_at, type) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING id, user_id, group_id, title, text, picture, attachment, created_at, type", [postCreationData.id, postCreationData.user_id, postCreationData.group_id, postCreationData.title, postCreationData.text, postCreationData.picture, postCreationData.attachment, postCreationData.created_at, postCreationData.type]);
@@ -25,7 +24,6 @@ export const editPostRepo = async (postEdtionData: Omit<PostEntity, "created_at"
 
 	return post;
 };
-//@TODO: turn into transactions and delete like and comments also
 export const deletePostRepo = async (user_id: string, post_id: string): Promise<boolean> => {
 	let result: boolean = false;
 	const client = await pool.connect();
@@ -55,11 +53,15 @@ export const giveLike = async (likeData: LikeEntity): Promise<LikeEntity> => {
 	};
 	return like;
 };
-//@TODO: turn into transactions and delete like and comments also
 export const removeLike = async (likeData: Omit<LikeEntity, "created_at">) => {
-	await pool.query("DELETE FROM likes WHERE id = $1 AND user_id = $2 AND post_id = $3", [likeData.id, likeData.user_id, likeData.post_id]);
-
-	return true;
+	let result: boolean = false;
+	try {
+		await pool.query("DELETE FROM likes WHERE id = $1 AND user_id = $2 AND post_id = $3", [likeData.id, likeData.user_id, likeData.post_id]);
+		result = true;
+	} catch (err) {
+		console.log(err);
+	}
+	return result;
 };
 
 //comments
@@ -124,6 +126,8 @@ export const editEventRepo = async (eventData: EventEntity): Promise<EventEntity
 		await client.query("UPDATE events SET date = $1, lat = $2, lon = $3 FROM posts WHERE events.post_id = posts.id AND posts.user_id = $4 AND events.post_id = $5;", [eventData.date, eventData.lat, eventData.lon, eventData.user_id, eventData.id]);
 		await client.query("COMMIT;");
 		const { rows } = await pool.query("SELECT id, user_id, group_id, title, text, picture, attachment, created_at, type, date, lat, lon FROM posts FULL JOIN events ON posts.id = events.post_id WHERE id = $1; ", [eventData.id]);
+		console.log(rows[0]);
+
 		result = {
 			...rows[0],
 			lat: Number(rows[0].lat),
