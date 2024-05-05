@@ -1,6 +1,7 @@
 import { CommentEntity, EventEntity, LikeEntity, PostEntity } from "../entities/post.entity/post.types";
 import { pool } from "../utils/db/db";
 import { CustomError } from "../utils/errors/errors";
+
 //posts
 export const createPostRepo = async (postCreationData: PostEntity): Promise<PostEntity> => {
 	const { rows } = await pool.query("INSERT INTO posts (id, user_id, group_id, title, text, picture, attachment, created_at, type) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING id, user_id, group_id, title, text, picture, attachment, created_at, type", [postCreationData.id, postCreationData.user_id, postCreationData.group_id, postCreationData.title, postCreationData.text, postCreationData.picture, postCreationData.attachment, postCreationData.created_at, postCreationData.type]);
@@ -42,6 +43,7 @@ export const deletePostRepo = async (user_id: string, post_id: string): Promise<
 	}
 	return result;
 };
+
 //likes
 export const giveLike = async (likeData: LikeEntity): Promise<LikeEntity> => {
 	const { rows } = await pool.query("INSERT INTO likes (id, user_id, post_id, created_at) VALUES ($1, $2, $3, $4) RETURNING id, user_id, post_id, created_at", [likeData.id, likeData.user_id, likeData.post_id, likeData.created_at]);
