@@ -80,11 +80,12 @@ export const deleteCommentRepo = async (ids: Pick<CommentEntity, "id" | "user_id
 //TODO: add client to all transacntion
 export const createEventRepo = async (eventData: EventEntity): Promise<false | EventEntity> => {
 	let result: EventEntity | false = false;
+	const client = await pool.connect();
 	try {
-		await pool.query("BEGIN;");
-		await pool.query("INSERT INTO posts (id, user_id, group_id, title, text, picture, attachment, created_at, type) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9);", [eventData.id, eventData.user_id, eventData.group_id, eventData.title, eventData.text, eventData.picture, eventData.attachment, eventData.created_at, eventData.type]);
-		await pool.query("INSERT INTO events (post_id, date, lat, lon) VALUES ($1, $2, $3, $4);", [eventData.id, eventData.date, eventData.lat, eventData.lon]);
-		await pool.query("COMMIT;");
+		await client.query("BEGIN;");
+		await client.query("INSERT INTO posts (id, user_id, group_id, title, text, picture, attachment, created_at, type) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9);", [eventData.id, eventData.user_id, eventData.group_id, eventData.title, eventData.text, eventData.picture, eventData.attachment, eventData.created_at, eventData.type]);
+		await client.query("INSERT INTO events (post_id, date, lat, lon) VALUES ($1, $2, $3, $4);", [eventData.id, eventData.date, eventData.lat, eventData.lon]);
+		await client.query("COMMIT;");
 		const { rows } = await pool.query("SELECT id, user_id, group_id, title, text, picture, attachment, created_at, type, date, lat, lon FROM posts FULL JOIN events ON posts.id = events.post_id WHERE id = $1; ", [eventData.id]);
 		result = {
 			...rows[0],
@@ -93,18 +94,21 @@ export const createEventRepo = async (eventData: EventEntity): Promise<false | E
 		};
 	} catch (err) {
 		console.log(err);
-		await pool.query("ROLLBACK;");
+		await client.query("ROLLBACK;");
+	} finally {
+		client.release();
 	}
 	return result;
 };
 
 export const editEventRepo = async (eventData: EventEntity): Promise<EventEntity | false> => {
 	let result: EventEntity | false = false;
+	const client = await pool.connect();
 	try {
-		await pool.query("BEGIN;");
-		await pool.query("UPDATE posts SET title = $1, text = $2, picture = $3, attachment = $4 WHERE id = $5 AND user_id = $6;", [eventData.title, eventData.text, eventData.picture, eventData.attachment, eventData.id, eventData.user_id]);
-		await pool.query("UPDATE events SET date = $1, lat = $2, lon = $3 FROM posts WHERE events.post_id = posts.id AND posts.user_id = $4 AND events.post_id = $5;", [eventData.date, eventData.lat, eventData.lon, eventData.user_id, eventData.id]);
-		await pool.query("COMMIT;");
+		await client.query("BEGIN;");
+		await client.query("UPDATE posts SET title = $1, text = $2, picture = $3, attachment = $4 WHERE id = $5 AND user_id = $6;", [eventData.title, eventData.text, eventData.picture, eventData.attachment, eventData.id, eventData.user_id]);
+		await client.query("UPDATE events SET date = $1, lat = $2, lon = $3 FROM posts WHERE events.post_id = posts.id AND posts.user_id = $4 AND events.post_id = $5;", [eventData.date, eventData.lat, eventData.lon, eventData.user_id, eventData.id]);
+		await client.query("COMMIT;");
 		const { rows } = await pool.query("SELECT id, user_id, group_id, title, text, picture, attachment, created_at, type, date, lat, lon FROM posts FULL JOIN events ON posts.id = events.post_id WHERE id = $1; ", [eventData.id]);
 		result = {
 			...rows[0],
@@ -113,7 +117,9 @@ export const editEventRepo = async (eventData: EventEntity): Promise<EventEntity
 		};
 	} catch (err) {
 		console.log(err);
-		await pool.query("ROLLBACK;");
+		await client.query("ROLLBACK;");
+	} finally {
+		client.release();
 	}
 	return result;
 };
@@ -140,18 +146,21 @@ export const leaveEventRepo = async (user_id: string, event_id: string): Promise
 };
 export const deleteEventRepo = async (user_id: string, event_id: string): Promise<boolean> => {
 	let result: boolean = false;
+	const client = await pool.connect();
 	try {
-		await pool.query("BEGIN;");
-		await pool.query("DELETE FROM users_event WHERE user_id = $1 AND event_id = $2;", [user_id, event_id]);
-		await pool.query("DELETE FROM likes WHERE user_id = $1 AND post_id = $2;", [user_id, event_id]);
-		await pool.query("DELETE FROM comments WHERE user_id = $1 AND post_id = $2;", [user_id, event_id]);
-		await pool.query("DELETE FROM events USING posts WHERE events.post_id = posts.id AND posts.user_id =  $1 AND events.post_id = $2;", [user_id, event_id]);
-		await pool.query("DELETE FROM posts WHERE user_id = $1 AND id = $2;", [user_id, event_id]);
-		await pool.query("COMMIT;");
+		await client.query("BEGIN;");
+		await client.query("DELETE FROM users_event WHERE user_id = $1 AND event_id = $2;", [user_id, event_id]);
+		await client.query("DELETE FROM likes WHERE user_id = $1 AND post_id = $2;", [user_id, event_id]);
+		await client.query("DELETE FROM comments WHERE user_id = $1 AND post_id = $2;", [user_id, event_id]);
+		await client.query("DELETE FROM events USING posts WHERE events.post_id = posts.id AND posts.user_id =  $1 AND events.post_id = $2;", [user_id, event_id]);
+		await client.query("DELETE FROM posts WHERE user_id = $1 AND id = $2;", [user_id, event_id]);
+		await client.query("COMMIT;");
 		result = true;
 	} catch (err) {
 		console.log(err);
 		await pool.query("ROLLBACK;");
+	} finally {
+		client.release();
 	}
 	return result;
 };
