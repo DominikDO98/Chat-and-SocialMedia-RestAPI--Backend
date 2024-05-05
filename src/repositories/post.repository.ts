@@ -26,9 +26,23 @@ export const editPostRepo = async (postEdtionData: Omit<PostEntity, "created_at"
 	return post;
 };
 //@TODO: turn into transactions and delete like and comments also
-export const deletePostRepo = async (postDeletionData: Pick<PostEntity, "id" | "user_id">): Promise<boolean> => {
-	await pool.query("DELETE FROM posts WHERE id = $1 AND user_id = $2", [postDeletionData.id, postDeletionData.user_id]);
-	return true;
+export const deletePostRepo = async (user_id: string, post_id: string): Promise<boolean> => {
+	let result: boolean = false;
+	const client = await pool.connect();
+	try {
+		await client.query("BEGIN;");
+		await client.query("DELETE FROM likes WHERE post_id = $2", [post_id]);
+		await client.query("DELETE FROM comments WHERE post_id = $1", [post_id]);
+		await client.query("DELETE FROM posts WHERE user_id = $1 AND id = $2", [user_id, post_id]);
+		await client.query("COMMIT");
+		result = true;
+	} catch (err) {
+		console.log(err);
+		await client.query("ROLLBACK");
+	} finally {
+		client.release();
+	}
+	return result;
 };
 //likes
 export const giveLike = async (likeData: LikeEntity): Promise<LikeEntity> => {
@@ -150,8 +164,8 @@ export const deleteEventRepo = async (user_id: string, event_id: string): Promis
 	try {
 		await client.query("BEGIN;");
 		await client.query("DELETE FROM users_event WHERE user_id = $1 AND event_id = $2;", [user_id, event_id]);
-		await client.query("DELETE FROM likes WHERE user_id = $1 AND post_id = $2;", [user_id, event_id]);
-		await client.query("DELETE FROM comments WHERE user_id = $1 AND post_id = $2;", [user_id, event_id]);
+		await client.query("DELETE FROM likes WHERE post_id = $1;", [event_id]);
+		await client.query("DELETE FROM comments WHERE post_id = $1;", [event_id]);
 		await client.query("DELETE FROM events USING posts WHERE events.post_id = posts.id AND posts.user_id =  $1 AND events.post_id = $2;", [user_id, event_id]);
 		await client.query("DELETE FROM posts WHERE user_id = $1 AND id = $2;", [user_id, event_id]);
 		await client.query("COMMIT;");
