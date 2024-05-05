@@ -118,13 +118,26 @@ export const editEventRepo = async (eventData: EventEntity): Promise<EventEntity
 	return result;
 };
 
-export const joinEventRepo = async (user_id: string, event_id: string) => {
-	await pool.query("INSERT INTO user_events (user_id, event_id) VALUES ($1, $2);", [user_id, event_id]);
+export const joinEventRepo = async (user_id: string, event_id: string): Promise<boolean> => {
+	let result: boolean = false;
+	try {
+		await pool.query("INSERT INTO user_events (user_id, event_id) VALUES ($1, $2);", [user_id, event_id]);
+		result = true;
+	} catch (err) {
+		console.log(err);
+	}
+	return result;
 };
-export const leaveEventRepo = async (user_id: string, event_id: string) => {
-	await pool.query("DELETE FROM user_events WHERE user_id = $1 AND event_id = $2;", [user_id, event_id]);
+export const leaveEventRepo = async (user_id: string, event_id: string): Promise<boolean> => {
+	let result: boolean = false;
+	try {
+		await pool.query("DELETE FROM user_events WHERE user_id = $1 AND event_id = $2;", [user_id, event_id]);
+		result = true;
+	} catch (err) {
+		console.log(err);
+	}
+	return result;
 };
-//TODO: delete user_event, likes, comments
 export const deleteEventRepo = async (user_id: string, event_id: string): Promise<boolean> => {
 	let result: boolean = false;
 	try {
