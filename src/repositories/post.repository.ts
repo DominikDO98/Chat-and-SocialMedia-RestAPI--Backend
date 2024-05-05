@@ -86,10 +86,15 @@ export const editCommentRepo = async (commentChanges: Omit<CommentEntity, "creat
 	};
 	return comment;
 };
-//@TODO: turn into transactions and delete like and comments also
 export const deleteCommentRepo = async (ids: Pick<CommentEntity, "id" | "user_id" | "post_id">): Promise<boolean> => {
-	await pool.query("DELETE FROM comments WHERE id = $1 AND user_id = $2 AND post_id = $3", [ids.id, ids.user_id, ids.post_id]);
-	return true;
+	let result: boolean = false;
+	try {
+		await pool.query("DELETE FROM comments WHERE id = $1 AND user_id = $2 AND post_id = $3", [ids.id, ids.user_id, ids.post_id]);
+		result = true;
+	} catch (err) {
+		console.log(err);
+	}
+	return result;
 };
 
 //events
