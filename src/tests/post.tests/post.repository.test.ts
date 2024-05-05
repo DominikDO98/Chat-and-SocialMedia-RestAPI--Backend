@@ -1,6 +1,6 @@
 import { v4 as uuid } from "uuid";
 import { CommentEntity, EventEntity, LikeEntity, PostEntity } from "../../entities/post.entity/post.types";
-import { addComment, createEventRepo, createPostRepo, deleteEventRepo, editCommentRepo, editEventRepo, editPostRepo, giveLike, joinEventRepo, leaveEventRepo } from "../../repositories/post.repository";
+import { addComment, createEventRepo, createPostRepo, deleteEventRepo, deletePostRepo, editCommentRepo, editEventRepo, editPostRepo, giveLike, joinEventRepo, leaveEventRepo, removeLike } from "../../repositories/post.repository";
 import { eventTestData, likeTestData, testIds } from "../dataForTest";
 import { convertImg } from "../user.tests/testingAssets/readFile";
 describe("post.repository tests", () => {
@@ -37,6 +37,10 @@ describe("post.repository tests", () => {
 				...dataChnages,
 			});
 		});
+		test("deletePostRepo correctly removes postFrom DB and returns true", async () => {
+			const result = await deletePostRepo(testIds.user_id, testIds.post2_id);
+			expect(result).toStrictEqual(true);
+		});
 	});
 	describe("likes", () => {
 		test("giveLike save like data int DB", async () => {
@@ -48,6 +52,10 @@ describe("post.repository tests", () => {
 			};
 			const like = await giveLike(newLike);
 			expect(like).toStrictEqual(newLike);
+		});
+		test("removeLike deletes like from DB and returns true", async () => {
+			const result = await removeLike({ id: testIds.like_id, user_id: testIds.user_id, post_id: testIds.post_id });
+			expect(result).toStrictEqual(true);
 		});
 	});
 	describe("comments", () => {
@@ -81,7 +89,7 @@ describe("post.repository tests", () => {
 		});
 	});
 	describe("events", () => {
-		test("createEventRepo", async () => {
+		test("createEventRepo creates instanace of the event in DB", async () => {
 			const newEvent: EventEntity = {
 				id: uuid(),
 				user_id: testIds.user_id,
@@ -99,7 +107,7 @@ describe("post.repository tests", () => {
 			const result = await createEventRepo(newEvent);
 			expect(result).toStrictEqual(newEvent);
 		});
-		test("editEventRepo", async () => {
+		test("editEventRepo updates and returns data of the event", async () => {
 			const dataChnages: EventEntity = {
 				id: testIds.event_id,
 				user_id: testIds.user_id,
@@ -117,15 +125,15 @@ describe("post.repository tests", () => {
 			const result = await editEventRepo(dataChnages);
 			expect(result).toStrictEqual(dataChnages);
 		});
-		test("joinEventRepo", async () => {
+		test("joinEventRepo creates link between user and event post", async () => {
 			const result = await joinEventRepo(testIds.user_id, testIds.event_id);
 			expect(result).toStrictEqual(true);
 		});
-		test("leaveEventRepo", async () => {
+		test("leaveEventRepo removes link between user and event post", async () => {
 			const result = await leaveEventRepo(testIds.user_id, testIds.event_id);
 			expect(result).toStrictEqual(true);
 		});
-		test("deleteEventRepo", async () => {
+		test("deleteEventRepo deletes instnace of the event from DB and reutrn true", async () => {
 			const result = await deleteEventRepo(testIds.user_id, testIds.event_id);
 			expect(result).toStrictEqual(true);
 		});
