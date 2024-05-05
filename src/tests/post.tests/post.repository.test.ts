@@ -1,6 +1,6 @@
 import { v4 as uuid } from "uuid";
 import { CommentEntity, EventEntity, LikeEntity, PostEntity } from "../../entities/post.entity/post.types";
-import { addComment, createEventRepo, createPostRepo, deleteEventRepo, deletePostRepo, editCommentRepo, editEventRepo, editPostRepo, giveLike, joinEventRepo, leaveEventRepo, removeLike } from "../../repositories/post.repository";
+import { addComment, createEventRepo, createPostRepo, deleteCommentRepo, deleteEventRepo, deletePostRepo, editCommentRepo, editEventRepo, editPostRepo, giveLike, joinEventRepo, leaveEventRepo, removeLike } from "../../repositories/post.repository";
 import { eventTestData, likeTestData, testIds } from "../dataForTest";
 import { convertImg } from "../user.tests/testingAssets/readFile";
 describe("post.repository tests", () => {
@@ -86,6 +86,10 @@ describe("post.repository tests", () => {
 				created_at: expect.anything(),
 				...dataChnages,
 			});
+		});
+		test("deleteComment returns true and deletes comment data from DB", async () => {
+			const result = await deleteCommentRepo({ id: testIds.comment_id, user_id: testIds.user_id, post_id: testIds.post_id });
+			expect(result).toStrictEqual(true);
 		});
 	});
 	describe("events", () => {
