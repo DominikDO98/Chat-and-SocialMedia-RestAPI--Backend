@@ -44,6 +44,14 @@ export const deletePostRepo = async (user_id: string, post_id: string): Promise<
 	return result;
 };
 
+export const loadMyPostsRepo = async (user_id: string, limit: number, offset: number): Promise<PostEntity[]> => {
+	const { rows } = await pool.query(
+		"SELECT posts.id, posts.group_id, posts.title, posts.text, posts.picture, posts.attachment, posts.created_at, posts.type, (SELECT COUNT(id) FROM likes WHERE post_id = posts.id) AS likes, comments.id AS commentid, comments.text AS commenttext, comments.picture AS commentpicture, comments.attachment AS commentattachment, comments.created_at AS commentcreated_at FROM posts  FULL JOIN comments ON posts.id = comments.post_id WHERE posts.user_id = $1 ORDER BY posts.created_at DESC LIMIT $2 OFFSET $3",
+		[user_id, limit, offset],
+	);
+	return rows;
+};
+
 //likes
 export const giveLike = async (likeData: LikeEntity): Promise<LikeEntity> => {
 	const { rows } = await pool.query("INSERT INTO likes (id, user_id, post_id, created_at) VALUES ($1, $2, $3, $4) RETURNING id, user_id, post_id, created_at", [likeData.id, likeData.user_id, likeData.post_id, likeData.created_at]);
