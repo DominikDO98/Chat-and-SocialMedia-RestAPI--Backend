@@ -16,7 +16,7 @@ export const createPostService = async (postCreationData: Omit<PostEntity, "id" 
 	}
 	return result;
 };
-export const editPostServie = async (postEditionData: Omit<PostEntity, "created_at" | "group_id">): Promise<boolean> => {
+export const editPostService = async (postEditionData: Omit<PostEntity, "created_at" | "group_id">): Promise<boolean> => {
 	let result: boolean = false;
 	const editedPost = await editPostRepo(postEditionData);
 	if (!shallowEqual(editedPost, postEditionData)) {
@@ -24,5 +24,9 @@ export const editPostServie = async (postEditionData: Omit<PostEntity, "created_
 	} else {
 		result = true;
 	}
+	return result;
+};
+export const deletePostSerivice = async (user_id: string, post_id: string): Promise<boolean> => {
+	const result = deletePostRepo(user_id, post_id);
 	return result;
 };
