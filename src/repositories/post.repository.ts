@@ -107,6 +107,11 @@ export const deleteCommentRepo = async (ids: Pick<CommentEntity, "id" | "user_id
 	return result;
 };
 
+export const loadCommentsRepo = async (post_id: string, limit: string, offset: string): Promise<CommentEntity[]> => {
+	const { rows } = await pool.query("SELECT comments.id, text, picture, attachment, created_at, username FROM comments FULL JOIN users ON comments.user_id = users.id WHERE post_id = $1 LIMIT $2 OFFSET $3", [post_id, limit, offset]);
+	return rows;
+};
+
 //events
 export const createEventRepo = async (eventData: EventEntity): Promise<false | EventEntity> => {
 	let result: EventEntity | false = false;
