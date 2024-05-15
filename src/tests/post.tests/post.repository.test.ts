@@ -33,7 +33,6 @@ describe("post.repository tests", () => {
 			};
 			const editedPost = await editPostRepo(dataChnages);
 			expect(editedPost).toStrictEqual({
-				created_at: expect.anything(),
 				...dataChnages,
 			});
 		});
