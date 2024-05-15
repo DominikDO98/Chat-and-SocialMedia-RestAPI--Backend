@@ -38,6 +38,17 @@ export const postTestData: PostEntity = {
 	created_at: new Date("2024-04-25"),
 	type: 0,
 };
+
+export const postDataNoID: Omit<PostEntity, "id"> = {
+	user_id: testIds.user_id,
+	group_id: testIds.group_id,
+	title: "posttitle",
+	text: "post text",
+	picture: convertImg(),
+	attachment: "http://www.google.com",
+	created_at: new Date("2024-04-25"),
+	type: 0,
+};
 export const postTestData2: PostEntity = {
 	id: testIds.post2_id,
 	user_id: testIds.user_id,
