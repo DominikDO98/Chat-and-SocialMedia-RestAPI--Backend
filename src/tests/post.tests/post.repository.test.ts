@@ -1,6 +1,6 @@
 import { v4 as uuid } from "uuid";
 import { CommentEntity, EventEntity, LikeEntity, PostEntity } from "../../entities/post.entity/post.types";
-import { addComment, createEventRepo, createPostRepo, deleteCommentRepo, deleteEventRepo, deletePostRepo, editCommentRepo, editEventRepo, editPostRepo, giveLike, joinEventRepo, leaveEventRepo, removeLike } from "../../repositories/post.repository";
+import { addComment, createEventRepo, createPostRepo, deleteCommentRepo, deleteEventRepo, deletePostRepo, editCommentRepo, editEventRepo, editPostRepo, giveLike, joinEventRepo, leaveEventRepo, loadMyPostsRepo, removeLike } from "../../repositories/post.repository";
 import { eventTestData, likeTestData, testIds } from "../dataForTest";
 import { convertImg } from "../user.tests/testingAssets/readFile";
 describe("post.repository tests", () => {
@@ -39,6 +39,28 @@ describe("post.repository tests", () => {
 		test("deletePostRepo correctly removes postFrom DB and returns true", async () => {
 			const result = await deletePostRepo(testIds.user_id, testIds.post2_id);
 			expect(result).toStrictEqual(true);
+		});
+
+		test("loadMyPostRepo returns array of 10 posts with additonal data (comment and likes)", async () => {
+			const posts = await loadMyPostsRepo(testIds.user_id, 10, 0);
+			expect(posts.length).toStrictEqual(10);
+			expect(posts[0]).toStrictEqual({
+				id: expect.anything(),
+				group_id: expect.anything(),
+				title: expect.anything(),
+				text: expect.anything(),
+				picture: expect.anything(),
+				attachment: expect.anything(),
+				created_at: expect.anything(),
+				type: expect.anything(),
+				commentid: null,
+				commenttext: null,
+				commentcreated_at: null,
+				commentpicture: null,
+				commentattachment: null,
+				commentusername: null,
+				likes: expect.anything(),
+			});
 		});
 	});
 	describe("likes", () => {
