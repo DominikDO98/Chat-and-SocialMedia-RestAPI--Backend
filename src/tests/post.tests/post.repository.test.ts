@@ -42,7 +42,7 @@ describe("post.repository tests", () => {
 		});
 
 		test("loadMyPostRepo returns array of 10 posts with additonal data (comment and likes)", async () => {
-			const posts = await loadMyPostsRepo(testIds.user_id, 10, 0);
+			const posts = await loadMyPostsRepo(testIds.user_id, 0);
 			expect(posts.length).toStrictEqual(10);
 			expect(posts[0]).toStrictEqual({
 				id: expect.anything(),
