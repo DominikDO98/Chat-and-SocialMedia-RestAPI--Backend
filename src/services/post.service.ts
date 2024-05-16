@@ -1,6 +1,7 @@
+import { eventFactory } from "../entities/post.entity/event.entity";
 import { postFactory } from "../entities/post.entity/post.entity";
-import { CommentEntity, LikeEntity, PostEntity } from "../entities/post.entity/post.types";
-import { addCommentRepo, createPostRepo, deleteCommentRepo, deletePostRepo, editCommentRepo, editPostRepo, giveLikeRepo, loadCommentsRepo, loadMyPostsRepo, removeLikeRepo } from "../repositories/post.repository";
+import { CommentEntity, EventEntity, LikeEntity, PostEntity } from "../entities/post.entity/post.types";
+import { addCommentRepo, createEventRepo, createPostRepo, deleteCommentRepo, deletePostRepo, editCommentRepo, editPostRepo, giveLikeRepo, loadCommentsRepo, loadMyPostsRepo, removeLikeRepo } from "../repositories/post.repository";
 import { CustomError } from "../utils/errors/errors";
 import { shallowEqual } from "../utils/shallowEqual/shallowEqual";
 
@@ -83,4 +84,16 @@ export const deleteCommentService = async (ids: Pick<CommentEntity, "id" | "user
 export const loadCommentsService = async (post_id: string, offset: number): Promise<CommentEntity[]> => {
 	const comments = await loadCommentsRepo(post_id, offset);
 	return comments;
+};
+
+//events
+export const createEventService = async (postData: PostEntity, eventData: EventEntity): Promise<boolean> => {
+	let result: boolean = false;
+	const newPost = postFactory(postData);
+	const newEvent = eventFactory(eventData);
+	const eventReturnData = await createEventRepo(newPost, newEvent);
+	if (eventReturnData) {
+		result = true;
+	}
+	return result;
 };
