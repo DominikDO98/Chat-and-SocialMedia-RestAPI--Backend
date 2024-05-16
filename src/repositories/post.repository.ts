@@ -75,7 +75,7 @@ export const removeLikeRepo = async (likeData: Omit<LikeEntity, "created_at">) =
 };
 
 //comments
-export const addComment = async (commentData: CommentEntity): Promise<CommentEntity> => {
+export const addCommentRepo = async (commentData: CommentEntity): Promise<CommentEntity> => {
 	const { rows } = await pool.query("INSERT INTO comments (id, post_id, user_id, text, picture, attachment, created_at) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING id, post_id, user_id, text, picture, attachment, created_at", [commentData.id, commentData.post_id, commentData.user_id, commentData.text, commentData.picture, commentData.attachment, commentData.created_at]);
 	if (!rows[0]) {
 		throw new CustomError("Unable to add comment", 500);
