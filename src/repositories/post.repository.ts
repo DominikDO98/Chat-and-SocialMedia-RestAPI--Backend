@@ -53,7 +53,7 @@ export const loadMyPostsRepo = async (user_id: string, offset: number): Promise<
 };
 
 //likes
-export const giveLike = async (likeData: LikeEntity): Promise<LikeEntity> => {
+export const giveLikeRepo = async (likeData: LikeEntity): Promise<LikeEntity> => {
 	const { rows } = await pool.query("INSERT INTO likes (id, user_id, post_id, created_at) VALUES ($1, $2, $3, $4) RETURNING id, user_id, post_id, created_at", [likeData.id, likeData.user_id, likeData.post_id, likeData.created_at]);
 	if (!rows[0]) {
 		throw new CustomError("Unable to give like to this post", 500);
@@ -63,7 +63,7 @@ export const giveLike = async (likeData: LikeEntity): Promise<LikeEntity> => {
 	};
 	return like;
 };
-export const removeLike = async (likeData: Omit<LikeEntity, "created_at">) => {
+export const removeLikeRepo = async (likeData: Omit<LikeEntity, "created_at">) => {
 	let result: boolean = false;
 	try {
 		await pool.query("DELETE FROM likes WHERE id = $1 AND user_id = $2 AND post_id = $3", [likeData.id, likeData.user_id, likeData.post_id]);
