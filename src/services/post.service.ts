@@ -1,6 +1,6 @@
 import { postFactory } from "../entities/post.entity/post.entity";
 import { CommentEntity, LikeEntity, PostEntity } from "../entities/post.entity/post.types";
-import { createPostRepo, deletePostRepo, editPostRepo, giveLikeRepo, loadMyPostsRepo, removeLikeRepo } from "../repositories/post.repository";
+import { addCommentRepo, createPostRepo, deletePostRepo, editCommentRepo, editPostRepo, giveLikeRepo, loadMyPostsRepo, removeLikeRepo } from "../repositories/post.repository";
 import { CustomError } from "../utils/errors/errors";
 import { shallowEqual } from "../utils/shallowEqual/shallowEqual";
 
@@ -60,6 +60,17 @@ export const addCommentService = async (commentData: CommentEntity): Promise<boo
 		throw new CustomError("Unable to add comment", 500);
 	} else {
 		result = false;
+	}
+	return result;
+};
+
+export const editCommentService = async (commentChanges: Omit<CommentEntity, "created_at">): Promise<boolean> => {
+	let result: boolean = false;
+	const comment = await editCommentRepo(commentChanges);
+	if (!shallowEqual(comment, commentChanges)) {
+		throw new CustomError("Unable to edit comment, please try again later!", 500);
+	} else {
+		result = true;
 	}
 	return result;
 };
