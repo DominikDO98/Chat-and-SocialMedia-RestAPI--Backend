@@ -1,6 +1,6 @@
 import { v4 as uuid } from "uuid";
 import { CommentEntity, EventEntity, LikeEntity, PostEntity } from "../../entities/post.entity/post.types";
-import { addComment, createEventRepo, createPostRepo, deleteCommentRepo, deleteEventRepo, deletePostRepo, editCommentRepo, editEventRepo, editPostRepo, giveLike, joinEventRepo, leaveEventRepo, loadCommentsRepo, loadMyPostsRepo, removeLike } from "../../repositories/post.repository";
+import { addComment, createEventRepo, createPostRepo, deleteCommentRepo, deleteEventRepo, deletePostRepo, editCommentRepo, editEventRepo, editPostRepo, giveLikeRepo, joinEventRepo, leaveEventRepo, loadCommentsRepo, loadMyPostsRepo, removeLikeRepo } from "../../repositories/post.repository";
 import { eventTestData, likeTestData, testIds } from "../dataForTest";
 import { convertImg } from "../user.tests/testingAssets/readFile";
 describe("post.repository tests", () => {
@@ -71,11 +71,11 @@ describe("post.repository tests", () => {
 				post_id: testIds.post_id,
 				created_at: likeTestData.created_at,
 			};
-			const like = await giveLike(newLike);
+			const like = await giveLikeRepo(newLike);
 			expect(like).toStrictEqual(newLike);
 		});
 		test("removeLike deletes like from DB and returns true", async () => {
-			const result = await removeLike({ id: testIds.like_id, user_id: testIds.user_id, post_id: testIds.post_id });
+			const result = await removeLikeRepo({ id: testIds.like_id, user_id: testIds.user_id, post_id: testIds.post_id });
 			expect(result).toStrictEqual(true);
 		});
 	});
