@@ -31,8 +31,7 @@ export const deletePostSerivice = async (user_id: string, post_id: string): Prom
 	return result;
 };
 export const loadMyPostsService = async (user_id: string, offset: number): Promise<PostEntity[]> => {
-	const limit = offset + 10;
-	const userPosts = await loadMyPostsRepo(user_id, limit, offset);
+	const userPosts = await loadMyPostsRepo(user_id, offset);
 	return userPosts;
 };
 
