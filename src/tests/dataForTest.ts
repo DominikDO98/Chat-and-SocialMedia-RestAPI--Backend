@@ -1,5 +1,5 @@
 import { GroupEntity } from "../entities/group.entity/group.types";
-import { CommentEntity, LikeEntity, PostEntity } from "../entities/post.entity/post.types";
+import { CommentEntity, EventCreationEntity, LikeEntity, PostEntity } from "../entities/post.entity/post.types";
 import { UserEntity } from "../entities/user.entity/user.types";
 import { convertImg } from "./user.tests/testingAssets/readFile";
 

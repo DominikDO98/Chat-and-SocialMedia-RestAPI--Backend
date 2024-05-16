@@ -1,7 +1,7 @@
 import { eventFactory } from "../entities/post.entity/event.entity";
 import { postFactory } from "../entities/post.entity/post.entity";
 import { CommentEntity, EventEntity, LikeEntity, PostEntity } from "../entities/post.entity/post.types";
-import { addCommentRepo, createEventRepo, createPostRepo, deleteCommentRepo, deletePostRepo, editCommentRepo, editEventRepo, editPostRepo, giveLikeRepo, joinEventRepo, leaveEventRepo, loadCommentsRepo, loadMyPostsRepo, removeLikeRepo } from "../repositories/post.repository";
+import { addCommentRepo, createEventRepo, createPostRepo, deleteCommentRepo, deleteEventRepo, deletePostRepo, editCommentRepo, editEventRepo, editPostRepo, giveLikeRepo, joinEventRepo, leaveEventRepo, loadCommentsRepo, loadMyPostsRepo, removeLikeRepo } from "../repositories/post.repository";
 import { CustomError } from "../utils/errors/errors";
 import { shallowEqual } from "../utils/shallowEqual/shallowEqual";
 
