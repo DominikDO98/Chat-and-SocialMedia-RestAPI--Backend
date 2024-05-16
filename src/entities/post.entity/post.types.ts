@@ -33,3 +33,5 @@ export type EventEntity = {
 	lat: number;
 	lon: number;
 };
+
+export type EventDataEntity = PostEntity & Omit<EventEntity, "post_id">;

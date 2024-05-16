@@ -1,4 +1,4 @@
-import { CommentEntity, EventEntity, LikeEntity, PostEntity } from "../entities/post.entity/post.types";
+import { CommentEntity, EventDataEntity, EventEntity, LikeEntity, PostEntity } from "../entities/post.entity/post.types";
 import { pool } from "../utils/db/db";
 import { CustomError } from "../utils/errors/errors";
 
@@ -136,8 +136,8 @@ export const createEventRepo = async (postData: PostEntity, eventData: EventEnti
 	return result;
 };
 
-export const editEventRepo = async (postData: PostEntity, eventData: EventEntity): Promise<EventEntity | false> => {
-	let result: EventEntity | false = false;
+export const editEventRepo = async (postData: PostEntity, eventData: EventEntity): Promise<EventDataEntity | false> => {
+	let result: EventDataEntity | false = false;
 	const client = await pool.connect();
 	try {
 		await client.query("BEGIN;");
