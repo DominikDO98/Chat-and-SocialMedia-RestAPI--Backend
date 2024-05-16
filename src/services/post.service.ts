@@ -1,6 +1,6 @@
 import { postFactory } from "../entities/post.entity/post.entity";
 import { LikeEntity, PostEntity } from "../entities/post.entity/post.types";
-import { createPostRepo, deletePostRepo, editPostRepo, giveLikeRepo, loadMyPostsRepo } from "../repositories/post.repository";
+import { createPostRepo, deletePostRepo, editPostRepo, giveLikeRepo, loadMyPostsRepo, removeLikeRepo } from "../repositories/post.repository";
 import { CustomError } from "../utils/errors/errors";
 import { shallowEqual } from "../utils/shallowEqual/shallowEqual";
 
@@ -44,5 +44,10 @@ export const giveLikeService = async (likeData: LikeEntity): Promise<boolean> =>
 	} else {
 		result = true;
 	}
+	return result;
+};
+
+export const removeLikeService = async (likeData: Omit<LikeEntity, "created_at">) => {
+	const result = await removeLikeRepo(likeData);
 	return result;
 };
