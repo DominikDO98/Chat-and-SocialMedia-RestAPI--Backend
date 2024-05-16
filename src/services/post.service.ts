@@ -1,5 +1,5 @@
 import { postFactory } from "../entities/post.entity/post.entity";
-import { LikeEntity, PostEntity } from "../entities/post.entity/post.types";
+import { CommentEntity, LikeEntity, PostEntity } from "../entities/post.entity/post.types";
 import { createPostRepo, deletePostRepo, editPostRepo, giveLikeRepo, loadMyPostsRepo, removeLikeRepo } from "../repositories/post.repository";
 import { CustomError } from "../utils/errors/errors";
 import { shallowEqual } from "../utils/shallowEqual/shallowEqual";
@@ -47,7 +47,19 @@ export const giveLikeService = async (likeData: LikeEntity): Promise<boolean> =>
 	return result;
 };
 
-export const removeLikeService = async (likeData: Omit<LikeEntity, "created_at">) => {
+export const removeLikeService = async (likeData: Omit<LikeEntity, "created_at">): Promise<boolean> => {
 	const result = await removeLikeRepo(likeData);
+	return result;
+};
+
+//comments
+export const addCommentService = async (commentData: CommentEntity): Promise<boolean> => {
+	let result: boolean = false;
+	const comment = await addCommentRepo(commentData);
+	if (!shallowEqual(comment, commentData)) {
+		throw new CustomError("Unable to add comment", 500);
+	} else {
+		result = false;
+	}
 	return result;
 };
