@@ -86,6 +86,14 @@ export const commentTestData: CommentEntity = {
 	attachment: "http://www.someurlorsomethingidk.com",
 	created_at: new Date(),
 };
+export const commentDataNoID: Omit<CommentEntity, "id"> = {
+	post_id: testIds.post_id,
+	user_id: testIds.user_id,
+	text: "some text",
+	picture: convertImg(),
+	attachment: "http://www.someurlorsomethingidk.com",
+	created_at: new Date(),
+};
 export const eventTestData: EventEntity = {
 	id: testIds.event_id,
 	user_id: testIds.user_id,
