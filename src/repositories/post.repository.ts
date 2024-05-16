@@ -113,15 +113,15 @@ export const loadCommentsRepo = async (post_id: string, offset: number): Promise
 };
 
 //events
-export const createEventRepo = async (eventData: EventEntity): Promise<false | EventEntity> => {
+export const createEventRepo = async (postData: PostEntity, eventData: EventEntity): Promise<false | EventEntity> => {
 	let result: EventEntity | false = false;
 	const client = await pool.connect();
 	try {
 		await client.query("BEGIN;");
-		await client.query("INSERT INTO posts (id, user_id, group_id, title, text, picture, attachment, created_at, type) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9);", [eventData.id, eventData.user_id, eventData.group_id, eventData.title, eventData.text, eventData.picture, eventData.attachment, eventData.created_at, eventData.type]);
-		await client.query("INSERT INTO events (post_id, date, lat, lon) VALUES ($1, $2, $3, $4);", [eventData.id, eventData.date, eventData.lat, eventData.lon]);
+		await client.query("INSERT INTO posts (id, user_id, group_id, title, text, picture, attachment, created_at, type) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9);", [postData.id, postData.user_id, postData.group_id, postData.title, postData.text, postData.picture, postData.attachment, postData.created_at, postData.type]);
+		await client.query("INSERT INTO events (post_id, date, lat, lon) VALUES ($1, $2, $3, $4);", [eventData.post_id, eventData.date, eventData.lat, eventData.lon]);
 		await client.query("COMMIT;");
-		const { rows } = await pool.query("SELECT id, user_id, group_id, title, text, picture, attachment, created_at, type, date, lat, lon FROM posts FULL JOIN events ON posts.id = events.post_id WHERE id = $1; ", [eventData.id]);
+		const { rows } = await pool.query("SELECT id, user_id, group_id, title, text, picture, attachment, created_at, type, date, lat, lon FROM posts FULL JOIN events ON posts.id = events.post_id WHERE id = $1; ", [eventData.post_id]);
 		result = {
 			...rows[0],
 			lat: Number(rows[0].lat),
@@ -136,15 +136,15 @@ export const createEventRepo = async (eventData: EventEntity): Promise<false | E
 	return result;
 };
 
-export const editEventRepo = async (eventData: EventEntity): Promise<EventEntity | false> => {
+export const editEventRepo = async (postData: PostEntity, eventData: EventEntity): Promise<EventEntity | false> => {
 	let result: EventEntity | false = false;
 	const client = await pool.connect();
 	try {
 		await client.query("BEGIN;");
-		await client.query("UPDATE posts SET title = $1, text = $2, picture = $3, attachment = $4 WHERE id = $5 AND user_id = $6;", [eventData.title, eventData.text, eventData.picture, eventData.attachment, eventData.id, eventData.user_id]);
-		await client.query("UPDATE events SET date = $1, lat = $2, lon = $3 FROM posts WHERE events.post_id = posts.id AND posts.user_id = $4 AND events.post_id = $5;", [eventData.date, eventData.lat, eventData.lon, eventData.user_id, eventData.id]);
+		await client.query("UPDATE posts SET title = $1, text = $2, picture = $3, attachment = $4 WHERE id = $5 AND user_id = $6;", [postData.title, postData.text, postData.picture, postData.attachment, postData.id, postData.user_id]);
+		await client.query("UPDATE events SET date = $1, lat = $2, lon = $3 FROM posts WHERE events.post_id = posts.id AND posts.user_id = $4 AND events.post_id = $5;", [eventData.date, eventData.lat, eventData.lon, postData.user_id, eventData.post_id]);
 		await client.query("COMMIT;");
-		const { rows } = await pool.query("SELECT id, user_id, group_id, title, text, picture, attachment, created_at, type, date, lat, lon FROM posts FULL JOIN events ON posts.id = events.post_id WHERE id = $1; ", [eventData.id]);
+		const { rows } = await pool.query("SELECT id, user_id, group_id, title, text, picture, attachment, created_at, type, date, lat, lon FROM posts FULL JOIN events ON posts.id = events.post_id WHERE id = $1; ", [postData.id]);
 		result = {
 			...rows[0],
 			lat: Number(rows[0].lat),
