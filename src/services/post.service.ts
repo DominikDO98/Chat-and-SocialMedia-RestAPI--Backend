@@ -1,7 +1,7 @@
 import { eventFactory } from "../entities/post.entity/event.entity";
 import { postFactory } from "../entities/post.entity/post.entity";
 import { CommentEntity, EventEntity, LikeEntity, PostEntity } from "../entities/post.entity/post.types";
-import { addCommentRepo, createEventRepo, createPostRepo, deleteCommentRepo, deletePostRepo, editCommentRepo, editPostRepo, giveLikeRepo, loadCommentsRepo, loadMyPostsRepo, removeLikeRepo } from "../repositories/post.repository";
+import { addCommentRepo, createEventRepo, createPostRepo, deleteCommentRepo, deletePostRepo, editCommentRepo, editEventRepo, editPostRepo, giveLikeRepo, joinEventRepo, leaveEventRepo, loadCommentsRepo, loadMyPostsRepo, removeLikeRepo } from "../repositories/post.repository";
 import { CustomError } from "../utils/errors/errors";
 import { shallowEqual } from "../utils/shallowEqual/shallowEqual";
 
@@ -95,5 +95,24 @@ export const createEventService = async (postData: PostEntity, eventData: EventE
 	if (eventReturnData) {
 		result = true;
 	}
+	return result;
+};
+
+export const editEventService = async (postData: PostEntity, eventData: EventEntity): Promise<boolean> => {
+	let result: boolean = false;
+	const eventReturnData = await editEventRepo(postData, eventData);
+	if (eventReturnData) {
+		result = true;
+	}
+	return result;
+};
+
+export const joinEventService = async (user_id: string, event_id: string): Promise<boolean> => {
+	const result = await joinEventRepo(user_id, event_id);
+	return result;
+};
+
+export const leaveEventService = async (user_id: string, event_id: string): Promise<boolean> => {
+	const result = await leaveEventRepo(user_id, event_id);
 	return result;
 };
