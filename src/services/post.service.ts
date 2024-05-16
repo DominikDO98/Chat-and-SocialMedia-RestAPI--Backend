@@ -119,4 +119,5 @@ export const leaveEventService = async (user_id: string, event_id: string): Prom
 
 export const deleteEventService = async (user_id: string, event_id: string): Promise<boolean> => {
 	const result = await deleteEventRepo(user_id, event_id);
+	return result;
 };

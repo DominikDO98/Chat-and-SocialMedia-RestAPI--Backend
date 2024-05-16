@@ -34,4 +34,4 @@ export type EventEntity = {
 	lon: number;
 };
 
-export type EventDataEntity = PostEntity & Omit<EventEntity, "post_id">;
+export type EventCreationEntity = { post: PostEntity; event: EventEntity };

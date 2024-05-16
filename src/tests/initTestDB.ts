@@ -24,8 +24,8 @@ const insertDataForTests = async () => {
 	}
 
 	await testPool.query("BEGIN;");
-	await testPool.query("INSERT INTO posts (id, user_id, group_id, title, text, picture, attachment, created_at, type) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9);", [eventTestData.id, eventTestData.user_id, eventTestData.group_id, eventTestData.title, eventTestData.text, eventTestData.picture, eventTestData.attachment, eventTestData.created_at, eventTestData.type]);
-	await testPool.query("INSERT INTO events (post_id, date, lat, lon) VALUES ($1, $2, $3, $4);", [eventTestData.id, eventTestData.date, eventTestData.lat, eventTestData.lon]);
+	await testPool.query("INSERT INTO posts (id, user_id, group_id, title, text, picture, attachment, created_at, type) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9);", [eventTestData.post.id, eventTestData.post.user_id, eventTestData.post.group_id, eventTestData.post.title, eventTestData.post.text, eventTestData.post.picture, eventTestData.post.attachment, eventTestData.post.created_at, eventTestData.post.type]);
+	await testPool.query("INSERT INTO events (post_id, date, lat, lon) VALUES ($1, $2, $3, $4);", [eventTestData.event.post_id, eventTestData.event.date, eventTestData.event.lat, eventTestData.event.lon]);
 	await testPool.query("COMMIT");
 };
 (async () => {

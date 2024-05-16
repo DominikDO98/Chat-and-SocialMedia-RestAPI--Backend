@@ -1,5 +1,5 @@
 import { GroupEntity } from "../entities/group.entity/group.types";
-import { CommentEntity, EventEntity, LikeEntity, PostEntity } from "../entities/post.entity/post.types";
+import { CommentEntity, LikeEntity, PostEntity } from "../entities/post.entity/post.types";
 import { UserEntity } from "../entities/user.entity/user.types";
 import { convertImg } from "./user.tests/testingAssets/readFile";
 
@@ -94,17 +94,22 @@ export const commentDataNoID: Omit<CommentEntity, "id"> = {
 	attachment: "http://www.someurlorsomethingidk.com",
 	created_at: new Date(),
 };
-export const eventTestData: EventEntity = {
-	id: testIds.event_id,
-	user_id: testIds.user_id,
-	group_id: testIds.group_id,
-	title: "posttitle",
-	text: "post text",
-	picture: convertImg(),
-	attachment: "http://www.google.com",
-	created_at: new Date("2024-04-25"),
-	type: 1,
-	date: new Date(),
-	lat: 11.111111,
-	lon: 11.111111,
+export const eventTestData: EventCreationEntity = {
+	post: {
+		id: testIds.event_id,
+		user_id: testIds.user_id,
+		group_id: testIds.group_id,
+		title: "posttitle",
+		text: "post text",
+		picture: convertImg(),
+		attachment: "http://www.google.com",
+		created_at: new Date("2024-04-25"),
+		type: 1,
+	},
+	event: {
+		post_id: testIds.event_id,
+		date: new Date(),
+		lat: 11.111111,
+		lon: 11.111111,
+	},
 };

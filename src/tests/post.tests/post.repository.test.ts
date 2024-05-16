@@ -127,7 +127,7 @@ describe("post.repository tests", () => {
 	});
 	describe("events", () => {
 		test("createEventRepo creates instanace of the event in DB", async () => {
-			const newEvent: EventEntity = {
+			const newPost: PostEntity = {
 				id: uuid(),
 				user_id: testIds.user_id,
 				group_id: testIds.group_id,
@@ -135,17 +135,20 @@ describe("post.repository tests", () => {
 				text: "descreption of the event",
 				picture: convertImg(),
 				attachment: "www.someUrl.com",
-				created_at: eventTestData.created_at,
+				created_at: new Date(),
 				type: 1,
+			};
+			const newEvent: EventEntity = {
+				post_id: newPost.id,
 				date: new Date(),
 				lat: 12.345678,
 				lon: 12.345678,
 			};
-			const result = await createEventRepo(newEvent);
-			expect(result).toStrictEqual(newEvent);
+			const result = await createEventRepo(newPost, newEvent);
+			expect(result).toStrictEqual(true);
 		});
 		test("editEventRepo updates and returns data of the event", async () => {
-			const dataChnages: EventEntity = {
+			const postChnages: PostEntity = {
 				id: testIds.event_id,
 				user_id: testIds.user_id,
 				group_id: testIds.group_id,
@@ -153,14 +156,18 @@ describe("post.repository tests", () => {
 				text: "some text",
 				picture: convertImg(),
 				attachment: "http://www.someNewURL.com",
-				created_at: eventTestData.created_at,
+				created_at: eventTestData.post.created_at,
 				type: 1,
+			};
+			const eventChanges: EventEntity = {
+				post_id: testIds.event_id,
 				date: new Date(),
 				lat: 12.121212,
 				lon: 12.121212,
 			};
-			const result = await editEventRepo(dataChnages);
-			expect(result).toStrictEqual(dataChnages);
+			const result = await editEventRepo(postChnages, eventChanges);
+
+			expect(result).toStrictEqual(true);
 		});
 		test("joinEventRepo creates link between user and event post", async () => {
 			const result = await joinEventRepo(testIds.user_id, testIds.event_id);
