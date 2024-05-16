@@ -1,6 +1,6 @@
 import { postFactory } from "../entities/post.entity/post.entity";
-import { PostEntity } from "../entities/post.entity/post.types";
-import { createPostRepo, deletePostRepo, editPostRepo, loadMyPostsRepo } from "../repositories/post.repository";
+import { LikeEntity, PostEntity } from "../entities/post.entity/post.types";
+import { createPostRepo, deletePostRepo, editPostRepo, giveLikeRepo, loadMyPostsRepo } from "../repositories/post.repository";
 import { CustomError } from "../utils/errors/errors";
 import { shallowEqual } from "../utils/shallowEqual/shallowEqual";
 
@@ -26,7 +26,7 @@ export const editPostService = async (postEditionData: Omit<PostEntity, "created
 	}
 	return result;
 };
-export const deletePostSerivice = async (user_id: string, post_id: string): Promise<boolean> => {
+export const deletePostService = async (user_id: string, post_id: string): Promise<boolean> => {
 	const result = deletePostRepo(user_id, post_id);
 	return result;
 };
@@ -36,3 +36,13 @@ export const loadMyPostsService = async (user_id: string, offset: number): Promi
 };
 
 //likes
+export const giveLikeService = async (likeData: LikeEntity): Promise<boolean> => {
+	let result: boolean = false;
+	const like = await giveLikeRepo(likeData);
+	if (!shallowEqual(like, likeData)) {
+		throw new CustomError("Unable to govre like to this post", 500);
+	} else {
+		result = true;
+	}
+	return result;
+};
