@@ -1,6 +1,6 @@
 import { postFactory } from "../entities/post.entity/post.entity";
 import { CommentEntity, LikeEntity, PostEntity } from "../entities/post.entity/post.types";
-import { addCommentRepo, createPostRepo, deletePostRepo, editCommentRepo, editPostRepo, giveLikeRepo, loadMyPostsRepo, removeLikeRepo } from "../repositories/post.repository";
+import { addCommentRepo, createPostRepo, deleteCommentRepo, deletePostRepo, editCommentRepo, editPostRepo, giveLikeRepo, loadMyPostsRepo, removeLikeRepo } from "../repositories/post.repository";
 import { CustomError } from "../utils/errors/errors";
 import { shallowEqual } from "../utils/shallowEqual/shallowEqual";
 
@@ -72,5 +72,10 @@ export const editCommentService = async (commentChanges: Omit<CommentEntity, "cr
 	} else {
 		result = true;
 	}
+	return result;
+};
+
+export const deleteCommentService = async (ids: Pick<CommentEntity, "id" | "user_id" | "post_id">): Promise<boolean> => {
+	const result = await deleteCommentRepo(ids);
 	return result;
 };
