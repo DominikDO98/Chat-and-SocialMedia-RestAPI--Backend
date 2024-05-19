@@ -6,12 +6,12 @@ import { CommentEntity, EventEntity, LikeEntity, PostEntity } from "../entities/
 import { addCommentRepo, createEventRepo, createPostRepo, deleteCommentRepo, deleteEventRepo, deletePostRepo, editCommentRepo, editEventRepo, editPostRepo, giveLikeRepo, joinEventRepo, leaveEventRepo, loadCommentsRepo, loadMyPostsRepo, removeLikeRepo } from "../repositories/post.repository";
 
 //posts
-export const createPostService = async (postCreationData: Omit<PostEntity, "id" | "created_at">): Promise<void> => {
-	const newPost = postFactory(postCreationData);
+export const createPostService = async (postCreationData: Omit<PostEntity, "id" | "user_id" | "created_at">, user_id: string): Promise<void> => {
+	const newPost = postFactory(postCreationData, user_id);
 	await createPostRepo(newPost);
 };
-export const editPostService = async (postEditionData: Omit<PostEntity, "created_at">): Promise<void> => {
-	const editedPost = postFactory(postEditionData);
+export const editPostService = async (postEditionData: Omit<PostEntity, "user_id" | "created_at">, user_id: string): Promise<void> => {
+	const editedPost = postFactory(postEditionData, user_id);
 	await editPostRepo(editedPost);
 };
 export const deletePostService = async (user_id: string, post_id: string): Promise<void> => {
@@ -23,27 +23,32 @@ export const loadMyPostsService = async (user_id: string, offset: number): Promi
 };
 
 //likes
-export const giveLikeService = async (likeData: LikeEntity): Promise<void> => {
-	const newLike = likeFactory(likeData);
+export const giveLikeService = async (likeData: Omit<LikeEntity, "user_id">, user_id: string): Promise<void> => {
+	const newLike = likeFactory(likeData, user_id);
 	await giveLikeRepo(newLike);
 };
 
-export const removeLikeService = async (likeData: Omit<LikeEntity, "created_at">): Promise<void> => {
-	await removeLikeRepo(likeData);
+export const removeLikeService = async (likeData: Omit<LikeEntity, "user_id" | "created_at">, user_id: string): Promise<void> => {
+	const likeToDelete = likeFactory(likeData, user_id);
+	await removeLikeRepo(likeToDelete);
 };
 
 //comments
-export const addCommentService = async (commentData: CommentEntity): Promise<void> => {
-	const newComment = commentFactory(commentData);
+export const addCommentService = async (commentData: Omit<CommentEntity, "user_id">, user_id: string): Promise<void> => {
+	const newComment = commentFactory(commentData, user_id);
 	await addCommentRepo(newComment);
 };
 
-export const editCommentService = async (commentChanges: Omit<CommentEntity, "created_at">): Promise<void> => {
-	const editedComment = commentFactory(commentChanges);
+export const editCommentService = async (commentChanges: Omit<CommentEntity, "user_id" | "created_at">, user_id: string): Promise<void> => {
+	const editedComment = commentFactory(commentChanges, user_id);
 	await editCommentRepo(editedComment);
 };
 
-export const deleteCommentService = async (ids: Pick<CommentEntity, "id" | "user_id" | "post_id">): Promise<void> => {
+export const deleteCommentService = async (commentIds: Pick<CommentEntity, "id" | "post_id">, user_id: string): Promise<void> => {
+	const ids = {
+		...commentIds,
+		user_id: user_id,
+	};
 	await deleteCommentRepo(ids);
 };
 
@@ -53,14 +58,14 @@ export const loadCommentsService = async (post_id: string, offset: number): Prom
 };
 
 //events
-export const createEventService = async (postData: PostEntity, eventData: EventEntity): Promise<void> => {
-	const newPost = postFactory(postData);
+export const createEventService = async (postData: Omit<PostEntity, "user_id">, eventData: EventEntity, user_id: string): Promise<void> => {
+	const newPost = postFactory(postData, user_id);
 	const newEvent = eventFactory(eventData);
 	await createEventRepo(newPost, newEvent);
 };
 
-export const editEventService = async (postData: PostEntity, eventData: EventEntity): Promise<void> => {
-	const newPost = postFactory(postData);
+export const editEventService = async (postData: Omit<PostEntity, "user_id">, eventData: EventEntity, user_id: string): Promise<void> => {
+	const newPost = postFactory(postData, user_id);
 	const newEvent = eventFactory(eventData);
 	await editEventRepo(newPost, newEvent);
 };
