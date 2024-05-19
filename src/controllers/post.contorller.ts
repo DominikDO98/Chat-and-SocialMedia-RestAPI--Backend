@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { addCommentService, createEventService, createPostService, deleteCommentService, deleteEventService, deletePostService, editCommentService, editPostService, giveLikeService, joinEventService, leaveEventService, loadCommentsService, loadMyPostsService, removeLikeService } from "../services/post.service";
+import { addCommentService, createEventService, createPostService, deleteCommentService, deleteEventService, deletePostService, editCommentService, editEventService, editPostService, giveLikeService, joinEventService, leaveEventService, loadCommentsService, loadMyPostsService, removeLikeService } from "../services/post.service";
 
 //posts
 export const createPostController = async (req: Request, res: Response, next: NextFunction) => {
@@ -93,7 +93,7 @@ export const createEventController = async (req: Request, res: Response, next: N
 		next(err);
 	}
 };
-export const editEventService = async (req: Request, res: Response, next: NextFunction) => {
+export const editEventContorller = async (req: Request, res: Response, next: NextFunction) => {
 	try {
 		await editEventService(req.body.postData, req.body.eventData, req.body.id);
 		res.status(200).json({ success: true });
