@@ -6,30 +6,15 @@ import { CustomError } from "../utils/errors/errors";
 import { shallowEqual } from "../utils/shallowEqual/shallowEqual";
 
 //posts
-export const createPostService = async (postCreationData: Omit<PostEntity, "id" | "created_at">): Promise<boolean> => {
-	let result: boolean = false;
+export const createPostService = async (postCreationData: Omit<PostEntity, "id" | "created_at">): Promise<void> => {
 	const newPost = postFactory(postCreationData);
-	const newPostData = await createPostRepo(newPost);
-	if (!shallowEqual(newPostData, postCreationData)) {
-		throw new CustomError("Failed to upload the post", 500);
-	} else {
-		result = true;
-	}
-	return result;
+	await createPostRepo(newPost);
 };
-export const editPostService = async (postEditionData: Omit<PostEntity, "created_at">): Promise<boolean> => {
-	let result: boolean = false;
-	const editedPost = await editPostRepo(postEditionData);
-	if (!shallowEqual(editedPost, postEditionData)) {
-		throw new CustomError("Failed to edit the post", 500);
-	} else {
-		result = true;
-	}
-	return result;
+export const editPostService = async (postEditionData: Omit<PostEntity, "created_at">): Promise<void> => {
+	await editPostRepo(postEditionData);
 };
-export const deletePostService = async (user_id: string, post_id: string): Promise<boolean> => {
-	const result = deletePostRepo(user_id, post_id);
-	return result;
+export const deletePostService = async (user_id: string, post_id: string): Promise<void> => {
+	await deletePostRepo(user_id, post_id);
 };
 export const loadMyPostsService = async (user_id: string, offset: number): Promise<PostEntity[]> => {
 	const userPosts = await loadMyPostsRepo(user_id, offset);
@@ -37,48 +22,25 @@ export const loadMyPostsService = async (user_id: string, offset: number): Promi
 };
 
 //likes
-export const giveLikeService = async (likeData: LikeEntity): Promise<boolean> => {
-	let result: boolean = false;
-	const like = await giveLikeRepo(likeData);
-	if (!shallowEqual(like, likeData)) {
-		throw new CustomError("Unable to govre like to this post", 500);
-	} else {
-		result = true;
-	}
-	return result;
+export const giveLikeService = async (likeData: LikeEntity): Promise<void> => {
+	await giveLikeRepo(likeData);
 };
 
-export const removeLikeService = async (likeData: Omit<LikeEntity, "created_at">): Promise<boolean> => {
-	const result = await removeLikeRepo(likeData);
-	return result;
+export const removeLikeService = async (likeData: Omit<LikeEntity, "created_at">): Promise<void> => {
+	await removeLikeRepo(likeData);
 };
 
 //comments
-export const addCommentService = async (commentData: CommentEntity): Promise<boolean> => {
-	let result: boolean = false;
-	const comment = await addCommentRepo(commentData);
-	if (!shallowEqual(comment, commentData)) {
-		throw new CustomError("Unable to add comment", 500);
-	} else {
-		result = false;
-	}
-	return result;
+export const addCommentService = async (commentData: CommentEntity): Promise<void> => {
+	await addCommentRepo(commentData);
 };
 
-export const editCommentService = async (commentChanges: Omit<CommentEntity, "created_at">): Promise<boolean> => {
-	let result: boolean = false;
-	const comment = await editCommentRepo(commentChanges);
-	if (!shallowEqual(comment, commentChanges)) {
-		throw new CustomError("Unable to edit comment, please try again later!", 500);
-	} else {
-		result = true;
-	}
-	return result;
+export const editCommentService = async (commentChanges: Omit<CommentEntity, "created_at">): Promise<void> => {
+	await editCommentRepo(commentChanges);
 };
 
-export const deleteCommentService = async (ids: Pick<CommentEntity, "id" | "user_id" | "post_id">): Promise<boolean> => {
-	const result = await deleteCommentRepo(ids);
-	return result;
+export const deleteCommentService = async (ids: Pick<CommentEntity, "id" | "user_id" | "post_id">): Promise<void> => {
+	await deleteCommentRepo(ids);
 };
 
 export const loadCommentsService = async (post_id: string, offset: number): Promise<CommentEntity[]> => {
@@ -87,37 +49,24 @@ export const loadCommentsService = async (post_id: string, offset: number): Prom
 };
 
 //events
-export const createEventService = async (postData: PostEntity, eventData: EventEntity): Promise<boolean> => {
-	let result: boolean = false;
+export const createEventService = async (postData: PostEntity, eventData: EventEntity): Promise<void> => {
 	const newPost = postFactory(postData);
 	const newEvent = eventFactory(eventData);
-	const eventReturnData = await createEventRepo(newPost, newEvent);
-	if (eventReturnData) {
-		result = true;
-	}
-	return result;
+	await createEventRepo(newPost, newEvent);
 };
 
-export const editEventService = async (postData: PostEntity, eventData: EventEntity): Promise<boolean> => {
-	let result: boolean = false;
-	const eventReturnData = await editEventRepo(postData, eventData);
-	if (eventReturnData) {
-		result = true;
-	}
-	return result;
+export const editEventService = async (postData: PostEntity, eventData: EventEntity): Promise<void> => {
+	await editEventRepo(postData, eventData);
 };
 
-export const joinEventService = async (user_id: string, event_id: string): Promise<boolean> => {
-	const result = await joinEventRepo(user_id, event_id);
-	return result;
+export const joinEventService = async (user_id: string, event_id: string): Promise<void> => {
+	await joinEventRepo(user_id, event_id);
 };
 
-export const leaveEventService = async (user_id: string, event_id: string): Promise<boolean> => {
-	const result = await leaveEventRepo(user_id, event_id);
-	return result;
+export const leaveEventService = async (user_id: string, event_id: string): Promise<void> => {
+	await leaveEventRepo(user_id, event_id);
 };
 
-export const deleteEventService = async (user_id: string, event_id: string): Promise<boolean> => {
-	const result = await deleteEventRepo(user_id, event_id);
-	return result;
+export const deleteEventService = async (user_id: string, event_id: string): Promise<void> => {
+	await deleteEventRepo(user_id, event_id);
 };
