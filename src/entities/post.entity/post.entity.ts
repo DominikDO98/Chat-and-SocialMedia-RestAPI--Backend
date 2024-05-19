@@ -8,16 +8,16 @@ export const PostSchema = z.object({
 	group_id: z.string().uuid().optional(),
 	title: z.string().min(3).max(30),
 	text: z.string().min(3).max(200),
-	picture: z.instanceof(Blob).optional(),
+	picture: z.instanceof(Buffer).optional(),
 	attachment: z.string().min(3).max(200).optional(),
-	created_at: z.date(),
+	created_at: z.date().optional(),
 	type: z.number(),
 });
 
-export const postFactory = (newPost: Omit<PostEntity, "id" | "created_at">): PostEntity => {
+export const postFactory = (newPost: Omit<PostEntity, "id" | "user_id" | "created_at">, user_id: string): PostEntity => {
 	const post: PostEntity = {
 		id: uuid(),
-		user_id: newPost.user_id,
+		user_id: user_id,
 		group_id: newPost.group_id ? newPost.group_id : undefined,
 		title: newPost.title,
 		text: newPost.text,

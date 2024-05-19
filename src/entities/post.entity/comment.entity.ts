@@ -7,16 +7,16 @@ export const CommentSchema = z.object({
 	post_id: z.string().uuid(),
 	user_id: z.string().uuid(),
 	text: z.string().min(3).max(50),
-	created_at: z.date(),
-	picture: z.instanceof(Blob).optional(),
+	created_at: z.date().optional(),
+	picture: z.instanceof(Buffer).optional(),
 	attachment: z.string().min(3).max(200).optional(),
 });
 
-export const commentFactory = (newComment: Omit<CommentEntity, "id" | "created_at">): CommentEntity => {
+export const commentFactory = (newComment: Omit<CommentEntity, "id" | "user_id" | "created_at">, user_id: string): CommentEntity => {
 	const comment: CommentEntity = {
 		id: uuid(),
 		post_id: newComment.post_id,
-		user_id: newComment.user_id,
+		user_id: user_id,
 		text: newComment.text,
 		created_at: new Date(),
 		picture: newComment.picture ? newComment.picture : undefined,
