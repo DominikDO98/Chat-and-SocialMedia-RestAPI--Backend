@@ -1,9 +1,9 @@
+import { commentFactory } from "../entities/post.entity/comment.entity";
 import { eventFactory } from "../entities/post.entity/event.entity";
+import { likeFactory } from "../entities/post.entity/like.entity";
 import { postFactory } from "../entities/post.entity/post.entity";
 import { CommentEntity, EventEntity, LikeEntity, PostEntity } from "../entities/post.entity/post.types";
 import { addCommentRepo, createEventRepo, createPostRepo, deleteCommentRepo, deleteEventRepo, deletePostRepo, editCommentRepo, editEventRepo, editPostRepo, giveLikeRepo, joinEventRepo, leaveEventRepo, loadCommentsRepo, loadMyPostsRepo, removeLikeRepo } from "../repositories/post.repository";
-import { CustomError } from "../utils/errors/errors";
-import { shallowEqual } from "../utils/shallowEqual/shallowEqual";
 
 //posts
 export const createPostService = async (postCreationData: Omit<PostEntity, "id" | "created_at">): Promise<void> => {
@@ -11,7 +11,8 @@ export const createPostService = async (postCreationData: Omit<PostEntity, "id" 
 	await createPostRepo(newPost);
 };
 export const editPostService = async (postEditionData: Omit<PostEntity, "created_at">): Promise<void> => {
-	await editPostRepo(postEditionData);
+	const editedPost = postFactory(postEditionData);
+	await editPostRepo(editedPost);
 };
 export const deletePostService = async (user_id: string, post_id: string): Promise<void> => {
 	await deletePostRepo(user_id, post_id);
@@ -23,7 +24,8 @@ export const loadMyPostsService = async (user_id: string, offset: number): Promi
 
 //likes
 export const giveLikeService = async (likeData: LikeEntity): Promise<void> => {
-	await giveLikeRepo(likeData);
+	const newLike = likeFactory(likeData);
+	await giveLikeRepo(newLike);
 };
 
 export const removeLikeService = async (likeData: Omit<LikeEntity, "created_at">): Promise<void> => {
@@ -32,11 +34,13 @@ export const removeLikeService = async (likeData: Omit<LikeEntity, "created_at">
 
 //comments
 export const addCommentService = async (commentData: CommentEntity): Promise<void> => {
-	await addCommentRepo(commentData);
+	const newComment = commentFactory(commentData);
+	await addCommentRepo(newComment);
 };
 
 export const editCommentService = async (commentChanges: Omit<CommentEntity, "created_at">): Promise<void> => {
-	await editCommentRepo(commentChanges);
+	const editedComment = commentFactory(commentChanges);
+	await editCommentRepo(editedComment);
 };
 
 export const deleteCommentService = async (ids: Pick<CommentEntity, "id" | "user_id" | "post_id">): Promise<void> => {
@@ -56,7 +60,9 @@ export const createEventService = async (postData: PostEntity, eventData: EventE
 };
 
 export const editEventService = async (postData: PostEntity, eventData: EventEntity): Promise<void> => {
-	await editEventRepo(postData, eventData);
+	const newPost = postFactory(postData);
+	const newEvent = eventFactory(eventData);
+	await editEventRepo(newPost, newEvent);
 };
 
 export const joinEventService = async (user_id: string, event_id: string): Promise<void> => {
