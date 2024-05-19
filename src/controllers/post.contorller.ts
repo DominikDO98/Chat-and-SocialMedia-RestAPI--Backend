@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { createPostService, deletePostService, editPostService } from "../services/post.service";
+import { createPostService, deletePostService, editPostService, giveLikeService, loadMyPostsService, removeLikeService } from "../services/post.service";
 
 //posts
 export const createPostController = async (req: Request, res: Response, next: NextFunction) => {
@@ -21,6 +21,31 @@ export const editPostController = async (req: Request, res: Response, next: Next
 export const deletePostController = async (req: Request, res: Response, next: NextFunction) => {
 	try {
 		await deletePostService(req.body.id, req.body.post_id);
+		res.status(200).json({ success: true });
+	} catch (err) {
+		next(err);
+	}
+};
+export const loadMyPostsController = async (req: Request, res: Response, next: NextFunction) => {
+	try {
+		const userPosts = await loadMyPostsService(req.body.id, Number(req.params.offset));
+		res.status(200).json({ posts: userPosts });
+	} catch (err) {
+		next(err);
+	}
+};
+//likes
+export const giveLikeController = async (req: Request, res: Response, next: NextFunction) => {
+	try {
+		await giveLikeService(req.body.likeData, req.body.id);
+		res.status(200).json({ success: true });
+	} catch (err) {
+		next(err);
+	}
+};
+export const removeLikeController = async (req: Request, res: Response, next: NextFunction) => {
+	try {
+		await removeLikeService(req.body.likeData, req.body.id);
 		res.status(200).json({ success: true });
 	} catch (err) {
 		next(err);
