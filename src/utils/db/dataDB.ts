@@ -3,14 +3,26 @@ import { CommentEntity, EventCreationEntity, LikeEntity, PostEntity } from "../.
 import { UserEntity } from "../../entities/user.entity/user.types";
 import { convertImg } from "../../tests/user.tests/testingAssets/readFile";
 
-export const testIds = {
-	user_id: "d6781b71-b08f-42d3-b87e-34b37909f42a",
+export const DBIds = {
+	comment_id: "ab104f91-6ab9-449c-a5da-71b3064fdaa1",
+	comment2_id: "9aa6ff40-9c77-4a8f-a925-dff3a0ca9a63",
+	contact_id: "ab104f91-6ab9-449c-a5da-71b3064fdaa1",
+	contact2_id: "9aa6ff40-9c77-4a8f-a925-dff3a0ca9a63",
+	conversation_id: "ab104f91-6ab9-449c-a5da-71b3064fdaa1",
+	conversation2_id: "9aa6ff40-9c77-4a8f-a925-dff3a0ca9a63",
+	event_id: "d6781b71-b08f-42d3-b87e-34b37909f42a",
+	event2_id: "9aa6ff40-9c77-4a8f-a925-dff3a0ca9a63",
+	group_id: "ab104f91-6ab9-449c-a5da-71b3064fdaa1",
+	group2_id: "9aa6ff40-9c77-4a8f-a925-dff3a0ca9a63",
+	invitation_id: "d6781b71-b08f-42d3-b87e-34b37909f42a",
+	invitation2_id: "9aa6ff40-9c77-4a8f-a925-dff3a0ca9a63",
+	like_id: "ab104f91-6ab9-449c-a5da-71b3064fdaa1",
+	like2_id: "9aa6ff40-9c77-4a8f-a925-dff3a0ca9a63",
+	message_id: "d6781b71-b08f-42d3-b87e-34b37909f42a",
+	message2_id: "9aa6ff40-9c77-4a8f-a925-dff3a0ca9a63",
 	post_id: "ab104f91-6ab9-449c-a5da-71b3064fdaa1",
 	post2_id: "9aa6ff40-9c77-4a8f-a925-dff3a0ca9a63",
-	group_id: "ab104f91-6ab9-449c-a5da-71b3064fdaa1",
-	like_id: "ab104f91-6ab9-449c-a5da-71b3064fdaa1",
-	comment_id: "ab104f91-6ab9-449c-a5da-71b3064fdaa1",
-	event_id: "d6781b71-b08f-42d3-b87e-34b37909f42a",
+	user_id: "d6781b71-b08f-42d3-b87e-34b37909f42a",
 };
 
 export const userTestData: UserEntity = {
