@@ -1,7 +1,7 @@
-import { GroupEntity } from "../entities/group.entity/group.types";
-import { CommentEntity, EventCreationEntity, LikeEntity, PostEntity } from "../entities/post.entity/post.types";
-import { UserEntity } from "../entities/user.entity/user.types";
-import { convertImg } from "./user.tests/testingAssets/readFile";
+import { GroupEntity } from "../../entities/group.entity/group.types";
+import { CommentEntity, EventCreationEntity, LikeEntity, PostEntity } from "../../entities/post.entity/post.types";
+import { UserEntity } from "../../entities/user.entity/user.types";
+import { convertImg } from "../../tests/user.tests/testingAssets/readFile";
 
 export const testIds = {
 	user_id: "d6781b71-b08f-42d3-b87e-34b37909f42a",
