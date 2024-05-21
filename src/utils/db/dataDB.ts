@@ -11,8 +11,8 @@ export const DBIds = {
 	contact2_id: "9aa6ff40-9c77-4a8f-a925-dff3a0ca9a63",
 	conversation_id: "ab104f91-6ab9-449c-a5da-71b3064fdaa1",
 	conversation2_id: "9aa6ff40-9c77-4a8f-a925-dff3a0ca9a63",
-	event_id: "d6781b71-b08f-42d3-b87e-34b37909f42a",
-	event2_id: "9aa6ff40-9c77-4a8f-a925-dff3a0ca9a63",
+	event_id: "33fe4952-4c09-4fa5-a5d5-1718fa9513fa",
+	event2_id: "02e000d5-a0a8-479d-b20a-e0b1293897fd",
 	group_id: "ab104f91-6ab9-449c-a5da-71b3064fdaa1",
 	group2_id: "9aa6ff40-9c77-4a8f-a925-dff3a0ca9a63",
 	invitation_id: "d6781b71-b08f-42d3-b87e-34b37909f42a",
@@ -80,10 +80,10 @@ export const groupDBData2: GroupEntity = {
 	id: DBIds.group2_id,
 	admin_id: DBIds.user_id,
 	name: "groupName",
+	profile_photo: convertImg(),
 	created_at: new Date("2024-05-20"),
 	is_private: true,
 	description: "Some Radom users group",
-	profile_photo: convertImg(),
 };
 
 export const postDBData: PostEntity = {

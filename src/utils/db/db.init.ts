@@ -21,7 +21,7 @@ const initiateTables = async (client: PoolClient) => {
 
 	console.log("Posts");
 	await client.query(
-		'CREATE TABLE IF NOT EXISTS public.posts (id uuid NOT NULL, user_id uuid NOT NULL, group_id uuid, title character varying(30) COLLATE pg_catalog."default" NOT NULL, text character varying(200) COLLATE pg_catalog."default" NOT NULL, picture bytea, attachment character varying(200) COLLATE pg_catalog."default", created_at timestamp with time zone NOT NULL, type smallint NOT NULL, CONSTRAINT "Posts_pkey" PRIMARY KEY (id), CONSTRAINT group_id_key FOREIGN KEY (group_id) REFERENCES public."group" (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID, CONSTRAINT user_id_key FOREIGN KEY (user_id) REFERENCES public.users (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID)',
+		'CREATE TABLE IF NOT EXISTS public.posts (id uuid NOT NULL, user_id uuid NOT NULL, group_id uuid, title character varying(30) COLLATE pg_catalog."default" NOT NULL, text character varying(200) COLLATE pg_catalog."default" NOT NULL, picture bytea, attachment character varying(200) COLLATE pg_catalog."default", created_at timestamp with time zone NOT NULL, type smallint NOT NULL, CONSTRAINT "Posts_pkey" PRIMARY KEY (id), CONSTRAINT group_id_key FOREIGN KEY (group_id) REFERENCES public."groups" (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID, CONSTRAINT user_id_key FOREIGN KEY (user_id) REFERENCES public.users (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID)',
 	);
 
 	console.log("Comments table");
@@ -39,7 +39,7 @@ const initiateTables = async (client: PoolClient) => {
 	await client.query('CREATE TABLE IF NOT EXISTS public.invitations (id uuid NOT NULL, from_user_id uuid NOT NULL, to_user_id uuid NOT NULL,CONSTRAINT "Invitation_pkey" PRIMARY KEY (id), CONSTRAINT from_user_id_key FOREIGN KEY (from_user_id) REFERENCES public.users (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID, CONSTRAINT to_user_id_key FOREIGN KEY (to_user_id) REFERENCES public.users (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID)');
 
 	console.log("Contacts");
-	await client.query('CREATE TABLE IF NOT EXISTS public.contacts( id uuid NOT NULL, converstion_id uuid NOT NULL, CONSTRAINT "Contacts_pkey" PRIMARY KEY (id))');
+	await client.query('CREATE TABLE IF NOT EXISTS public.contacts( id uuid NOT NULL, conversation_id uuid NOT NULL, CONSTRAINT "Contacts_pkey" PRIMARY KEY (id))');
 
 	console.log("Conversations");
 	await client.query('CREATE TABLE IF NOT EXISTS public.conversations(id uuid NOT NULL, is_group boolean NOT NULL, name character varying(20) COLLATE pg_catalog."default", CONSTRAINT "Conversations_pkey" PRIMARY KEY (id))');
@@ -51,19 +51,19 @@ const initiateTables = async (client: PoolClient) => {
 
 	console.log("Notifications");
 	await client.query(
-		'CREATE TABLE IF NOT EXISTS public.notifications (id uuid NOT NULL, actor_id uuid NOT NULL, entity_id uuid NOT NULL, entity_type_id smallint NOT NULL, activity smallint NOT NULL, group_id uuid, CONSTRAINT "Notification_pkey" PRIMARY KEY (id), CONSTRAINT actor_id_key FOREIGN KEY (actor_id) REFERENCES public.users (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION, CONSTRAINT entitiy_id_event FOREIGN KEY (entity_id) REFERENCES public.events (post_id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION, CONSTRAINT entity_id_invitation FOREIGN KEY (entity_id) REFERENCES public.invitation (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION, CONSTRAINT entity_id_post FOREIGN KEY (entity_id) REFERENCES public.posts (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION)',
+		'CREATE TABLE IF NOT EXISTS public.notifications (id uuid NOT NULL, actor_id uuid NOT NULL, entity_id uuid NOT NULL, entity_type_id smallint NOT NULL, activity smallint NOT NULL, group_id uuid, CONSTRAINT "Notification_pkey" PRIMARY KEY (id), CONSTRAINT actor_id_key FOREIGN KEY (actor_id) REFERENCES public.users (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION, CONSTRAINT entitiy_id_event FOREIGN KEY (entity_id) REFERENCES public.events (post_id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION, CONSTRAINT entity_id_invitation FOREIGN KEY (entity_id) REFERENCES public.invitations (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION, CONSTRAINT entity_id_post FOREIGN KEY (entity_id) REFERENCES public.posts (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION)',
 	);
 
 	console.log("Referance tables");
 
 	console.log("groups-notifications");
-	await client.query('CREATE TABLE IF NOT EXISTS public.groups_notifications (group_id uuid NOT NULL, notification_id uuid NOT NULL, CONSTRAINT group_id_key FOREIGN KEY (group_id) REFERENCES public."groups" (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID, CONSTRAINT notification_id_key FOREIGN KEY (notification_id) REFERENCES public.notification (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID)');
+	await client.query('CREATE TABLE IF NOT EXISTS public.groups_notifications (group_id uuid NOT NULL, notification_id uuid NOT NULL, CONSTRAINT group_id_key FOREIGN KEY (group_id) REFERENCES public."groups" (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID, CONSTRAINT notification_id_key FOREIGN KEY (notification_id) REFERENCES public.notifications (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID)');
 
 	console.log("users_contacts");
 	await client.query("CREATE TABLE IF NOT EXISTS public.users_contacts (user_id uuid NOT NULL, contacts_id uuid NOT NULL, CONSTRAINT contacts_to_users_key FOREIGN KEY (contacts_id) REFERENCES public.contacts (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID,CONSTRAINT users_to_contacts_key FOREIGN KEY (user_id) REFERENCES public.users (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID)");
 
-	console.log("users_converstions");
-	await client.query("CREATE TABLE IF NOT EXISTS public.users_converstions (user_id uuid, conversation_id uuid, CONSTRAINT converstion_to_user_key FOREIGN KEY (conversation_id) REFERENCES public.conversations (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID, CONSTRAINT user_to_conversation_key FOREIGN KEY (user_id) REFERENCES public.users (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID)");
+	console.log("users_conversations");
+	await client.query("CREATE TABLE IF NOT EXISTS public.users_conversations (user_id uuid, conversation_id uuid, CONSTRAINT converstion_to_user_key FOREIGN KEY (conversation_id) REFERENCES public.conversations (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID, CONSTRAINT user_to_conversation_key FOREIGN KEY (user_id) REFERENCES public.users (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID)");
 
 	console.log("users_events");
 	await client.query("CREATE TABLE IF NOT EXISTS public.users_events (user_id uuid NOT NULL, event_id uuid NOT NULL, CONSTRAINT event_id_key FOREIGN KEY (event_id) REFERENCES public.events (post_id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID, CONSTRAINT user_id_key FOREIGN KEY (user_id) REFERENCES public.users (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID)");
@@ -72,7 +72,7 @@ const initiateTables = async (client: PoolClient) => {
 	await client.query('CREATE TABLE IF NOT EXISTS public.users_groups (user_id uuid NOT NULL, group_id uuid NOT NULL, role smallint NOT NULL,CONSTRAINT group_id_key FOREIGN KEY (group_id) REFERENCES public."groups" (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID,CONSTRAINT user_id_key FOREIGN KEY (user_id) REFERENCES public.users (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID)');
 
 	console.log("users_notifications");
-	await client.query("CREATE TABLE IF NOT EXISTS public.users_notification (notification_id uuid NOT NULL, user_id uuid NOT NULL, in_unread boolean NOT NULL, CONSTRAINT notification_id_key FOREIGN KEY (notification_id) REFERENCES public.notification (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION, CONSTRAINT user_id_key FOREIGN KEY (user_id) REFERENCES public.users (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION)");
+	await client.query("CREATE TABLE IF NOT EXISTS public.users_notification (notification_id uuid NOT NULL, user_id uuid NOT NULL, in_unread boolean NOT NULL, CONSTRAINT notification_id_key FOREIGN KEY (notification_id) REFERENCES public.notifications (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION, CONSTRAINT user_id_key FOREIGN KEY (user_id) REFERENCES public.users (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION)");
 
 	console.log("Tables created");
 };
@@ -122,7 +122,7 @@ const insertDataToDB = async (client: PoolClient) => {
 	await client.query(query, [...Object.values(contactDBData)]);
 	await client.query(query, [...Object.values(contact2DBData)]);
 
-	query = "INSERT INTO messages (id, convesation_id, text, created_at, send_by, is_delivered, picture, attachment) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)";
+	query = "INSERT INTO messages (id, conversation_id, text, created_at, send_by, is_delivered, picture, attachment) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)";
 	await client.query(query, [...Object.values(messageDBData)]);
 	await client.query(query, [...Object.values(message2DBData)]);
 	for (let i = 0; i < 9; i++) {
@@ -132,7 +132,7 @@ const insertDataToDB = async (client: PoolClient) => {
 	await client.query(query, [userDBData.id, contactDBData.id]);
 	await client.query(query, [user2DBData.id, contactDBData.id]);
 
-	query = "INSERT INTO users_conversations (user_id, convesation_id) VALUES ($1, $2)";
+	query = "INSERT INTO users_conversations (user_id, conversation_id) VALUES ($1, $2)";
 	await client.query(query, [userDBData.id, conversationDBData.id]);
 	await client.query(query, [user2DBData.id, conversationDBData.id]);
 
@@ -140,7 +140,7 @@ const insertDataToDB = async (client: PoolClient) => {
 	await client.query(query, [user2DBData.id, eventDBData.post.id]);
 	await client.query(query, [user3DBData.id, eventDBData.post.id]);
 
-	query = "INSER INTO users_groups (user_id, group_id, role) VALUES ($1, $2, 0)";
+	query = "INSERT INTO users_groups (user_id, group_id, role) VALUES ($1, $2, 0)";
 	await client.query(query, [user2DBData.id, groupDBData.id]);
 	await client.query(query, [user3DBData.id, groupDBData.id]);
 
@@ -149,12 +149,12 @@ const insertDataToDB = async (client: PoolClient) => {
 
 (async () => {
 	if (process.argv[2] === "dev") {
+		console.log("Initialize Dev Database...");
+		await initPool.query('DROP DATABASE IF EXISTS "devSuperChat"');
+		await initPool.query('CREATE DATABASE "devSuperChat" WITH OWNER = postgres ENCODING = "UTF8" TABLESPACE = pg_default CONNECTION LIMIT = -1 IS_TEMPLATE = False;');
+		console.log("Database created");
 		const client = await devPool.connect();
 		try {
-			console.log("Initialize Dev Database...");
-			await initPool.query('DROP DATABASE IF EXISTS "devSuperChat"');
-			await initPool.query('CREATE DATABASE "devSuperChat" WITH OWNER = postgres ENCODING = "UTF8" TABLESPACE = pg_default CONNECTION LIMIT = -1 IS_TEMPLATE = False;');
-			console.log("Database created");
 			await client.query("BEGIN;");
 			await initiateTables(client);
 			await insertDataToDB(client);
@@ -166,12 +166,12 @@ const insertDataToDB = async (client: PoolClient) => {
 			client.release();
 		}
 	} else if (process.argv[2] === "test") {
+		console.log("Initialize Test Database...");
+		await initPool.query('DROP DATABASE IF EXISTS "testSuperChat"');
+		await initPool.query('CREATE DATABASE "testSuperChat" WITH OWNER = postgres ENCODING = "UTF8" TABLESPACE = pg_default CONNECTION LIMIT = -1 IS_TEMPLATE = False;');
+		console.log("Database created");
 		const client = await testPool.connect();
 		try {
-			console.log("Initialize Test Database...");
-			await initPool.query('DROP DATABASE IF EXISTS "testSuperChat"');
-			await initPool.query('CREATE DATABASE "testSuperChat" WITH OWNER = postgres ENCODING = "UTF8" TABLESPACE = pg_default CONNECTION LIMIT = -1 IS_TEMPLATE = False;');
-			console.log("Database created");
 			await client.query("BEGIN;");
 			await initiateTables(client);
 			await insertDataToDB(client);
