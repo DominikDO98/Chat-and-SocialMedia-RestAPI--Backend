@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response, Router } from "express";
-import { addCommentController, createEventController, createPostController, deleteCommentController, deleteEventController, deletePostController, editCommentContorller, editEventContorller, giveLikeController, joinEventController, leaveEventController, loadCommentsController, loadMyPostsController, removeLikeController } from "../controllers/post.contorller";
+import { addCommentController, createEventController, createPostController, deleteCommentController, deleteEventController, deletePostController, editCommentContorller, editEventContorller, editPostController, giveLikeController, joinEventController, leaveEventController, loadCommentsController, loadMyPostsController, removeLikeController } from "../controllers/post.contorller";
 import { CommentCreationSchema, CommentEditionSchema } from "../entities/post.entity/comment.entity";
 import { EventSchema } from "../entities/post.entity/event.entity";
 import { LikeCreationSchema } from "../entities/post.entity/like.entity";
@@ -24,7 +24,7 @@ PostRouter
 	.patch("/editPost", async (req: Request, res: Response, next: NextFunction) => {
 		validateReq(req, ["postData", "id"]);
 		PostEditonSchema.parse(req.body.postData);
-		await createPostController(req, res, next);
+		await editPostController(req, res, next);
 	})
 	.delete("/deletePost", async (req:Request, res: Response, next: NextFunction) => {
 		validateReq(req, ["id", "post_id"]);
