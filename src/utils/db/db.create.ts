@@ -40,13 +40,13 @@ export const initiateDevDB = async () => {
 	console.log("Events");
 	await devPool.query("CREATE TABLE IF NOT EXISTS public.events (post_id uuid NOT NULL, date timestamp with time zone NOT NULL, lat numeric(8,6) NOT NULL, lon numeric(9,6) NOT NULL, CONSTRAINT \"Events_pkey\" PRIMARY KEY (post_id), CONSTRAINT post_id_key FOREIGN KEY (post_id) REFERENCES public.posts (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID)");
 
-	console.log("Invitation");
-	await devPool.query("CREATE TABLE IF NOT EXISTS public.invitation (id uuid NOT NULL, from_user_id uuid NOT NULL, to_user_id uuid NOT NULL,CONSTRAINT \"Invitation_pkey\" PRIMARY KEY (id), CONSTRAINT from_user_id_key FOREIGN KEY (from_user_id) REFERENCES public.users (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID, CONSTRAINT to_user_id_key FOREIGN KEY (to_user_id) REFERENCES public.users (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID)");
+	console.log("Invitations");
+	await devPool.query("CREATE TABLE IF NOT EXISTS public.invitations (id uuid NOT NULL, from_user_id uuid NOT NULL, to_user_id uuid NOT NULL,CONSTRAINT \"Invitation_pkey\" PRIMARY KEY (id), CONSTRAINT from_user_id_key FOREIGN KEY (from_user_id) REFERENCES public.users (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID, CONSTRAINT to_user_id_key FOREIGN KEY (to_user_id) REFERENCES public.users (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID)");
 
 	console.log("Contacts");
 	await devPool.query("CREATE TABLE IF NOT EXISTS public.contacts( id uuid NOT NULL, converstion_id uuid NOT NULL, CONSTRAINT \"Contacts_pkey\" PRIMARY KEY (id))");
 
-	console.log("Conversation");
+	console.log("Conversations");
 	await devPool.query("CREATE TABLE IF NOT EXISTS public.conversations(id uuid NOT NULL, is_group boolean NOT NULL, name character varying(20) COLLATE pg_catalog.\"default\", CONSTRAINT \"Conversations_pkey\" PRIMARY KEY (id))");
 
 	console.log("Messages");
@@ -56,7 +56,7 @@ export const initiateDevDB = async () => {
 
 	console.log("Notifications");
 	await devPool.query(
-		"CREATE TABLE IF NOT EXISTS public.notification (id uuid NOT NULL, actor_id uuid NOT NULL, entity_id uuid NOT NULL, entity_type_id smallint NOT NULL, activity smallint NOT NULL, group_id uuid, CONSTRAINT \"Notification_pkey\" PRIMARY KEY (id), CONSTRAINT actor_id_key FOREIGN KEY (actor_id) REFERENCES public.users (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION, CONSTRAINT entitiy_id_event FOREIGN KEY (entity_id) REFERENCES public.events (post_id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION, CONSTRAINT entity_id_invitation FOREIGN KEY (entity_id) REFERENCES public.invitation (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION, CONSTRAINT entity_id_post FOREIGN KEY (entity_id) REFERENCES public.posts (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION)",
+		"CREATE TABLE IF NOT EXISTS public.notifications (id uuid NOT NULL, actor_id uuid NOT NULL, entity_id uuid NOT NULL, entity_type_id smallint NOT NULL, activity smallint NOT NULL, group_id uuid, CONSTRAINT \"Notification_pkey\" PRIMARY KEY (id), CONSTRAINT actor_id_key FOREIGN KEY (actor_id) REFERENCES public.users (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION, CONSTRAINT entitiy_id_event FOREIGN KEY (entity_id) REFERENCES public.events (post_id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION, CONSTRAINT entity_id_invitation FOREIGN KEY (entity_id) REFERENCES public.invitation (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION, CONSTRAINT entity_id_post FOREIGN KEY (entity_id) REFERENCES public.posts (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION)",
 	);
 
 	console.log("Referance tables");
@@ -64,19 +64,19 @@ export const initiateDevDB = async () => {
 	console.log("groups-notifications");
 	await devPool.query("CREATE TABLE IF NOT EXISTS public.groups_notifications (group_id uuid NOT NULL, notification_id uuid NOT NULL, CONSTRAINT group_id_key FOREIGN KEY (group_id) REFERENCES public.\"groups\" (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID, CONSTRAINT notification_id_key FOREIGN KEY (notification_id) REFERENCES public.notification (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID)");
 
-	console.log("user_contacts");
+	console.log("users_contacts");
 	await devPool.query("CREATE TABLE IF NOT EXISTS public.users_contacts (user_id uuid NOT NULL, contacts_id uuid NOT NULL, CONSTRAINT contacts_to_users_key FOREIGN KEY (contacts_id) REFERENCES public.contacts (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID,CONSTRAINT users_to_contacts_key FOREIGN KEY (user_id) REFERENCES public.users (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID)");
 
 	console.log("users_converstions");
 	await devPool.query("CREATE TABLE IF NOT EXISTS public.users_converstions (user_id uuid, conversation_id uuid, CONSTRAINT converstion_to_user_key FOREIGN KEY (conversation_id) REFERENCES public.conversations (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID, CONSTRAINT user_to_conversation_key FOREIGN KEY (user_id) REFERENCES public.users (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID)");
 
-	console.log("users_event");
-	await devPool.query("CREATE TABLE IF NOT EXISTS public.users_event (user_id uuid NOT NULL, event_id uuid NOT NULL, CONSTRAINT event_id_key FOREIGN KEY (event_id) REFERENCES public.events (post_id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID, CONSTRAINT user_id_key FOREIGN KEY (user_id) REFERENCES public.users (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID)");
+	console.log("users_events");
+	await devPool.query("CREATE TABLE IF NOT EXISTS public.users_events (user_id uuid NOT NULL, event_id uuid NOT NULL, CONSTRAINT event_id_key FOREIGN KEY (event_id) REFERENCES public.events (post_id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID, CONSTRAINT user_id_key FOREIGN KEY (user_id) REFERENCES public.users (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID)");
 
 	console.log("users_groups");
 	await devPool.query("CREATE TABLE IF NOT EXISTS public.users_groups (user_id uuid NOT NULL, group_id uuid NOT NULL, role smallint NOT NULL,CONSTRAINT group_id_key FOREIGN KEY (group_id) REFERENCES public.\"groups\" (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID,CONSTRAINT user_id_key FOREIGN KEY (user_id) REFERENCES public.users (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID)");
 
-	console.log("users_notification");
+	console.log("users_notifications");
 	await devPool.query("CREATE TABLE IF NOT EXISTS public.users_notification (notification_id uuid NOT NULL, user_id uuid NOT NULL, in_unread boolean NOT NULL, CONSTRAINT notification_id_key FOREIGN KEY (notification_id) REFERENCES public.notification (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION, CONSTRAINT user_id_key FOREIGN KEY (user_id) REFERENCES public.users (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION)");
 };
 
