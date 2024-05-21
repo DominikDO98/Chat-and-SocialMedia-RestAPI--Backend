@@ -2,6 +2,7 @@ import { NextFunction, Request, Response, Router } from "express";
 import { editUserAdditionalDataController, loadUserDataController, uploadProfilePhotoCOntroller as uploadProfilePhotoController } from "../controllers/user.controller";
 import { validateReq } from "../utils/validateReq/validateReq";
 import { convertImg } from "../tests/user.tests/testingAssets/readFile";
+import { EditUserAddtionalDataSchema } from "../entities/user.entity/user.entity";
 
 export const UserRouter = Router();
 //prettier-ignore
@@ -11,6 +12,7 @@ UserRouter
 	})
 	.post("/", async (req: Request, res: Response, next: NextFunction) => {
 		validateReq(req, ["editUserData"]);
+		EditUserAddtionalDataSchema.parse(req.body.editUserData);
 		await editUserAdditionalDataController(req, res, next);
 	})
 	.post("/uploadPhoto", async (req: Request, res: Response, next: NextFunction) => {
