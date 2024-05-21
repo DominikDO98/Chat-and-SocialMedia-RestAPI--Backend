@@ -1,3 +1,4 @@
+import { hashSync } from "bcrypt";
 import { ContactEntity, ConversationEntity, InvitationEntity, MessageEntity } from "../../entities/chat.entity/chat.types";
 import { GroupEntity } from "../../entities/group.entity/group.types";
 import { CommentEntity, EventCreationEntity, LikeEntity, PostEntity } from "../../entities/post.entity/post.types";
@@ -32,7 +33,7 @@ export const DBIds = {
 export const userDBData: UserEntity = {
 	id: DBIds.user_id,
 	username: "testname",
-	password: "testpass",
+	password: hashSync("testpass", 10),
 	email_address: "email@gmail.com",
 	lastname: "testlast",
 	firstname: "testfirst",
@@ -48,21 +49,21 @@ export const user2DBData: UserEntity = {
 	...userDBData,
 	id: DBIds.user2_id,
 	username: "testname2",
-	password: "testpass2",
+	password: hashSync("testpass2", 10),
 	email_address: "email2@gmail.com",
 };
 export const user3DBData: UserEntity = {
 	...userDBData,
 	id: DBIds.user3_id,
 	username: "testname3",
-	password: "testpass3",
+	password: hashSync("testpass3", 10),
 	email_address: "email3@gmail.com",
 };
 export const user4DBData: UserEntity = {
 	...userDBData,
 	id: DBIds.user4_id,
 	username: "testname4",
-	password: "testpass4",
+	password: hashSync("testpass4", 10),
 	email_address: "email4@gmail.com",
 };
 
