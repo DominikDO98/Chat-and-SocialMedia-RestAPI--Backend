@@ -41,6 +41,9 @@ export const initiateDevDB = async () => {
 	console.log("Invitation");
 	await devPool.query("CREATE TABLE IF NOT EXISTS public.invitation (id uuid NOT NULL, from_user_id uuid NOT NULL, to_user_id uuid NOT NULL,CONSTRAINT \"Invitation_pkey\" PRIMARY KEY (id), CONSTRAINT from_user_id_key FOREIGN KEY (from_user_id) REFERENCES public.users (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID, CONSTRAINT to_user_id_key FOREIGN KEY (to_user_id) REFERENCES public.users (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID)");
 
+	console.log("Contacts");
+	await devPool.query("CREATE TABLE IF NOT EXISTS public.contacts( id uuid NOT NULL, converstion_id uuid NOT NULL, CONSTRAINT \"Contacts_pkey\" PRIMARY KEY (id))");
+
 	console.log("Conversation");
 	await devPool.query("CREATE TABLE IF NOT EXISTS public.conversations(id uuid NOT NULL, is_group boolean NOT NULL, name character varying(20) COLLATE pg_catalog.\"default\", CONSTRAINT \"Conversations_pkey\" PRIMARY KEY (id))");
 
@@ -48,9 +51,6 @@ export const initiateDevDB = async () => {
 	await devPool.query(
 		"CREATE TABLE IF NOT EXISTS public.messages (id uuid NOT NULL, conversation_id uuid NOT NULL, text character varying(100) COLLATE pg_catalog.\"default\" NOT NULL, created_at timestamp with time zone NOT NULL, send_by uuid NOT NULL, picture bytea, attachment character varying(200) COLLATE pg_catalog.\"default\", is_delivered boolean NOT NULL, CONSTRAINT \"Messages_pkey\" PRIMARY KEY (id), CONSTRAINT message_to_conversation_key FOREIGN KEY (conversation_id) REFERENCES public.conversations (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID, CONSTRAINT message_user_key FOREIGN KEY (send_by) REFERENCES public.users (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID)",
 	);
-
-	console.log("Contacts");
-	await devPool.query("CREATE TABLE IF NOT EXISTS public.contacts( id uuid NOT NULL, converstion_id uuid NOT NULL, CONSTRAINT \"Contacts_pkey\" PRIMARY KEY (id))");
 
 	console.log("Notifications");
 	await devPool.query(
