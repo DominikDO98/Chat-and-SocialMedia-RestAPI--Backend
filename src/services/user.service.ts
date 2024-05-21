@@ -1,21 +1,13 @@
 import { EditAdditionalUserData, LoadFullUserData } from "../entities/user.entity/user.types";
 import { editUserAdditionalDataRepo, loadUserDataRepo, uploadProfilePhotoRepo } from "../repositories/user.repository";
-import { CustomError } from "../utils/errors/errors";
-import { shallowEqual } from "../utils/shallowEqual/shallowEqual";
 
 export const loadUserDataService = async (userId: string): Promise<LoadFullUserData> => {
 	const userData = await loadUserDataRepo(userId);
 	return userData;
 };
-export const editUserAdditionalDataService = async (userId: string, newData: Partial<EditAdditionalUserData>): Promise<boolean> => {
-	const savedData = await editUserAdditionalDataRepo(userId, newData);
-	if (!shallowEqual(newData, savedData)) {
-		throw new CustomError("Failed to edit user data, please try again later", 500);
-	}
-	return true;
+export const editUserAdditionalDataService = async (userId: string, newData: Partial<EditAdditionalUserData>): Promise<void> => {
+	await editUserAdditionalDataRepo(userId, newData);
 };
-export const uploadProfilePhotoService = async (photo: Buffer, userId: string): Promise<boolean> => {
-	const returnedPhoto = await uploadProfilePhotoRepo(photo, userId);
-	if (!returnedPhoto.equals(photo)) throw new CustomError("Upload failed", 500);
-	return true;
+export const uploadProfilePhotoService = async (photo: Buffer, userId: string): Promise<void> => {
+	await uploadProfilePhotoRepo(photo, userId);
 };
