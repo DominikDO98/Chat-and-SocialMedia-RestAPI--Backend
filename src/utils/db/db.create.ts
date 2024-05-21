@@ -13,8 +13,11 @@ export const initiateDB = async () => {
 			console.log("Initialize Dev Database...");
 			await initPool.query('DROP DATABASE IF EXISTS "devSuperChat"');
 			await initPool.query('CREATE DATABASE "devSuperChat" WITH OWNER = postgres ENCODING = "UTF8" TABLESPACE = pg_default CONNECTION LIMIT = -1 IS_TEMPLATE = False;');
+			console.log("Database created");
+			await client.query("BEGIN;");
 			await initiateTables(client);
 			await insertDataToDB(client);
+			await client.query("COMMIT;");
 		} catch (err) {
 			console.log(err);
 			await client.query("ROLLBACK");
@@ -27,8 +30,11 @@ export const initiateDB = async () => {
 			console.log("Initialize Test Database...");
 			await initPool.query('DROP DATABASE IF EXISTS "testSuperChat"');
 			await initPool.query('CREATE DATABASE "testSuperChat" WITH OWNER = postgres ENCODING = "UTF8" TABLESPACE = pg_default CONNECTION LIMIT = -1 IS_TEMPLATE = False;');
+			console.log("Database created");
+			await client.query("BEGIN;");
 			await initiateTables(client);
 			await insertDataToDB(client);
+			await client.query("COMMIT;");
 		} catch (err) {
 			console.log(err);
 			await client.query("ROLLBACK");
@@ -104,6 +110,8 @@ export const initiateTables = async (client: PoolClient) => {
 
 	console.log("users_notifications");
 	await client.query("CREATE TABLE IF NOT EXISTS public.users_notification (notification_id uuid NOT NULL, user_id uuid NOT NULL, in_unread boolean NOT NULL, CONSTRAINT notification_id_key FOREIGN KEY (notification_id) REFERENCES public.notification (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION, CONSTRAINT user_id_key FOREIGN KEY (user_id) REFERENCES public.users (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION)");
+
+	console.log("Tables created");
 };
 
 const insertDataToDB = async (client: PoolClient) => {
