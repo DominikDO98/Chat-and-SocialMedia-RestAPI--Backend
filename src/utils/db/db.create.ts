@@ -1,5 +1,7 @@
-import { Config } from "./db.config";
 import { Pool } from "pg";
+import { v4 as uuid } from "uuid";
+import { commentDBData, commentDataNoID, eventDBData, groupDBData, postDBData, postDBData2, postDataNoID, userDBData } from "./dataDB";
+import { Config } from "./db.config";
 
 const initPool = new Pool(Config.initConfig);
 const devPool = new Pool(Config.devConfig);
@@ -149,4 +151,27 @@ export const initiateTestDB = async () => {
 
 	console.log("users_notification");
 	await testPool.query("CREATE TABLE IF NOT EXISTS public.users_notification (notification_id uuid NOT NULL, user_id uuid NOT NULL, in_unread boolean NOT NULL, CONSTRAINT notification_id_key FOREIGN KEY (notification_id) REFERENCES public.notification (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION, CONSTRAINT user_id_key FOREIGN KEY (user_id) REFERENCES public.users (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION)");
+};
+const insertDataForTests = async () => {
+	await testPool.query("INSERT INTO users (id, username, password, email_address, lastname, firstname, birthday, city, occupation, school, description, profile_photo) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)", [...Object.values(userDBData)]);
+
+	await testPool.query("INSERT INTO groups (id, admin_id, name, profile_photo, created_at, is_private, description) VALUES ($1, $2, $3, $4, $5, $6, $7)", [...Object.values(groupDBData)]);
+
+	await testPool.query("INSERT INTO posts (id, user_id, group_id, title, text, picture, attachment, created_at, type) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)", [...Object.values(postDBData)]);
+
+	await testPool.query("INSERT INTO posts (id, user_id, group_id, title, text, picture, attachment, created_at, type) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)", [...Object.values(postDBData2)]);
+
+	for (let i = 0; i < 10; i++) {
+		await testPool.query("INSERT INTO posts (id, user_id, group_id, title, text, picture, attachment, created_at, type) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)", [uuid(), ...Object.values(postDataNoID)]);
+	}
+	await testPool.query("INSERT INTO comments (id, post_id, user_id, text, picture, attachment, created_at) VALUES ($1, $2, $3, $4, $5, $6, $7)", [...Object.values(commentDBData)]);
+
+	for (let i = 0; i < 10; i++) {
+		await testPool.query("INSERT INTO comments (id, post_id, user_id, text, picture, attachment, created_at) VALUES ($1, $2, $3, $4, $5, $6, $7)", [uuid(), ...Object.values(commentDataNoID)]);
+	}
+
+	await testPool.query("BEGIN;");
+	await testPool.query("INSERT INTO posts (id, user_id, group_id, title, text, picture, attachment, created_at, type) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9);", [eventDBData.post.id, eventDBData.post.user_id, eventDBData.post.group_id, eventDBData.post.title, eventDBData.post.text, eventDBData.post.picture, eventDBData.post.attachment, eventDBData.post.created_at, eventDBData.post.type]);
+	await testPool.query("INSERT INTO events (post_id, date, lat, lon) VALUES ($1, $2, $3, $4);", [eventDBData.event.post_id, eventDBData.event.date, eventDBData.event.lat, eventDBData.event.lon]);
+	await testPool.query("COMMIT");
 };
