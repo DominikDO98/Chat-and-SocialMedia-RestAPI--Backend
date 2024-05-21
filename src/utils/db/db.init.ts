@@ -6,43 +6,6 @@ import { Config } from "./db.config";
 const initPool = new Pool(Config.initConfig);
 const devPool = new Pool(Config.devConfig);
 const testPool = new Pool(Config.testConfig);
-export const initiateDB = async () => {
-	if (process.argv[0] === "dev") {
-		const client = await devPool.connect();
-		try {
-			console.log("Initialize Dev Database...");
-			await initPool.query('DROP DATABASE IF EXISTS "devSuperChat"');
-			await initPool.query('CREATE DATABASE "devSuperChat" WITH OWNER = postgres ENCODING = "UTF8" TABLESPACE = pg_default CONNECTION LIMIT = -1 IS_TEMPLATE = False;');
-			console.log("Database created");
-			await client.query("BEGIN;");
-			await initiateTables(client);
-			await insertDataToDB(client);
-			await client.query("COMMIT;");
-		} catch (err) {
-			console.log(err);
-			await client.query("ROLLBACK");
-		} finally {
-			client.release();
-		}
-	} else if (process.argv[0] === "test") {
-		const client = await testPool.connect();
-		try {
-			console.log("Initialize Test Database...");
-			await initPool.query('DROP DATABASE IF EXISTS "testSuperChat"');
-			await initPool.query('CREATE DATABASE "testSuperChat" WITH OWNER = postgres ENCODING = "UTF8" TABLESPACE = pg_default CONNECTION LIMIT = -1 IS_TEMPLATE = False;');
-			console.log("Database created");
-			await client.query("BEGIN;");
-			await initiateTables(client);
-			await insertDataToDB(client);
-			await client.query("COMMIT;");
-		} catch (err) {
-			console.log(err);
-			await client.query("ROLLBACK");
-		} finally {
-			client.release();
-		}
-	}
-};
 export const initiateTables = async (client: PoolClient) => {
 	console.log("Tables");
 
@@ -183,3 +146,41 @@ const insertDataToDB = async (client: PoolClient) => {
 
 	console.log("DATA INSERTED INTO DB");
 };
+
+(async () => {
+	if (process.argv[2] === "dev") {
+		const client = await devPool.connect();
+		try {
+			console.log("Initialize Dev Database...");
+			await initPool.query('DROP DATABASE IF EXISTS "devSuperChat"');
+			await initPool.query('CREATE DATABASE "devSuperChat" WITH OWNER = postgres ENCODING = "UTF8" TABLESPACE = pg_default CONNECTION LIMIT = -1 IS_TEMPLATE = False;');
+			console.log("Database created");
+			await client.query("BEGIN;");
+			await initiateTables(client);
+			await insertDataToDB(client);
+			await client.query("COMMIT;");
+		} catch (err) {
+			console.log(err);
+			await client.query("ROLLBACK");
+		} finally {
+			client.release();
+		}
+	} else if (process.argv[2] === "test") {
+		const client = await testPool.connect();
+		try {
+			console.log("Initialize Test Database...");
+			await initPool.query('DROP DATABASE IF EXISTS "testSuperChat"');
+			await initPool.query('CREATE DATABASE "testSuperChat" WITH OWNER = postgres ENCODING = "UTF8" TABLESPACE = pg_default CONNECTION LIMIT = -1 IS_TEMPLATE = False;');
+			console.log("Database created");
+			await client.query("BEGIN;");
+			await initiateTables(client);
+			await insertDataToDB(client);
+			await client.query("COMMIT;");
+		} catch (err) {
+			console.log(err);
+			await client.query("ROLLBACK");
+		} finally {
+			client.release();
+		}
+	}
+})();

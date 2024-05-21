@@ -8,8 +8,8 @@
 		"start:build": "npm run build && node ./out/index.js",
 		"watch": "nodemon ./src/index.ts",
 		"build": "rimraf ./out && tsc",
-		"test": "test ts-node ./src/utils/db/db.init && jest",
-		"db:init": "dev ts-node src/utils/db/db.init",
+		"test": "ts-node ./src/utils/db/db.init test && jest",
+		"db:init": "ts-node src/utils/db/db.init dev",
 		"lint": "eslint ./src --ext .ts",
 		"lint:fix": "eslint ./src --fix .  --ext .ts"
 	},
