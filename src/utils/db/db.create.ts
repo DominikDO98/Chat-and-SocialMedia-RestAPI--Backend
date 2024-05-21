@@ -206,6 +206,22 @@ const insertDataToDB = async (pool: Pool) => {
 		for (let i = 0; i < 9; i++) {
 			await client.query(query, [uuid(), ...Object.values(messageNoID)]);
 		}
+		query = "INSERT INTO users_contacts (user_id, contacts_id) VALUES ($1, $2)";
+		await client.query(query, [userDBData.id, contactDBData.id]);
+		await client.query(query, [user2DBData.id, contactDBData.id]);
+
+		query = "INSERT INTO users_conversations (user_id, convesation_id) VALUES ($1, $2)";
+		await client.query(query, [userDBData.id, conversationDBData.id]);
+		await client.query(query, [user2DBData.id, conversationDBData.id]);
+
+		query = "INSERT INTO users_events (user_id, event_id) VALUES ($1, $2)";
+		await client.query(query, [user2DBData.id, eventDBData.post.id]);
+		await client.query(query, [user3DBData.id, eventDBData.post.id]);
+
+		query = "INSER INTO users_groups (user_id, group_id, role) VALUES ($1, $2, 0)";
+		await client.query(query, [user2DBData.id, groupDBData.id]);
+		await client.query(query, [user3DBData.id, groupDBData.id]);
+
 		await client.query("COMMIT;");
 		console.log("DATA INSERTED INTO DB");
 	} catch (err) {
