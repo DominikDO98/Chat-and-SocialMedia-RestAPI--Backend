@@ -13,16 +13,16 @@ export const loadUserDataController = async (req: Request, res: Response, next: 
 export const editUserAdditionalDataController = async (req: Request, res: Response, next: NextFunction) => {
 	try {
 		EditUserAddtionalDataSchema.parse(req.body.editUserData);
-		const result = await editUserAdditionalDataService(req.body.id, req.body.editUserData);
-		res.status(200).json({ success: result });
+		await editUserAdditionalDataService(req.body.id, req.body.editUserData);
+		res.status(200).json({ success: true });
 	} catch (err) {
 		next(err);
 	}
 };
 export const uploadProfilePhotoCOntroller = async (req: Request, res: Response, next: NextFunction) => {
 	try {
-		const result = await uploadProfilePhotoService(req.body.photo, req.body.id);
-		res.status(200).json({ success: result });
+		await uploadProfilePhotoService(req.body.photo, req.body.id);
+		res.status(200).json({ success: true });
 	} catch (err) {
 		next(err);
 	}
