@@ -6,7 +6,7 @@ import { Config } from "./db.config";
 const initPool = new Pool(Config.initConfig);
 const devPool = new Pool(Config.devConfig);
 const testPool = new Pool(Config.testConfig);
-export const initiateTables = async (client: PoolClient) => {
+const initiateTables = async (client: PoolClient) => {
 	console.log("Tables");
 
 	console.log("Users");
