@@ -1,6 +1,6 @@
 import { Pool } from "pg";
 import { v4 as uuid } from "uuid";
-import { commentDBData, commentDataNoID, eventDBData, groupDBData, postDBData, postDBData2, postDataNoID, userDBData } from "./dataDB";
+import { comment2DBData, commentDBData, commentDataNoID, contact2DBData, contactDBData, conversation2DBData, conversationDBData, event2DBData, eventDBData, groupDBData, groupDBData2, invitation2DBData, invitationDBData, like2DBData, likeDBData, message2DBData, messageDBData, messageNoID, post2DBData, postDBData, postDataNoID, user2DBData, user3DBData, user4DBData, userDBData } from "./dataDB";
 import { Config } from "./db.config";
 
 const initPool = new Pool(Config.initConfig);
@@ -152,26 +152,66 @@ export const initiateTestDB = async () => {
 	console.log("users_notification");
 	await testPool.query("CREATE TABLE IF NOT EXISTS public.users_notification (notification_id uuid NOT NULL, user_id uuid NOT NULL, in_unread boolean NOT NULL, CONSTRAINT notification_id_key FOREIGN KEY (notification_id) REFERENCES public.notification (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION, CONSTRAINT user_id_key FOREIGN KEY (user_id) REFERENCES public.users (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION)");
 };
-const insertDataForTests = async () => {
-	await testPool.query("INSERT INTO users (id, username, password, email_address, lastname, firstname, birthday, city, occupation, school, description, profile_photo) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)", [...Object.values(userDBData)]);
+const insertDataToDB = async (pool: Pool) => {
+	const client = await pool.connect();
+	try {
+		await client.query("BEGIN;");
+		let query = "INSERT INTO users (id, username, password, email_address, lastname, firstname, birthday, city, occupation, school, description, profile_photo) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)";
+		await client.query(query, [...Object.values(userDBData)]);
+		await client.query(query, [...Object.values(user2DBData)]);
+		await client.query(query, [...Object.values(user3DBData)]);
+		await client.query(query, [...Object.values(user4DBData)]);
 
-	await testPool.query("INSERT INTO groups (id, admin_id, name, profile_photo, created_at, is_private, description) VALUES ($1, $2, $3, $4, $5, $6, $7)", [...Object.values(groupDBData)]);
+		query = "INSERT INTO groups (id, admin_id, name, profile_photo, created_at, is_private, description) VALUES ($1, $2, $3, $4, $5, $6, $7)";
+		await client.query(query, [...Object.values(groupDBData)]);
+		await client.query(query, [...Object.values(groupDBData2)]);
 
-	await testPool.query("INSERT INTO posts (id, user_id, group_id, title, text, picture, attachment, created_at, type) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)", [...Object.values(postDBData)]);
+		query = "INSERT INTO posts (id, user_id, group_id, title, text, picture, attachment, created_at, type) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)";
+		await client.query(query, [...Object.values(postDBData)]);
+		await client.query(query, [...Object.values(post2DBData)]);
+		for (let i = 0; i < 9; i++) {
+			await client.query(query, [uuid(), ...Object.values(postDataNoID)]);
+		}
 
-	await testPool.query("INSERT INTO posts (id, user_id, group_id, title, text, picture, attachment, created_at, type) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)", [...Object.values(postDBData2)]);
+		query = "INSERT INTO comments (id, post_id, user_id, text, picture, attachment, created_at) VALUES ($1, $2, $3, $4, $5, $6, $7)";
+		await client.query(query, [...Object.values(commentDBData)]);
+		await client.query(query, [...Object.values(comment2DBData)]);
+		for (let i = 0; i < 10; i++) {
+			await client.query(query, [uuid(), ...Object.values(commentDataNoID)]);
+		}
+		query = "INSERT INTO likes (id, user_id, post_id, created_at) VALUES ($1, $2, $3, $4)";
+		await client.query(query, [...Object.values(likeDBData)]);
+		await client.query(query, [...Object.values(like2DBData)]);
 
-	for (let i = 0; i < 10; i++) {
-		await testPool.query("INSERT INTO posts (id, user_id, group_id, title, text, picture, attachment, created_at, type) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)", [uuid(), ...Object.values(postDataNoID)]);
+		await client.query("INSERT INTO posts (id, user_id, group_id, title, text, picture, attachment, created_at, type) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9);", [eventDBData.post.id, eventDBData.post.user_id, eventDBData.post.group_id, eventDBData.post.title, eventDBData.post.text, eventDBData.post.picture, eventDBData.post.attachment, eventDBData.post.created_at, eventDBData.post.type]);
+		await client.query("INSERT INTO events (post_id, date, lat, lon) VALUES ($1, $2, $3, $4);", [eventDBData.event.post_id, eventDBData.event.date, eventDBData.event.lat, eventDBData.event.lon]);
+
+		await client.query("INSERT INTO posts (id, user_id, group_id, title, text, picture, attachment, created_at, type) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9);", [event2DBData.post.id, event2DBData.post.user_id, event2DBData.post.group_id, event2DBData.post.title, event2DBData.post.text, event2DBData.post.picture, event2DBData.post.attachment, event2DBData.post.created_at, event2DBData.post.type]);
+		await client.query("INSERT INTO events (post_id, date, lat, lon) VALUES ($1, $2, $3, $4);", [event2DBData.event.post_id, event2DBData.event.date, event2DBData.event.lat, event2DBData.event.lon]);
+		query = "INSERT INTO invitations (id, from_user_id, to_user_id) VALUES ($1, $2, $3)";
+		await client.query(query, [...Object.values(invitationDBData)]);
+		await client.query(query, [...Object.values(invitation2DBData)]);
+
+		query = "INSERT INTO conversations (id, is_group, name) VALUES ($1, $2, $3)";
+		await client.query(query, [...Object.values(conversationDBData)]);
+		await client.query(query, [...Object.values(conversation2DBData)]);
+
+		query = "INSERT INTO contacts (id, conversation_id) VALUES ($1, $2)";
+		await client.query(query, [...Object.values(contactDBData)]);
+		await client.query(query, [...Object.values(contact2DBData)]);
+
+		query = "INSERT INTO messages (id, convesation_id, text, created_at, send_by, is_delivered, picture, attachment) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)";
+		await client.query(query, [...Object.values(messageDBData)]);
+		await client.query(query, [...Object.values(message2DBData)]);
+		for (let i = 0; i < 9; i++) {
+			await client.query(query, [uuid(), ...Object.values(messageNoID)]);
+		}
+		await client.query("COMMIT;");
+		console.log("DATA INSERTED INTO DB");
+	} catch (err) {
+		console.log(err);
+		await client.query("ROLLBACK");
+	} finally {
+		client.release();
 	}
-	await testPool.query("INSERT INTO comments (id, post_id, user_id, text, picture, attachment, created_at) VALUES ($1, $2, $3, $4, $5, $6, $7)", [...Object.values(commentDBData)]);
-
-	for (let i = 0; i < 10; i++) {
-		await testPool.query("INSERT INTO comments (id, post_id, user_id, text, picture, attachment, created_at) VALUES ($1, $2, $3, $4, $5, $6, $7)", [uuid(), ...Object.values(commentDataNoID)]);
-	}
-
-	await testPool.query("BEGIN;");
-	await testPool.query("INSERT INTO posts (id, user_id, group_id, title, text, picture, attachment, created_at, type) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9);", [eventDBData.post.id, eventDBData.post.user_id, eventDBData.post.group_id, eventDBData.post.title, eventDBData.post.text, eventDBData.post.picture, eventDBData.post.attachment, eventDBData.post.created_at, eventDBData.post.type]);
-	await testPool.query("INSERT INTO events (post_id, date, lat, lon) VALUES ($1, $2, $3, $4);", [eventDBData.event.post_id, eventDBData.event.date, eventDBData.event.lat, eventDBData.event.lon]);
-	await testPool.query("COMMIT");
 };

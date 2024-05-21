@@ -45,18 +45,25 @@ export const userDBData: UserEntity = {
 };
 
 export const user2DBData: UserEntity = {
+	...userDBData,
 	id: DBIds.user2_id,
 	username: "testname2",
 	password: "testpass2",
 	email_address: "email2@gmail.com",
-	lastname: "testlast",
-	firstname: "testfirst",
-	birthday: new Date("2024-04-25"),
-	city: "testingcity",
-	occupation: "physical worker",
-	school: "testingschool",
-	description: "hi",
-	profile_photo: convertImg(),
+};
+export const user3DBData: UserEntity = {
+	...userDBData,
+	id: DBIds.user3_id,
+	username: "testname3",
+	password: "testpass3",
+	email_address: "email3@gmail.com",
+};
+export const user4DBData: UserEntity = {
+	...userDBData,
+	id: DBIds.user4_id,
+	username: "testname4",
+	password: "testpass4",
+	email_address: "email4@gmail.com",
 };
 
 export const groupDBData: GroupEntity = {
@@ -91,7 +98,7 @@ export const postDBData: PostEntity = {
 	type: 0,
 };
 
-export const postDBData2: PostEntity = {
+export const post2DBData: PostEntity = {
 	id: DBIds.post2_id,
 	user_id: DBIds.user_id,
 	group_id: DBIds.group_id,
@@ -200,13 +207,13 @@ export const event2DBData: EventCreationEntity = {
 export const invitationDBData: InvitationEntity = {
 	id: DBIds.invitation_id,
 	from_user_id: DBIds.user_id,
-	to_user_id: DBIds.user2_id,
+	to_user_id: DBIds.user3_id,
 };
 
 export const invitation2DBData: InvitationEntity = {
 	id: DBIds.invitation2_id,
 	from_user_id: DBIds.user2_id,
-	to_user_id: DBIds.user3_id,
+	to_user_id: DBIds.user4_id,
 };
 
 export const contactDBData: ContactEntity = {
@@ -219,7 +226,7 @@ export const contact2DBData: ContactEntity = {
 	converation_id: DBIds.conversation2_id,
 };
 
-export const converstionDBData: ConversationEntity = {
+export const conversationDBData: ConversationEntity = {
 	id: DBIds.conversation_id,
 	is_group: false,
 	name: "conversation1",
