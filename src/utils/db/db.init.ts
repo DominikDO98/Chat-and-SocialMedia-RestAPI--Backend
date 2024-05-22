@@ -30,7 +30,7 @@ const initiateTables = async (client: PoolClient) => {
 	);
 
 	console.log("Likes");
-	await client.query('CREATE TABLE IF NOT EXISTS public.likes (id uuid NOT NULL, post_id uuid NOT NULL, user_id uuid NOT NULL, created_at timestamp with time zone NOT NULL, CONSTRAINT "Likes_pkey" PRIMARY KEY (id), CONSTRAINT post_id_key FOREIGN KEY (post_id) REFERENCES public.posts (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID, CONSTRAINT user_id_key FOREIGN KEY (user_id) REFERENCES public.users (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID)');
+	await client.query("CREATE TABLE IF NOT EXISTS public.likes (post_id uuid NOT NULL, user_id uuid NOT NULL, created_at timestamp with time zone NOT NULL, CONSTRAINT post_id_key FOREIGN KEY (post_id) REFERENCES public.posts (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID, CONSTRAINT user_id_key FOREIGN KEY (user_id) REFERENCES public.users (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID)");
 
 	console.log("Events");
 	await client.query('CREATE TABLE IF NOT EXISTS public.events (post_id uuid NOT NULL, date timestamp with time zone NOT NULL, lat numeric(8,6) NOT NULL, lon numeric(9,6) NOT NULL, CONSTRAINT "Events_pkey" PRIMARY KEY (post_id), CONSTRAINT post_id_key FOREIGN KEY (post_id) REFERENCES public.posts (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID)');
@@ -101,7 +101,7 @@ const insertDataToDB = async (client: PoolClient) => {
 	for (let i = 0; i < 10; i++) {
 		await client.query(query, [uuid(), ...Object.values(commentDataNoID)]);
 	}
-	query = "INSERT INTO likes (id, user_id, post_id, created_at) VALUES ($1, $2, $3, $4)";
+	query = "INSERT INTO likes (user_id, post_id, created_at) VALUES ($1, $2, $3)";
 	await client.query(query, [...Object.values(likeDBData)]);
 	await client.query(query, [...Object.values(like2DBData)]);
 

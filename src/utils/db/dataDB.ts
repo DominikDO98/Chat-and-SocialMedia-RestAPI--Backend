@@ -18,8 +18,6 @@ export const DBIds = {
 	group2_id: "9aa6ff40-9c77-4a8f-a925-dff3a0ca9a63",
 	invitation_id: "d6781b71-b08f-42d3-b87e-34b37909f42a",
 	invitation2_id: "9aa6ff40-9c77-4a8f-a925-dff3a0ca9a63",
-	like_id: "ab104f91-6ab9-449c-a5da-71b3064fdaa1",
-	like2_id: "9aa6ff40-9c77-4a8f-a925-dff3a0ca9a63",
 	message_id: "d6781b71-b08f-42d3-b87e-34b37909f42a",
 	message2_id: "9aa6ff40-9c77-4a8f-a925-dff3a0ca9a63",
 	post_id: "ab104f91-6ab9-449c-a5da-71b3064fdaa1",
@@ -152,15 +150,13 @@ export const commentDataNoID: Omit<CommentEntity, "id"> = {
 };
 
 export const likeDBData: LikeEntity = {
-	id: DBIds.like_id,
-	user_id: DBIds.user_id,
+	user_id: DBIds.user2_id,
 	post_id: DBIds.post_id,
 	created_at: new Date(),
 };
 
 export const like2DBData: LikeEntity = {
-	id: DBIds.like2_id,
-	user_id: DBIds.user_id,
+	user_id: DBIds.user3_id,
 	post_id: DBIds.post_id,
 	created_at: new Date(),
 };

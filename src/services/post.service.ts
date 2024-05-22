@@ -28,8 +28,7 @@ export const giveLikeService = async (likeData: Omit<LikeEntity, "user_id">, use
 };
 
 export const removeLikeService = async (likeData: Omit<LikeEntity, "user_id" | "created_at">, user_id: string): Promise<void> => {
-	const likeToDelete = likeFactory(likeData, user_id);
-	await removeLikeRepo(likeToDelete);
+	await removeLikeRepo(likeData, user_id);
 };
 
 //comments
