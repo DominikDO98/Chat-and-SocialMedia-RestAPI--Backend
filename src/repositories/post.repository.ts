@@ -18,7 +18,7 @@ export const deletePostRepo = async (user_id: string, post_id: string): Promise<
 		await client.query("COMMIT");
 	} catch (err) {
 		console.log(err);
-		await client.query("ROLLBACK");
+		client.query("ROLLBACK");
 		throw err;
 	} finally {
 		client.release();
@@ -68,7 +68,7 @@ export const createEventRepo = async (postData: PostEntity, eventData: EventEnti
 		await client.query("COMMIT;");
 	} catch (err) {
 		console.log(err);
-		await client.query("ROLLBACK;");
+		client.query("ROLLBACK;");
 		throw err;
 	} finally {
 		client.release();
@@ -84,7 +84,7 @@ export const editEventRepo = async (postData: PostEntity, eventData: EventEntity
 		await client.query("COMMIT;");
 	} catch (err) {
 		console.log(err);
-		await client.query("ROLLBACK;");
+		client.query("ROLLBACK;");
 		throw err;
 	} finally {
 		client.release();
@@ -109,7 +109,7 @@ export const deleteEventRepo = async (user_id: string, event_id: string): Promis
 		await client.query("COMMIT;");
 	} catch (err) {
 		console.log(err);
-		await pool.query("ROLLBACK;");
+		pool.query("ROLLBACK;");
 		throw err;
 	} finally {
 		client.release();
