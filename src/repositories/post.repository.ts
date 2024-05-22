@@ -49,8 +49,8 @@ export const addCommentRepo = async (commentData: CommentEntity): Promise<void> 
 export const editCommentRepo = async (commentChanges: Omit<CommentEntity, "created_at" | "post_id" | "user_id">, user_id: string): Promise<void> => {
 	await pool.query("UPDATE comments SET text = $1, picture = $2, attachment = $3 WHERE id = $4 AND user_id = $5 AND id = $6 ", [commentChanges.text, commentChanges.picture, commentChanges.attachment, commentChanges.id, user_id, commentChanges.id]);
 };
-export const deleteCommentRepo = async (ids: Pick<CommentEntity, "id" | "user_id" | "post_id">): Promise<void> => {
-	await pool.query("DELETE FROM comments WHERE id = $1 AND user_id = $2 AND post_id = $3", [ids.id, ids.user_id, ids.post_id]);
+export const deleteCommentRepo = async (ids: Pick<CommentEntity, "id" | "user_id">): Promise<void> => {
+	await pool.query("DELETE FROM comments WHERE id = $1 AND user_id = $2", [ids.id, ids.user_id]);
 };
 
 export const loadCommentsRepo = async (post_id: string, offset: number): Promise<CommentEntity[]> => {

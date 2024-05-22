@@ -41,9 +41,9 @@ export const editCommentService = async (commentChanges: Omit<CommentEntity, "po
 	await editCommentRepo(commentChanges, user_id);
 };
 
-export const deleteCommentService = async (commentIds: Pick<CommentEntity, "id" | "post_id">, user_id: string): Promise<void> => {
+export const deleteCommentService = async (comment_id: string, user_id: string): Promise<void> => {
 	const ids = {
-		...commentIds,
+		id: comment_id,
 		user_id: user_id,
 	};
 	await deleteCommentRepo(ids);

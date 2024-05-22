@@ -70,7 +70,7 @@ export const editCommentContorller = async (req: Request, res: Response, next: N
 };
 export const deleteCommentController = async (req: Request, res: Response, next: NextFunction) => {
 	try {
-		await deleteCommentService(req.body.commentIds, req.body.id);
+		await deleteCommentService(req.body.commentId, req.body.id);
 		res.status(200).json({ success: true });
 	} catch (err) {
 		next(err);

@@ -57,7 +57,7 @@ PostRouter
 		await editCommentContorller(req, res, next);
 	})
 	.delete("/deleteComment", async (req: Request, res: Response, next: NextFunction) => {
-		validateReq(req, ["commentIds", "id"]);
+		validateReq(req, ["commentId", "id"]);
 		await deleteCommentController(req, res, next);
 	})
 	.get("/loadComments/:postId/:offset", async (req: Request, res: Response, next: NextFunction) => {
