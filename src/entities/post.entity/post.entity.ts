@@ -14,13 +14,12 @@ export const PostSchema = z.object({
 	type: z.number(),
 });
 
-export const PostEditonSchema = PostSchema.omit({
+export const PostEditionSchema = PostSchema.partial();
+
+export const PostCreationSchema = PostSchema.omit({
+	id: true,
 	user_id: true,
 	created_at: true,
-});
-
-export const PostCreationSchema = PostEditonSchema.omit({
-	id: true,
 });
 
 export const postFactory = (newPost: Omit<PostEntity, "id" | "user_id" | "created_at">, user_id: string): PostEntity => {

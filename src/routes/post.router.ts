@@ -3,7 +3,7 @@ import { addCommentController, createEventController, createPostController, dele
 import { CommentCreationSchema, CommentEditionSchema } from "../entities/post.entity/comment.entity";
 import { EventSchema } from "../entities/post.entity/event.entity";
 import { LikeCreationSchema } from "../entities/post.entity/like.entity";
-import { PostCreationSchema, PostEditonSchema } from "../entities/post.entity/post.entity";
+import { PostCreationSchema, PostEditionSchema } from "../entities/post.entity/post.entity";
 import { validateReq } from "../utils/validateReq/validateReq";
 
 export const PostRouter = Router();
@@ -23,7 +23,7 @@ PostRouter
 	})
 	.patch("/editPost", async (req: Request, res: Response, next: NextFunction) => {
 		validateReq(req, ["postData", "id"]);
-		PostEditonSchema.parse(req.body.postData);
+		PostEditionSchema.parse(req.body.postData);
 		await editPostController(req, res, next);
 	})
 	.delete("/deletePost", async (req:Request, res: Response, next: NextFunction) => {
@@ -73,8 +73,8 @@ PostRouter
 	})
 	.patch("/editEvent", async(req: Request, res: Response, next: NextFunction) => {
 		validateReq(req, ["postData", "eventData", "id"]);
-		PostCreationSchema.parse(req.body.postData);
-		EventSchema.parse(req.body.evnetData);
+		PostEditionSchema.parse(req.body.postData);
+		// EventSchema.parse(req.body.evnetData);
 		await editEventContorller(req, res, next);
 	})
 	.post("/joinEvent", async (req: Request, res: Response, next: NextFunction) => {
