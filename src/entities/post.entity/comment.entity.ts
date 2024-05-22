@@ -17,6 +17,7 @@ export const CommentCreationSchema = CommentSchema.omit({
 	created_at: true,
 });
 export const CommentEditionSchema = CommentSchema.omit({
+	post_id: true,
 	user_id: true,
 	created_at: true,
 });

@@ -37,9 +37,8 @@ export const addCommentService = async (commentData: Omit<CommentEntity, "user_i
 	await addCommentRepo(newComment);
 };
 
-export const editCommentService = async (commentChanges: Omit<CommentEntity, "user_id" | "created_at">, user_id: string): Promise<void> => {
-	const editedComment = commentFactory(commentChanges, user_id);
-	await editCommentRepo(editedComment);
+export const editCommentService = async (commentChanges: Omit<CommentEntity, "post_id" | "user_id" | "created_at">, user_id: string): Promise<void> => {
+	await editCommentRepo(commentChanges, user_id);
 };
 
 export const deleteCommentService = async (commentIds: Pick<CommentEntity, "id" | "post_id">, user_id: string): Promise<void> => {

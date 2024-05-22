@@ -46,8 +46,8 @@ export const addCommentRepo = async (commentData: CommentEntity): Promise<void> 
 	await pool.query("INSERT INTO comments (id, post_id, user_id, text, picture, attachment, created_at) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING id, post_id, user_id, text, picture, attachment, created_at", [commentData.id, commentData.post_id, commentData.user_id, commentData.text, commentData.picture, commentData.attachment, commentData.created_at]);
 };
 
-export const editCommentRepo = async (commentChanges: Omit<CommentEntity, "created_at">): Promise<void> => {
-	await pool.query("UPDATE comments SET text = $1, picture = $2, attachment = $3 WHERE id = $4 AND user_id = $5 AND post_id = $6 ", [commentChanges.text, commentChanges.picture, commentChanges.attachment, commentChanges.id, commentChanges.user_id, commentChanges.post_id]);
+export const editCommentRepo = async (commentChanges: Omit<CommentEntity, "created_at" | "post_id" | "user_id">, user_id: string): Promise<void> => {
+	await pool.query("UPDATE comments SET text = $1, picture = $2, attachment = $3 WHERE id = $4 AND user_id = $5 AND id = $6 ", [commentChanges.text, commentChanges.picture, commentChanges.attachment, commentChanges.id, user_id, commentChanges.id]);
 };
 export const deleteCommentRepo = async (ids: Pick<CommentEntity, "id" | "user_id" | "post_id">): Promise<void> => {
 	await pool.query("DELETE FROM comments WHERE id = $1 AND user_id = $2 AND post_id = $3", [ids.id, ids.user_id, ids.post_id]);
