@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2024-05-22T16:14:08.001Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36 OPR/109.0.0.0" etag="xl-G1_kuMD7OG99v8MO8" version="24.4.4" type="github">
+<mxfile host="app.diagrams.net" modified="2024-05-22T16:17:01.828Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36 OPR/109.0.0.0" etag="4-f3lXwszA5Zm8VYBq66" version="24.4.4" type="github">
   <diagram name="Strona-1" id="lG8C4YR75egHkpYNcyFe">
     <mxGraphModel dx="2449" dy="942" grid="0" gridSize="35" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="827" pageHeight="1169" background="#000000" math="0" shadow="0">
       <root>
@@ -167,7 +167,7 @@
             <mxPoint x="-105" y="531" as="targetPoint" />
             <Array as="points">
               <mxPoint x="-525" y="104" />
-              <mxPoint x="-525" y="428" />
+              <mxPoint x="-525" y="402" />
             </Array>
           </mxGeometry>
         </mxCell>
@@ -175,7 +175,7 @@
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="FdUYXj_ILzgL1wXNN3Z1-13" value="1:m" style="text;strokeColor=none;align=center;fillColor=none;html=1;verticalAlign=middle;whiteSpace=wrap;rounded=0;labelBackgroundColor=none;" parent="1" vertex="1">
-          <mxGeometry x="-452" y="397" width="60" height="30" as="geometry" />
+          <mxGeometry x="-450" y="370" width="60" height="30" as="geometry" />
         </mxCell>
         <mxCell id="FdUYXj_ILzgL1wXNN3Z1-14" value="m:1" style="text;strokeColor=none;align=center;fillColor=none;html=1;verticalAlign=middle;whiteSpace=wrap;rounded=0;labelBackgroundColor=none;" parent="1" vertex="1">
           <mxGeometry x="-174" y="427" width="60" height="30" as="geometry" />
