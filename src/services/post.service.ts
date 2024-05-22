@@ -11,8 +11,7 @@ export const createPostService = async (postCreationData: Omit<PostEntity, "id" 
 	await createPostRepo(newPost);
 };
 export const editPostService = async (postEditionData: Omit<PostEntity, "user_id" | "created_at">, user_id: string): Promise<void> => {
-	const editedPost = postFactory(postEditionData, user_id);
-	await editPostRepo(editedPost);
+	await editPostRepo(postEditionData, user_id);
 };
 export const deletePostService = async (user_id: string, post_id: string): Promise<void> => {
 	await deletePostRepo(user_id, post_id);

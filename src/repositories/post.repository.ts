@@ -5,8 +5,8 @@ import { pool } from "../utils/db/db";
 export const createPostRepo = async (postCreationData: PostEntity): Promise<void> => {
 	await pool.query("INSERT INTO posts (id, user_id, group_id, title, text, picture, attachment, created_at, type) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) ", [postCreationData.id, postCreationData.user_id, postCreationData.group_id, postCreationData.title, postCreationData.text, postCreationData.picture, postCreationData.attachment, postCreationData.created_at, postCreationData.type]);
 };
-export const editPostRepo = async (postEdtionData: Omit<PostEntity, "created_at" | "group_id">): Promise<void> => {
-	await pool.query("UPDATE posts SET title = $1, text = $2, picture = $3, attachment = $4 WHERE id = $5 AND user_id = $6 ", [postEdtionData.title, postEdtionData.text, postEdtionData.picture, postEdtionData.attachment, postEdtionData.id, postEdtionData.user_id]);
+export const editPostRepo = async (postEdtionData: Omit<PostEntity, "created_at" | "group_id" | "user_id">, user_id: string): Promise<void> => {
+	await pool.query("UPDATE posts SET title = $1, text = $2, picture = $3, attachment = $4 WHERE id = $5 AND user_id = $6 ", [postEdtionData.title, postEdtionData.text, postEdtionData.picture, postEdtionData.attachment, postEdtionData.id, user_id]);
 };
 export const deletePostRepo = async (user_id: string, post_id: string): Promise<void> => {
 	const client = await pool.connect();
