@@ -57,13 +57,13 @@ export const loadCommentsService = async (post_id: string, offset: number): Prom
 //events
 export const createEventService = async (postData: Omit<PostEntity, "user_id">, eventData: EventEntity, user_id: string): Promise<void> => {
 	const newPost = postFactory(postData, user_id);
-	const newEvent = eventFactory(eventData);
+	const newEvent = eventFactory(eventData, newPost.id);
 	await createEventRepo(newPost, newEvent);
 };
 
 export const editEventService = async (postData: Omit<PostEntity, "user_id">, eventData: EventEntity, user_id: string): Promise<void> => {
 	const newPost = postFactory(postData, user_id);
-	const newEvent = eventFactory(eventData);
+	const newEvent = eventFactory(eventData, newPost.id);
 	await editEventRepo(newPost, newEvent);
 };
 
