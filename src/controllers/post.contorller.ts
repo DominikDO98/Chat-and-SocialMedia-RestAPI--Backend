@@ -78,8 +78,8 @@ export const deleteCommentController = async (req: Request, res: Response, next:
 };
 export const loadCommentsController = async (req: Request, res: Response, next: NextFunction) => {
 	try {
-		await loadCommentsService(req.params.postId, Number(req.params.offset));
-		res.status(200).json({ success: true });
+		const comments = await loadCommentsService(req.params.postId, Number(req.params.offset));
+		res.status(200).json({ comments: comments });
 	} catch (err) {
 		next(err);
 	}
