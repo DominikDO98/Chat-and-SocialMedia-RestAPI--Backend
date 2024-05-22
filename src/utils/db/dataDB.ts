@@ -152,13 +152,11 @@ export const commentDataNoID: Omit<CommentEntity, "id"> = {
 export const likeDBData: LikeEntity = {
 	user_id: DBIds.user2_id,
 	post_id: DBIds.post_id,
-	created_at: new Date(),
 };
 
 export const like2DBData: LikeEntity = {
 	user_id: DBIds.user3_id,
 	post_id: DBIds.post_id,
-	created_at: new Date(),
 };
 
 export const eventDBData: EventCreationEntity = {
