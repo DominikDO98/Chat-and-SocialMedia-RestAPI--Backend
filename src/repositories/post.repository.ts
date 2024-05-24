@@ -103,7 +103,7 @@ export const deleteEventRepo = async (user_id: string, event_id: string): Promis
 	const client = await pool.connect();
 	try {
 		await client.query("BEGIN;");
-		await client.query("DELETE FROM users_events WHERE user_id = $1 AND event_id = $2;", [user_id, event_id]);
+		await client.query("DELETE FROM users_events WHERE event_id = $1;", [event_id]);
 		await client.query("DELETE FROM likes WHERE post_id = $1;", [event_id]);
 		await client.query("DELETE FROM comments WHERE post_id = $1;", [event_id]);
 		await client.query("DELETE FROM events USING posts WHERE events.post_id = posts.id AND posts.user_id = $1 AND events.post_id = $2;", [user_id, event_id]);
