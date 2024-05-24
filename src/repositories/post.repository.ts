@@ -1,5 +1,6 @@
 import { CommentEntity, EventEntity, LikeEntity, PostEntity } from "../entities/post.entity/post.types";
 import { pool } from "../utils/db/db";
+import { ValidationError } from "../utils/errors/errors";
 
 //posts
 export const createPostRepo = async (postCreationData: PostEntity): Promise<void> => {
@@ -12,6 +13,10 @@ export const deletePostRepo = async (user_id: string, post_id: string): Promise<
 	const client = await pool.connect();
 	try {
 		await client.query("BEGIN;");
+		const { rows } = await client.query("SELECT FROM posts WHERE user_id = $1 AND id = $2", [user_id, post_id]);
+		if (!rows[0]) {
+			throw new ValidationError("Unauthorized person is trying to delete post!", 401);
+		}
 		await client.query("DELETE FROM likes WHERE post_id = $1", [post_id]);
 		await client.query("DELETE FROM comments WHERE post_id = $1", [post_id]);
 		await client.query("DELETE FROM posts WHERE user_id = $1 AND id = $2", [user_id, post_id]);
