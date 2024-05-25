@@ -74,7 +74,7 @@ PostRouter
 	.patch("/editEvent", async(req: Request, res: Response, next: NextFunction) => {
 		validateReq(req, ["postData", "eventData", "id"]);
 		PostEditionSchema.parse(req.body.postData);
-		// EventSchema.parse(req.body.evnetData);
+		EventSchema.parse(req.body.evnetData);
 		await editEventContorller(req, res, next);
 	})
 	.post("/joinEvent", async (req: Request, res: Response, next: NextFunction) => {
