@@ -23,7 +23,7 @@ export const loadUserDataRepo = async (userId: string): Promise<LoadFullUserData
 };
 
 export const editUserAdditionalDataRepo = async (userId: string, newData: EditAdditionalUserData): Promise<void> => {
-	await pool.query("UPDATE  users SET lastname = $1, firstname = $2, birthday = $3, city = $4, occupation = $5, school = $6, description = $7 WHERE id = $8", [newData.lastname, newData.firstname, newData.birthday, newData.city, newData.occupation, newData.school, newData.description, userId]);
+	await pool.query("UPDATE  users SET lastname = COALESCE($1, lastname), firstname = COALESCE($2, firstname), birthday = COALESCE($3, birthday), city = COALESCE($4, city), occupation = COALESCE($5, occupation), school = COALESCE($6, school), description = COALESCE($7, description) WHERE id = $8", [newData.lastname, newData.firstname, newData.birthday, newData.city, newData.occupation, newData.school, newData.description, userId]);
 };
 
 export const uploadProfilePhotoRepo = async (photo: Buffer, userId: string): Promise<void> => {
