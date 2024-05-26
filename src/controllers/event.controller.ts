@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { createEventService, deleteEventService, editEventService, joinEventService, leaveEventService } from "../services/post.service";
+import { createEventService, deleteEventService, editEventService, joinEventService, leaveEventService } from "../services/event.service";
 
 //events
 export const createEventController = async (req: Request, res: Response, next: NextFunction) => {

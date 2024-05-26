@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { giveLikeService, removeLikeService } from "../services/post.service";
+import { giveLikeService, removeLikeService } from "../services/like.service";
 
 //likes
 export const giveLikeController = async (req: Request, res: Response, next: NextFunction) => {

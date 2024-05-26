@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { addCommentService, deleteCommentService, editCommentService, loadCommentsService } from "../services/post.service";
+import { addCommentService, deleteCommentService, editCommentService, loadCommentsService } from "../services/comment.service";
 
 //comments
 export const addCommentController = async (req: Request, res: Response, next: NextFunction) => {
