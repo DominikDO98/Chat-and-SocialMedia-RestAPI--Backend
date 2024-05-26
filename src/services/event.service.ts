@@ -1,7 +1,7 @@
 import { eventFactory } from "../entities/post.entity/event.entity";
 import { postFactory } from "../entities/post.entity/post.entity";
 import { EventEntity, PostEntity } from "../entities/post.entity/post.types";
-import { createEventRepo, deleteEventRepo, editEventRepo, joinEventRepo, leaveEventRepo } from "../repositories/post.repository";
+import { createEventRepo, deleteEventRepo, editEventRepo, joinEventRepo, leaveEventRepo } from "../repositories/event.repository";
 
 //events
 export const createEventService = async (postData: Omit<PostEntity, "user_id">, eventData: EventEntity, user_id: string): Promise<void> => {
