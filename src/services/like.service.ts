@@ -1,5 +1,5 @@
-import { likeFactory } from "../entities/post.entity/like.entity";
-import { LikeEntity } from "../entities/post.entity/post.types";
+import { likeFactory } from "../entities/like.entity/like.entity";
+import { LikeEntity } from "../entities/like.entity/like.type";
 import { giveLikeRepo, removeLikeRepo } from "../repositories/like.repository";
 
 //likes

@@ -1,4 +1,4 @@
-import { CommentEntity } from "../entities/post.entity/post.types";
+import { CommentEntity } from "../entities/comment.entity/comment.types";
 import { pool } from "../utils/db/db";
 
 //comments

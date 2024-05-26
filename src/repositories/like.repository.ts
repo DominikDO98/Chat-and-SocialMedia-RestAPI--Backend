@@ -1,4 +1,4 @@
-import { LikeEntity } from "../entities/post.entity/post.types";
+import { LikeEntity } from "../entities/like.entity/like.type";
 import { pool } from "../utils/db/db";
 
 //likes

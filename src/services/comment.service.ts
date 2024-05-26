@@ -1,5 +1,5 @@
-import { commentFactory } from "../entities/post.entity/comment.entity";
-import { CommentEntity } from "../entities/post.entity/post.types";
+import { commentFactory } from "../entities/comment.entity/comment.entity";
+import { CommentEntity } from "../entities/comment.entity/comment.types";
 import { addCommentRepo, deleteCommentRepo, editCommentRepo, loadCommentsRepo } from "../repositories/comment.repository";
 
 //comments

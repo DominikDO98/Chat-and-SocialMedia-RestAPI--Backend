@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { LikeEntity } from "./post.types";
+import { LikeEntity } from "./like.type";
 
 export const LikeSchema = z.object({
 	post_id: z.string().uuid(),

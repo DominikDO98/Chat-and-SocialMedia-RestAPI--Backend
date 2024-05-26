@@ -1,4 +1,5 @@
-import { EventEntity, PostEntity } from "../entities/post.entity/post.types";
+import { EventEntity } from "../entities/event.entity/event.type";
+import { PostEntity } from "../entities/post.entity/post.types";
 import { pool } from "../utils/db/db";
 import { ValidationError } from "../utils/errors/errors";
 
