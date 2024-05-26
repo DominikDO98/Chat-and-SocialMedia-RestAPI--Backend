@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response, Router } from "express";
-import { giveLikeController, removeLikeController } from "../controllers/post.contorller";
+import { giveLikeController, removeLikeController } from "../controllers/like.controller";
 import { LikeCreationSchema } from "../entities/post.entity/like.entity";
 import { validateReq } from "../utils/validateReq/validateReq";
 

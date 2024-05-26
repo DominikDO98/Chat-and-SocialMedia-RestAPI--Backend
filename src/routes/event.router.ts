@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response, Router } from "express";
-import { createEventController, deleteEventController, editEventContorller, joinEventController, leaveEventController } from "../controllers/post.contorller";
+import { createEventController, deleteEventController, editEventContorller, joinEventController, leaveEventController } from "../controllers/event.controller";
 import { EventSchema } from "../entities/post.entity/event.entity";
 import { PostCreationSchema, PostEditionSchema } from "../entities/post.entity/post.entity";
 import { validateReq } from "../utils/validateReq/validateReq";
