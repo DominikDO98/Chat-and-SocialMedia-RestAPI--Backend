@@ -9,6 +9,9 @@ import { handleError } from "./middleware/errorHandler";
 import { handleDBErrors } from "./middleware/dbErrorHandler";
 import { authorizeToken } from "./middleware/authorizeToken";
 import cors from "cors";
+import { LikeRouter } from "./routes/like.router";
+import { CommentRouter } from "./routes/comment.router";
+import { EventRouter } from "./routes/event.router";
 
 const app = express();
 
@@ -25,9 +28,12 @@ app.use("/auth", AuthRouter);
 app.use("/user", authorizeToken, UserRouter);
 app.use("/chat", authorizeToken, ChatRouter);
 app.use("/post", authorizeToken, PostRouter);
+app.use("/like", authorizeToken, LikeRouter);
+app.use("/comment", authorizeToken, CommentRouter);
+app.use("/event", authorizeToken, EventRouter);
 
 app.use(handleDBErrors);
-// app.use(handleError);
+app.use(handleError);
 
 app.listen(3000, "127.0.0.1", () => {
 	console.log("server is listening on port 3000");
