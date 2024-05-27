@@ -1,6 +1,6 @@
 import { v4 as uuid } from "uuid";
 import { z } from "zod";
-import { InvitationEntity } from "./chat.types";
+import { InvitationEntity } from "./invitation.type";
 
 export const InvitationSchema = z.object({
 	id: z.string().uuid(),
