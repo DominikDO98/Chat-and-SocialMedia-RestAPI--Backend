@@ -24,12 +24,12 @@ export const acceptInvitationRepo = async (invitaiton_id: string, contact_id: st
 	}
 };
 
-export const rejectInvitationRepo = async (invitation: InvitationEntity, user_id: string): Promise<void> => {
-	await pool.query("DELETE FROM invitations WHERE id = $1 AND to_user_id = $2", [invitation.id, user_id]);
+export const rejectInvitationRepo = async (invitation_id: string, user_id: string): Promise<void> => {
+	await pool.query("DELETE FROM invitations WHERE id = $1 AND to_user_id = $2", [invitation_id, user_id]);
 };
 
-export const cancelInvitationRepo = async (invitation: InvitationEntity, user_id: string): Promise<void> => {
-	await pool.query("DELETE FROM invitations WHERE id = $1 AND from_user_id = $2", [invitation.id, user_id]);
+export const cancelInvitationRepo = async (invitation_id: string, user_id: string): Promise<void> => {
+	await pool.query("DELETE FROM invitations WHERE id = $1 AND from_user_id = $2", [invitation_id, user_id]);
 };
 
 export const loadInvitations = async (user_id: string): Promise<InvitationEntity[]> => {
