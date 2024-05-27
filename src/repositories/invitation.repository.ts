@@ -5,14 +5,15 @@ export const sendInvitationRepo = async (invitation: InvitationEntity): Promise<
 	await pool.query("INSERT INTO invitations (id, from_user_id, to_user_id) VALUES ($1, $2, $3)", [invitation.id, invitation.from_user_id, invitation.to_user_id]);
 };
 
-export const acceptInvitationRepo = async (invitation: InvitationEntity, contact_id: string): Promise<void> => {
+export const acceptInvitationRepo = async (invitaiton_id: string, contact_id: string): Promise<void> => {
 	const client = await pool.connect();
 	try {
 		await client.query("BEGIN");
-		await client.query("DELETE FROM invitations WHERE id = $1", [invitation.id]);
+		const { rows } = await client.query("SELECT id, from_user_id, to_user_id FROM invitations WHERE id = $1", [invitaiton_id]);
+		await client.query("DELETE FROM invitations WHERE id = $1", [rows[0].id]);
 		await client.query("INSERT INTO contacts (id) VALUES ($1)", [contact_id]);
-		await client.query("INSERT INTO users_contacts (user_id, contact_id", [invitation.from_user_id, contact_id]);
-		await client.query("INSERT INTO users_contacts (user_id, contact_id) VALUES ($1, $2)", [invitation.to_user_id, contact_id]);
+		await client.query("INSERT INTO users_contacts (user_id, contact_id", [rows[0].from_user_id, contact_id]);
+		await client.query("INSERT INTO users_contacts (user_id, contact_id) VALUES ($1, $2)", [rows[0].to_user_id, contact_id]);
 		client.query("COMMIT");
 	} catch (err) {
 		console.log(err);
@@ -32,6 +33,7 @@ export const cancelInvitationRepo = async (invitation: InvitationEntity, user_id
 };
 
 export const loadInvitations = async (user_id: string): Promise<InvitationEntity[]> => {
+	//TODO: cahnge to return user data insead of ids
 	const { rows } = await pool.query("SELECT id, from_user_id, to_user_id FROM invitations WHERE from_user_id = $1 OR to_user_id = $1", [user_id]);
 	return rows;
 };
