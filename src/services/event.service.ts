@@ -2,7 +2,7 @@ import { eventFactory } from "../entities/event.entity/event.entity";
 import { EventEntity } from "../entities/event.entity/event.type";
 import { postFactory } from "../entities/post.entity/post.entity";
 import { PostEntity } from "../entities/post.entity/post.types";
-import { createEventRepo, deleteEventRepo, editEventRepo, joinEventRepo, leaveEventRepo } from "../repositories/event.repository";
+import { createEventRepo, deleteEventRepo, editEventRepo, joinEventRepo, leaveEventRepo, loadEventRepo } from "../repositories/event.repository";
 
 //events
 export const createEventService = async (postData: Omit<PostEntity, "user_id">, eventData: EventEntity, user_id: string): Promise<void> => {
@@ -27,4 +27,9 @@ export const leaveEventService = async (user_id: string, event_id: string): Prom
 
 export const deleteEventService = async (user_id: string, event_id: string): Promise<void> => {
 	await deleteEventRepo(user_id, event_id);
+};
+
+export const loadEventService = async (event_id: string): Promise<EventEntity> => {
+	const event = await loadEventRepo(event_id);
+	return event;
 };

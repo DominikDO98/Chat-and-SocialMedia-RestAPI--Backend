@@ -1,7 +1,7 @@
 import { EventEntity } from "../entities/event.entity/event.type";
 import { PostEntity } from "../entities/post.entity/post.types";
 import { pool } from "../utils/db/db";
-import { ValidationError } from "../utils/errors/errors";
+import { CustomError, ValidationError } from "../utils/errors/errors";
 
 //events
 export const createEventRepo = async (postData: PostEntity, eventData: EventEntity): Promise<void> => {
@@ -63,4 +63,12 @@ export const deleteEventRepo = async (user_id: string, event_id: string): Promis
 	} finally {
 		client.release();
 	}
+};
+
+export const loadEventRepo = async (event_id: string): Promise<EventEntity> => {
+	const { rows } = await pool.query("SELECT post_id, date, lat, lon FROM events WHERE post_id = $1", [event_id]);
+	if (!rows[0]) {
+		throw new CustomError("Sorry! We're unable to find any details on that event. It is possible it was canceled by organiazer.", 404);
+	}
+	return rows[0];
 };

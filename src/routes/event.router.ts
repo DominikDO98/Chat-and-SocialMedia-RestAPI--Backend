@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response, Router } from "express";
-import { createEventController, deleteEventController, editEventContorller, joinEventController, leaveEventController } from "../controllers/event.controller";
+import { createEventController, deleteEventController, editEventContorller, joinEventController, leaveEventController, loadEventController } from "../controllers/event.controller";
 import { EventSchema } from "../entities/event.entity/event.entity";
 import { PostCreationSchema, PostEditionSchema } from "../entities/post.entity/post.entity";
 import { validateReq } from "../utils/validateReq/validateReq";
@@ -30,4 +30,7 @@ EventRouter
 	.delete("/deleteEvent", async (req: Request, res: Response, next: NextFunction) => {
 		validateReq(req, ["id", "eventId"]);
 		await deleteEventController(req, res, next);
+	})
+	.get("/loadEvent/:eventId", async (req: Request, res: Response, next: NextFunction) => {
+		await loadEventController(req, res, next);
 	});

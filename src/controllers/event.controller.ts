@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { createEventService, deleteEventService, editEventService, joinEventService, leaveEventService } from "../services/event.service";
+import { createEventService, deleteEventService, editEventService, joinEventService, leaveEventService, loadEventService } from "../services/event.service";
 
 //events
 export const createEventController = async (req: Request, res: Response, next: NextFunction) => {
@@ -38,6 +38,14 @@ export const deleteEventController = async (req: Request, res: Response, next: N
 	try {
 		await deleteEventService(req.body.id, req.body.eventId);
 		res.status(200).json({ success: true });
+	} catch (err) {
+		next(err);
+	}
+};
+export const loadEventController = async (req: Request, res: Response, next: NextFunction) => {
+	try {
+		const event = await loadEventService(req.params.eventId);
+		res.status(200).json({ event: event });
 	} catch (err) {
 		next(err);
 	}
