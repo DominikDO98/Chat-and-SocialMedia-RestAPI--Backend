@@ -32,7 +32,7 @@ export const cancelInvitationRepo = async (invitation_id: string, user_id: strin
 	await pool.query("DELETE FROM invitations WHERE id = $1 AND from_user_id = $2", [invitation_id, user_id]);
 };
 
-export const loadInvitations = async (user_id: string): Promise<InvitationEntity[]> => {
+export const loadInvitationsRepo = async (user_id: string): Promise<InvitationEntity[]> => {
 	//TODO: cahnge to return user data insead of ids
 	const { rows } = await pool.query("SELECT id, from_user_id, to_user_id FROM invitations WHERE from_user_id = $1 OR to_user_id = $1", [user_id]);
 	return rows;
