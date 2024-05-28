@@ -39,7 +39,7 @@ const initiateTables = async (client: PoolClient) => {
 	await client.query('CREATE TABLE IF NOT EXISTS public.invitations (id uuid NOT NULL, from_user_id uuid NOT NULL, to_user_id uuid NOT NULL,CONSTRAINT "Invitation_pkey" PRIMARY KEY (id), CONSTRAINT from_user_id_key FOREIGN KEY (from_user_id) REFERENCES public.users (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID, CONSTRAINT to_user_id_key FOREIGN KEY (to_user_id) REFERENCES public.users (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID)');
 
 	console.log("Contacts");
-	await client.query('CREATE TABLE IF NOT EXISTS public.contacts( id uuid NOT NULL, conversation_id uuid NOT NULL, CONSTRAINT "Contacts_pkey" PRIMARY KEY (id))');
+	await client.query('CREATE TABLE IF NOT EXISTS public.contacts( id uuid NOT NULL, conversation_id uuid, CONSTRAINT "Contacts_pkey" PRIMARY KEY (id))');
 
 	console.log("Conversations");
 	await client.query('CREATE TABLE IF NOT EXISTS public.conversations(id uuid NOT NULL, is_group boolean NOT NULL, name character varying(20) COLLATE pg_catalog."default", CONSTRAINT "Conversations_pkey" PRIMARY KEY (id))');
