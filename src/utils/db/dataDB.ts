@@ -211,7 +211,7 @@ export const invitationDBData: InvitationEntity = {
 
 export const invitation2DBData: InvitationEntity = {
 	id: DBIds.invitation2_id,
-	from_user_id: DBIds.user2_id,
+	from_user_id: DBIds.user_id,
 	to_user_id: DBIds.user4_id,
 };
 

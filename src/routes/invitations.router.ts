@@ -16,11 +16,11 @@ InvitationRouter
 		await acceptInvitationContorller(req, res, next);
 	})
 	.delete("/rejectInvitation", async(req: Request, res: Response, next: NextFunction) => {
-		validateReq(req, ["inivitation_id", "id"]);
+		validateReq(req, ["invitation_id", "id"]);
 		await rejectInvitationController(req, res, next);
 	})
 	.delete("/cancelInvitation", async(req: Request, res: Response, next: NextFunction) => {
-		validateReq(req, ["inivitation_id", "id"]);
+		validateReq(req, ["invitation_id", "id"]);
 		await cancelInvitationContorller(req, res, next);
 	})
 	.get("/loadInvitations", async(req: Request, res: Response, next: NextFunction) => {
