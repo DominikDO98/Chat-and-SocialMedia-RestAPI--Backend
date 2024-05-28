@@ -34,6 +34,6 @@ export const cancelInvitationRepo = async (invitation_id: string, user_id: strin
 
 export const loadInvitationsRepo = async (user_id: string): Promise<InvitationWithUser[]> => {
 	//TODO: cahnge to return user data instead of ids
-	const { rows } = await pool.query("SELECT id as invitationid, usernamem, firstname, lastname FROM invitations FULL JOIN users ON users.id = invitations.from_user_id WHERE to_user_id = $1", [user_id]);
+	const { rows } = await pool.query("SELECT invitations.id as invitationid, username, firstname, lastname FROM invitations FULL JOIN users ON users.id = invitations.from_user_id WHERE to_user_id = $1", [user_id]);
 	return rows;
 };
