@@ -66,7 +66,7 @@ export const deleteEventRepo = async (user_id: string, event_id: string): Promis
 };
 
 export const loadEventRepo = async (event_id: string): Promise<EventEntity> => {
-	const { rows } = await pool.query("SELECT post_id, date, lat, lon FROM events WHERE post_id = $1", [event_id]);
+	const { rows } = await pool.query("SELECT post_id, date, lat, lon, (SELECT COUNT (user_id) FROM users_events WHERE event_id = $1) as particiants FROM events WHERE post_id = $1", [event_id]);
 	if (!rows[0]) {
 		throw new CustomError("Sorry! We're unable to find any details on that event. It is possible it was canceled by organiazer.", 404);
 	}
