@@ -39,7 +39,7 @@ const initiateTables = async (client: PoolClient) => {
 	await client.query('CREATE TABLE IF NOT EXISTS public.invitations (id uuid NOT NULL, from_user_id uuid NOT NULL, to_user_id uuid NOT NULL,CONSTRAINT "Invitation_pkey" PRIMARY KEY (id), CONSTRAINT from_user_id_key FOREIGN KEY (from_user_id) REFERENCES public.users (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID, CONSTRAINT to_user_id_key FOREIGN KEY (to_user_id) REFERENCES public.users (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID)');
 
 	console.log("Contacts");
-	await client.query('CREATE TABLE IF NOT EXISTS public.contacts( id uuid NOT NULL, conversation_id uuid NOT NULL, CONSTRAINT "Contacts_pkey" PRIMARY KEY (id))');
+	await client.query('CREATE TABLE IF NOT EXISTS public.contacts( id uuid NOT NULL, conversation_id uuid, CONSTRAINT "Contacts_pkey" PRIMARY KEY (id))');
 
 	console.log("Conversations");
 	await client.query('CREATE TABLE IF NOT EXISTS public.conversations(id uuid NOT NULL, is_group boolean NOT NULL, name character varying(20) COLLATE pg_catalog."default", CONSTRAINT "Conversations_pkey" PRIMARY KEY (id))');
@@ -60,7 +60,7 @@ const initiateTables = async (client: PoolClient) => {
 	await client.query('CREATE TABLE IF NOT EXISTS public.groups_notifications (group_id uuid NOT NULL, notification_id uuid NOT NULL, CONSTRAINT group_id_key FOREIGN KEY (group_id) REFERENCES public."groups" (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID, CONSTRAINT notification_id_key FOREIGN KEY (notification_id) REFERENCES public.notifications (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID)');
 
 	console.log("users_contacts");
-	await client.query("CREATE TABLE IF NOT EXISTS public.users_contacts (user_id uuid NOT NULL, contacts_id uuid NOT NULL, CONSTRAINT contacts_to_users_key FOREIGN KEY (contacts_id) REFERENCES public.contacts (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID,CONSTRAINT users_to_contacts_key FOREIGN KEY (user_id) REFERENCES public.users (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID)");
+	await client.query("CREATE TABLE IF NOT EXISTS public.users_contacts (user_id uuid NOT NULL, contact_id uuid NOT NULL, CONSTRAINT contacts_to_users_key FOREIGN KEY (contact_id) REFERENCES public.contacts (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID,CONSTRAINT users_to_contacts_key FOREIGN KEY (user_id) REFERENCES public.users (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID)");
 
 	console.log("users_conversations");
 	await client.query("CREATE TABLE IF NOT EXISTS public.users_conversations (user_id uuid, conversation_id uuid, CONSTRAINT converstion_to_user_key FOREIGN KEY (conversation_id) REFERENCES public.conversations (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID, CONSTRAINT user_to_conversation_key FOREIGN KEY (user_id) REFERENCES public.users (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID)");
@@ -128,7 +128,7 @@ const insertDataToDB = async (client: PoolClient) => {
 	for (let i = 0; i < 9; i++) {
 		await client.query(query, [uuid(), ...Object.values(messageNoID)]);
 	}
-	query = "INSERT INTO users_contacts (user_id, contacts_id) VALUES ($1, $2)";
+	query = "INSERT INTO users_contacts (user_id, contact_id) VALUES ($1, $2)";
 	await client.query(query, [userDBData.id, contactDBData.id]);
 	await client.query(query, [user2DBData.id, contactDBData.id]);
 

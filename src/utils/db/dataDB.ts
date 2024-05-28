@@ -1,12 +1,13 @@
 import { hashSync } from "bcrypt";
-import { ContactEntity, ConversationEntity, InvitationEntity, MessageEntity } from "../../entities/chat.entity/chat.types";
+import { ContactEntity, ConversationEntity, MessageEntity } from "../../entities/chat.entity/chat.types";
 import { CommentEntity } from "../../entities/comment.entity/comment.types";
+import { EventEntity } from "../../entities/event.entity/event.type";
 import { GroupEntity } from "../../entities/group.entity/group.types";
+import { InvitationEntity } from "../../entities/invitation.entity/invitation.type";
 import { LikeEntity } from "../../entities/like.entity/like.type";
 import { PostEntity } from "../../entities/post.entity/post.types";
 import { UserEntity } from "../../entities/user.entity/user.types";
 import { convertImg } from "../../tests/user.tests/testingAssets/readFile";
-import { EventEntity } from "../../entities/event.entity/event.type";
 
 export const DBIds = {
 	comment_id: "ab104f91-6ab9-449c-a5da-71b3064fdaa1",
@@ -204,13 +205,13 @@ export const event2DBData: { post: PostEntity; event: EventEntity } = {
 
 export const invitationDBData: InvitationEntity = {
 	id: DBIds.invitation_id,
-	from_user_id: DBIds.user_id,
-	to_user_id: DBIds.user3_id,
+	from_user_id: DBIds.user3_id,
+	to_user_id: DBIds.user_id,
 };
 
 export const invitation2DBData: InvitationEntity = {
 	id: DBIds.invitation2_id,
-	from_user_id: DBIds.user2_id,
+	from_user_id: DBIds.user_id,
 	to_user_id: DBIds.user4_id,
 };
 
