@@ -1,4 +1,4 @@
-import { InvitationEntity } from "../entities/invitation.entity/invitation.type";
+import { InvitationEntity, InvitationWithUser } from "../entities/invitation.entity/invitation.type";
 import { pool } from "../utils/db/db";
 
 export const sendInvitationRepo = async (invitation: InvitationEntity): Promise<void> => {
@@ -32,8 +32,8 @@ export const cancelInvitationRepo = async (invitation_id: string, user_id: strin
 	await pool.query("DELETE FROM invitations WHERE id = $1 AND from_user_id = $2", [invitation_id, user_id]);
 };
 
-export const loadInvitationsRepo = async (user_id: string): Promise<InvitationEntity[]> => {
-	//TODO: cahnge to return user data insead of ids
-	const { rows } = await pool.query("SELECT id, from_user_id, to_user_id FROM invitations WHERE from_user_id = $1 OR to_user_id = $1", [user_id]);
+export const loadInvitationsRepo = async (user_id: string): Promise<InvitationWithUser[]> => {
+	//TODO: cahnge to return user data instead of ids
+	const { rows } = await pool.query("SELECT id as invitationid, usernamem, firstname, lastname FROM invitations FULL JOIN users ON users.id = invitations.from_user_id WHERE to_user_id = $1", [user_id]);
 	return rows;
 };
