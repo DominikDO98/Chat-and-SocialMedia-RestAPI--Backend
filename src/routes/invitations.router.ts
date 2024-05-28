@@ -12,7 +12,7 @@ InvitationRouter
 		await sendInvitationController(req, res, next);
 	})
 	.post("/acceptInvitation", async(req: Request, res: Response, next: NextFunction) => {
-		validateReq(req, ["inivitation_id", "id"]);
+		validateReq(req, ["invitation_id", "id"]);
 		await acceptInvitationContorller(req, res, next);
 	})
 	.delete("/rejectInvitation", async(req: Request, res: Response, next: NextFunction) => {
