@@ -3,7 +3,7 @@ import { acceptInvitationService, cancelInvitationService, loadInvitationsServic
 
 export const sendInvitationController = async (req: Request, res: Response, next: NextFunction) => {
 	try {
-		await sendInvitationService(req.body.invitationData);
+		await sendInvitationService({ from_user_id: req.body.id, to_user_id: req.body.toUserID });
 		res.status(200).json({ success: true });
 	} catch (err) {
 		next(err);

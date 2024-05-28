@@ -7,8 +7,8 @@ export const InvitationRouter = Router();
 //prettier-ignore
 InvitationRouter
 	.post("/sentInvitation", async (req: Request, res: Response, next: NextFunction) => {
-		validateReq(req, ["invitationData"]);
-		InvitationCreationSchema.parse(req.body.invitationData);
+		validateReq(req, ["toUserID"]);
+		InvitationCreationSchema.parse(req.body.toUserID);
 		await sendInvitationController(req, res, next);
 	})
 	.post("/acceptInvitation", async(req: Request, res: Response, next: NextFunction) => {

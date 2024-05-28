@@ -8,8 +8,8 @@ export const InvitationSchema = z.object({
 	to_user_id: z.string().uuid(),
 });
 
-export const InvitationCreationSchema = InvitationSchema.omit({
-	id: true,
+export const InvitationCreationSchema = InvitationSchema.pick({
+	to_user_id: true,
 });
 
 export const invitationFactory = (newInvitation: Omit<InvitationEntity, "id">): InvitationEntity => {
