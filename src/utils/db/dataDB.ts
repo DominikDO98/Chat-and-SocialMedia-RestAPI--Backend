@@ -205,8 +205,8 @@ export const event2DBData: { post: PostEntity; event: EventEntity } = {
 
 export const invitationDBData: InvitationEntity = {
 	id: DBIds.invitation_id,
-	from_user_id: DBIds.user_id,
-	to_user_id: DBIds.user3_id,
+	from_user_id: DBIds.user3_id,
+	to_user_id: DBIds.user_id,
 };
 
 export const invitation2DBData: InvitationEntity = {
