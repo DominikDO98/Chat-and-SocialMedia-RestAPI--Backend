@@ -11,7 +11,7 @@ InvitationRouter
 		InvitationCreationSchema.parse(req.body.invitationData);
 		await sendInvitationController(req, res, next);
 	})
-	.post("/acceptInvitaiton", async(req: Request, res: Response, next: NextFunction) => {
+	.post("/acceptInvitation", async(req: Request, res: Response, next: NextFunction) => {
 		validateReq(req, ["inivitation_id", "id"]);
 		await acceptInvitationContorller(req, res, next);
 	})
