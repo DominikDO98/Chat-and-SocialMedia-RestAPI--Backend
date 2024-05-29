@@ -14,8 +14,3 @@ export type ConversationEntity = {
 	is_group: boolean;
 	name?: string;
 };
-
-export type ContactEntity = {
-	id: string;
-	converation_id: string;
-};
