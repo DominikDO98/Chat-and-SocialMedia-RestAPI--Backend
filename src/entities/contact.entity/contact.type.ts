@@ -3,7 +3,8 @@ export type ContactEntity = {
 	converation_id: string;
 };
 export type ContactListEntity = {
-	id: string;
+	contact_id: string;
+	conversation_id: string | null | undefined;
 	username: string;
 	firstname: string;
 	lastname: string;
