@@ -34,7 +34,7 @@ app.use("/like", authorizeToken, LikeRouter);
 app.use("/comment", authorizeToken, CommentRouter);
 app.use("/event", authorizeToken, EventRouter);
 app.use("/invitation", authorizeToken, InvitationRouter);
-app.use("/contacts", authorizeToken, ContactRouter);
+app.use("/contact", authorizeToken, ContactRouter);
 
 app.use(handleDBErrors);
 app.use(handleError);
