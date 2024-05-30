@@ -9,6 +9,6 @@ ContactRouter
 		validateReq(req, ["contact_id"]);
 		await deleteContactController(req, res, next);
 	})
-	.get("/loadContactList/:offset", async (req: Request, res: Response, next: NextFunction) => {
+	.get("/loadContactList", async (req: Request, res: Response, next: NextFunction) => {
 		await loadContactListController(req, res, next);
 	});

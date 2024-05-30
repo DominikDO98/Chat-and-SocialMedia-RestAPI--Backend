@@ -12,7 +12,7 @@ export const deleteContactController = async (req: Request, res: Response, next:
 
 export const loadContactListController = async (req: Request, res: Response, next: NextFunction) => {
 	try {
-		const contactList = await loadContactListService(req.body.id, Number(req.params.offset));
+		const contactList = await loadContactListService(req.body.id);
 		res.status(200).json(contactList);
 	} catch (err) {
 		next(err);

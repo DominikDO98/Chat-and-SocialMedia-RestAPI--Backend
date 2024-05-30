@@ -5,7 +5,7 @@ export const deleteContactService = async (contact_id: string): Promise<void> =>
 	await deleteContactRepo(contact_id);
 };
 
-export const loadContactListService = async (user_id: string, offset: number): Promise<ContactListEntity[]> => {
-	const contactList = await loadContactListRepo(user_id, offset);
+export const loadContactListService = async (user_id: string): Promise<ContactListEntity[]> => {
+	const contactList = await loadContactListRepo(user_id);
 	return contactList;
 };
