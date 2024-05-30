@@ -1,5 +1,11 @@
-import { deleteContactRepo } from "../repositories/contact.repository";
+import { ContactListEntity } from "../entities/contact.entity/contact.type";
+import { deleteContactRepo, loadContactListRepo } from "../repositories/contact.repository";
 
-export const deleteContactService = async (contact_id: string) => {
-	await deleteContactRepo;
+export const deleteContactService = async (contact_id: string): Promise<void> => {
+	await deleteContactRepo(contact_id);
+};
+
+export const loadContactListService = async (user_id: string, offset: number): Promise<ContactListEntity[]> => {
+	const contactList = await loadContactListRepo(user_id, offset);
+	return contactList;
 };
