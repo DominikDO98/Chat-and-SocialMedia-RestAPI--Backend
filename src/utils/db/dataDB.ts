@@ -1,5 +1,5 @@
 import { hashSync } from "bcrypt";
-import { ContactEntity, ConversationEntity, MessageEntity } from "../../entities/chat.entity/chat.types";
+import { ConversationEntity, MessageEntity } from "../../entities/chat.entity/chat.types";
 import { CommentEntity } from "../../entities/comment.entity/comment.types";
 import { EventEntity } from "../../entities/event.entity/event.type";
 import { GroupEntity } from "../../entities/group.entity/group.types";
@@ -8,6 +8,7 @@ import { LikeEntity } from "../../entities/like.entity/like.type";
 import { PostEntity } from "../../entities/post.entity/post.types";
 import { UserEntity } from "../../entities/user.entity/user.types";
 import { convertImg } from "../../tests/user.tests/testingAssets/readFile";
+import { ContactEntity } from "../../entities/contact.entity/contact.type";
 
 export const DBIds = {
 	comment_id: "ab104f91-6ab9-449c-a5da-71b3064fdaa1",
