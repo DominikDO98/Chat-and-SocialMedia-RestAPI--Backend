@@ -1,5 +1,4 @@
 import { ConversationEntity } from "../entities/conversation.entity/conversation.type";
-import { UserEntity } from "../entities/user.entity/user.types";
 import { pool } from "../utils/db/db";
 
 export const createConversationRepo = async (contact_id: string, conversationData: ConversationEntity): Promise<void> => {
