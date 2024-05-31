@@ -1,3 +1,4 @@
+import { PoolClient } from "pg";
 import { ConversationEntity } from "../entities/conversation.entity/conversation.type";
 import { pool } from "../utils/db/db";
 
@@ -22,9 +23,7 @@ export const createGroupConversationRepo = async (participantsId: string[], conv
 	try {
 		await client.query("BEGIN");
 		await client.query("INSERT INTO conversations (id, is_group, name) VALUES ($1, true, $2)", [conversationData.id, conversationData.name]);
-		participantsId.forEach(async (user) => {
-			await client.query("INSERT INTO users_conversations (user_id, conversation_id) VALUES ($1, $2)", [user, conversationData.id]);
-		});
+		await addUsersLoop(participantsId, client, conversationData.id);
 		await client.query("COMMIT");
 	} catch (err) {
 		console.log(err);
@@ -33,4 +32,23 @@ export const createGroupConversationRepo = async (participantsId: string[], conv
 	} finally {
 		client.release();
 	}
+};
+export const addUsersToGroupRepo = async (participantsId: string[], converation_id: string): Promise<void> => {
+	const client = await pool.connect();
+	try {
+		await client.query("BEGIN");
+		await addUsersLoop(participantsId, client, converation_id);
+		await client.query("COMMIT");
+	} catch (err) {
+		console.log(err);
+		client.query("ROLLBACK");
+		throw err;
+	} finally {
+		client.release();
+	}
+};
+const addUsersLoop = async (participantsId: string[], client: PoolClient, converation_id: string) => {
+	participantsId.forEach(async (user) => {
+		await client.query("INSERT INTO users_conversation (user_id, conversation_id) VALUES ($1, $2)", [user, converation_id]);
+	});
 };
