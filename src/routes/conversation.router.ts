@@ -47,3 +47,6 @@ export const addUsersToGroupRepo = async (participantsId: string[], converation_
 		client.release();
 	}
 };
+export const changeConversationNameRepo = async (conversation_id: string, newName: string): Promise<void> => {
+	await pool.query("UPDATE conversations SET name = $1 WHERE id = $2", [newName, conversation_id]);
+};
