@@ -9,12 +9,6 @@ export type MessageEntity = {
 	attachment?: string;
 };
 
-export type ConversationEntity = {
-	id: string;
-	is_group: boolean;
-	name?: string;
-};
-
 export type ContactEntity = {
 	id: string;
 	converation_id: string;
