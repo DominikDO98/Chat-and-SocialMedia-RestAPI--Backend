@@ -1,6 +1,6 @@
-import { PoolClient } from "pg";
 import { ConversationEntity } from "../entities/conversation.entity/conversation.type";
 import { pool } from "../utils/db/db";
+import { addUsersLoop } from "../utils/repositoryTools/addUsersToGroupLoop";
 
 export const createConversationRepo = async (contact_id: string, conversationData: ConversationEntity): Promise<void> => {
 	const client = await pool.connect();
@@ -46,9 +46,4 @@ export const addUsersToGroupRepo = async (participantsId: string[], converation_
 	} finally {
 		client.release();
 	}
-};
-const addUsersLoop = async (participantsId: string[], client: PoolClient, converation_id: string) => {
-	participantsId.forEach(async (user) => {
-		await client.query("INSERT INTO users_conversation (user_id, conversation_id) VALUES ($1, $2)", [user, converation_id]);
-	});
 };
