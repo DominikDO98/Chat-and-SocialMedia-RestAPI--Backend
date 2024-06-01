@@ -1,6 +1,6 @@
 import { conversationFactory } from "../entities/conversation.entity/conversation.entity";
 import { ConversationDataEntity, ConversationEntity } from "../entities/conversation.entity/conversation.type";
-import { addUsersToGroupRepo, changeConversationNameRepo, createConversationRepo, createGroupConversationRepo, loadConversationsRepo } from "../repositories/conversation.repository";
+import { addUsersToGroupRepo, changeConversationNameRepo, createConversationRepo, createGroupConversationRepo, deleteGroupConversationRepo, loadConversationsRepo } from "../repositories/conversation.repository";
 
 export const createConversationService = async (conctact_id: string, conversationData: Omit<ConversationEntity, "id">): Promise<void> => {
 	const newConversation = conversationFactory(conversationData);
@@ -23,4 +23,8 @@ export const changeConversationNameService = async (conversation_id: string, new
 export const loadConversationsService = async (user_id: string): Promise<ConversationDataEntity[]> => {
 	const conversations = await loadConversationsRepo(user_id);
 	return conversations;
+};
+
+export const deleteGroupConversationService = async (conversation_id: string): Promise<void> => {
+	await deleteGroupConversationRepo(conversation_id);
 };
