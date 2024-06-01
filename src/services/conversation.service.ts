@@ -28,3 +28,7 @@ export const loadConversationsService = async (user_id: string): Promise<Convers
 export const deleteGroupConversationService = async (conversation_id: string): Promise<void> => {
 	await deleteGroupConversationRepo(conversation_id);
 };
+
+export const deleteUserFromGropRepo = async (user_id: string): Promise<void> => {
+	await deleteUserFromGropRepo(user_id);
+};
