@@ -3,7 +3,7 @@ import { addUsersToGroupService, changeConversationNameService, createConversati
 
 export const createConversationController = async (req: Request, res: Response, next: NextFunction) => {
 	try {
-		await createConversationService(req.body.contact_id, req.body.coversationData);
+		await createConversationService(req.body.contact_id, req.body.conversationData);
 		res.status(201).json({ succes: true });
 	} catch (err) {
 		next(err);
@@ -38,8 +38,8 @@ export const changeConversationNameController = async (req: Request, res: Respon
 
 export const loadConversationsController = async (req: Request, res: Response, next: NextFunction) => {
 	try {
-		await loadConversationsService(req.body.id);
-		res.status(200).json({ success: true });
+		const conversations = await loadConversationsService(req.body.id);
+		res.status(200).json(conversations);
 	} catch (err) {
 		next(err);
 	}
