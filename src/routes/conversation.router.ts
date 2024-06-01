@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response, Router } from "express";
 import { validateReq } from "../utils/validateReq/validateReq";
 import { ConversationCreationSchema, ChatParticipantsIdsSchema } from "../entities/conversation.entity/conversation.entity";
-import { addUsersToGroupController, changeConversationNameController, createConversationController, loadConversationsController } from "../controllers/conversation.controller";
+import { addUsersToGroupController, changeConversationNameController, createConversationController, deleteGroupConversationController, deleteUserFromGroupController, loadConversationsController } from "../controllers/conversation.controller";
 
 export const ConversationRouter = Router();
 ConversationRouter
@@ -29,4 +29,12 @@ ConversationRouter
 	})
 	.get("/loadConversations", async (req: Request, res: Response, next: NextFunction) => {
 		await loadConversationsController(req, res, next);
+	})
+	.delete("/deleteGroupConversation", async (req: Request, res: Response, next: NextFunction) => {
+		validateReq(req, ["conversation_id"]);
+		await deleteGroupConversationController(req, res, next);
+	})
+	.delete("/deleteUserFromGroupConversaiton", async (req: Request, res: Response, next: NextFunction) => {
+		validateReq(req, ["user_id"]);
+		await deleteUserFromGroupController(req, res, next);
 	});
