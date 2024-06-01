@@ -1,7 +1,12 @@
+import { PoolClient } from "pg";
 import { ConversationDataEntity, ConversationEntity } from "../entities/conversation.entity/conversation.type";
 import { pool } from "../utils/db/db";
-import { addUsersLoop } from "../utils/repositoryTools/addUsersToGroupLoop";
 
+const addUsersLoop = async (participantsId: string[], client: PoolClient, converation_id: string) => {
+	participantsId.forEach(async (user) => {
+		await client.query("INSERT INTO users_conversation (user_id, conversation_id) VALUES ($1, $2)", [user, converation_id]);
+	});
+};
 export const createConversationRepo = async (contact_id: string, conversationData: ConversationEntity): Promise<void> => {
 	const client = await pool.connect();
 	try {
@@ -74,6 +79,6 @@ export const deleteGroupConversationRepo = async (conversation_id: string): Prom
 	}
 };
 
-export const deleteUserFromGroup = async (user_id: string): Promise<void> => {
+export const deleteUserFromGroupRepo = async (user_id: string): Promise<void> => {
 	await pool.query("DELETE FROM users_conversations WHERE user_id = $1", [user_id]);
 };
