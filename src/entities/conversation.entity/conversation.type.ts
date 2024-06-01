@@ -5,9 +5,10 @@ export type ConversationEntity = {
 };
 
 export type ConversationDataEntity = {
-	conversationID: string;
-	conversationName: string;
-	lastMessage: string;
-	messageSendByUsername: string;
-	isMessageDeliverd: boolean;
+	conversationid: string;
+	conversationname: string;
+	lastmessage: string;
+	date: Date;
+	lastsender: string;
+	isdeliverd: boolean;
 };

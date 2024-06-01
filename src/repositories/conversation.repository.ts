@@ -1,4 +1,4 @@
-import { ConversationEntity } from "../entities/conversation.entity/conversation.type";
+import { ConversationDataEntity, ConversationEntity } from "../entities/conversation.entity/conversation.type";
 import { pool } from "../utils/db/db";
 import { addUsersLoop } from "../utils/repositoryTools/addUsersToGroupLoop";
 
@@ -50,10 +50,26 @@ export const addUsersToGroupRepo = async (participantsId: string[], converation_
 export const changeConversationNameRepo = async (conversation_id: string, newName: string): Promise<void> => {
 	await pool.query("UPDATE conversations SET name = $1 WHERE id = $2", [newName, conversation_id]);
 };
-export const loadConversationsRepo = async (user_id: string): Promise<ConversationEntity[]> => {
+export const loadConversationsRepo = async (user_id: string): Promise<ConversationDataEntity[]> => {
 	const { rows } = await pool.query(
-		"WITH convData AS (SELECT conversations.name conversationname, messages.text AS lastmessage, messages.is_delivered AS isdelivered, messages.created_at AS date, messages.conversation_id AS conversationid, users.username AS lastsender, ROW_NUMBER() OVER(PARTITION BY messages.conversation_id ORDER BY messages.created_at) AS messNumber FROM messages INNER JOIN users ON users.id = messages.send_by INNER JOIN conversations ON conversations.id = messages.conversation_id WHERE messages.conversation_id IN (SELECT users_conversations.conversation_id FROM users_conversations WHERE users_conversations.user_id = $1)) SELECT conversationid, conversationname, lastmessage, isdelivered, date, lastsender FROM convData WHERE messnumber = 1",
+		"WITH conversationData AS (SELECT conversations.name conversationname, messages.text AS last_message, messages.is_delivered AS is_delivered, messages.created_at AS date, messages.conversation_id AS conversation_id, users.username AS last_sender, ROW_NUMBER() OVER(PARTITION BY messages.conversation_id ORDER BY messages.created_at) AS messNumber FROM messages INNER JOIN users ON users.id = messages.send_by INNER JOIN conversations ON conversations.id = messages.conversation_id WHERE messages.conversation_id IN (SELECT users_conversations.conversation_id FROM users_conversations WHERE users_conversations.user_id = $1)) SELECT conversation_id, conversation_name, last_message, is_delivered, date, last_sender FROM conversationData WHERE messnumber = 1",
 		[user_id],
 	);
 	return rows;
+};
+
+export const deleteGroupConversationRepo = async (conversation_id: string): Promise<void> => {
+	const client = await pool.connect();
+	try {
+		await client.query("BEGIN");
+		await client.query("DELETE FROM users_conversations WHERE conversations_id = $1", [conversation_id]);
+		await client.query("DELETE FROM conversations WHERE id = $1 AND is_group = true", [conversation_id]);
+		await client.query("COMMIT");
+	} catch (err) {
+		console.log(err);
+		client.query("ROLLBACK");
+		throw err;
+	} finally {
+		client.release();
+	}
 };
