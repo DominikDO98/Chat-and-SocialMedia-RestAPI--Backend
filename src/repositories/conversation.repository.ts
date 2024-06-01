@@ -23,12 +23,12 @@ export const createConversationRepo = async (contact_id: string, conversationDat
 		client.release();
 	}
 };
-export const createGroupConversationRepo = async (participantsId: string[], conversationData: ConversationEntity): Promise<void> => {
+export const createGroupConversationRepo = async (participantsIds: string[], conversationData: ConversationEntity): Promise<void> => {
 	const client = await pool.connect();
 	try {
 		await client.query("BEGIN");
 		await client.query("INSERT INTO conversations (id, is_group, name) VALUES ($1, true, $2)", [conversationData.id, conversationData.name]);
-		await addUsersLoop(participantsId, client, conversationData.id);
+		await addUsersLoop(participantsIds, client, conversationData.id);
 		await client.query("COMMIT");
 	} catch (err) {
 		console.log(err);
@@ -38,11 +38,11 @@ export const createGroupConversationRepo = async (participantsId: string[], conv
 		client.release();
 	}
 };
-export const addUsersToGroupRepo = async (participantsId: string[], converation_id: string): Promise<void> => {
+export const addUsersToGroupRepo = async (participantsIds: string[], converation_id: string): Promise<void> => {
 	const client = await pool.connect();
 	try {
 		await client.query("BEGIN");
-		await addUsersLoop(participantsId, client, converation_id);
+		await addUsersLoop(participantsIds, client, converation_id);
 		await client.query("COMMIT");
 	} catch (err) {
 		console.log(err);
