@@ -17,13 +17,13 @@ ConversationRouter
 		ConversationCreationSchema.parse(req.body.conversationData);
 		await createConversationController(req, res, next);
 	})
-	.patch("/addUsersToGroup", async (req: Request, res: Response, next: NextFunction) => {
+	.patch("/addUsersToGroupConversation", async (req: Request, res: Response, next: NextFunction) => {
 		validateReq(req, ["participantsIds", "conversationData"]);
 		ChatParticipantsIdsSchema.parse(req.body.participantsIds);
 		ConversationCreationSchema.parse(req.body.conversationData);
 		await addUsersToGroupController(req, res, next);
 	})
-	.patch("/changeConversationNameController", async (req: Request, res: Response, next: NextFunction) => {
+	.patch("/changeConversationName", async (req: Request, res: Response, next: NextFunction) => {
 		validateReq(req, ["conversation_id", "newName"]);
 		await changeConversationNameController(req, res, next);
 	})

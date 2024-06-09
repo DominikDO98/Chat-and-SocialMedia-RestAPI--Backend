@@ -1,6 +1,7 @@
 import { hashSync } from "bcrypt";
-import { ContactEntity, ConversationEntity, MessageEntity } from "../../entities/chat.entity/chat.types";
+import { ContactEntity, MessageEntity } from "../../entities/chat.entity/chat.types";
 import { CommentEntity } from "../../entities/comment.entity/comment.types";
+import { ConversationEntity } from "../../entities/conversation.entity/conversation.type";
 import { EventEntity } from "../../entities/event.entity/event.type";
 import { GroupEntity } from "../../entities/group.entity/group.types";
 import { InvitationEntity } from "../../entities/invitation.entity/invitation.type";
@@ -14,6 +15,7 @@ export const DBIds = {
 	comment2_id: "9aa6ff40-9c77-4a8f-a925-dff3a0ca9a63",
 	contact_id: "ab104f91-6ab9-449c-a5da-71b3064fdaa1",
 	contact2_id: "9aa6ff40-9c77-4a8f-a925-dff3a0ca9a63",
+	contact3_id: "33fe4952-4c09-4fa5-a5d5-1718fa9513fa",
 	conversation_id: "ab104f91-6ab9-449c-a5da-71b3064fdaa1",
 	conversation2_id: "9aa6ff40-9c77-4a8f-a925-dff3a0ca9a63",
 	event_id: "33fe4952-4c09-4fa5-a5d5-1718fa9513fa",
@@ -223,6 +225,11 @@ export const contactDBData: ContactEntity = {
 export const contact2DBData: ContactEntity = {
 	id: DBIds.contact2_id,
 	converation_id: DBIds.conversation2_id,
+};
+
+export const contact3DBData: ContactEntity = {
+	id: DBIds.contact3_id,
+	converation_id: undefined,
 };
 
 export const conversationDBData: ConversationEntity = {
