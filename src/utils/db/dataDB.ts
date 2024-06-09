@@ -18,6 +18,7 @@ export const DBIds = {
 	contact3_id: "33fe4952-4c09-4fa5-a5d5-1718fa9513fa",
 	conversation_id: "ab104f91-6ab9-449c-a5da-71b3064fdaa1",
 	conversation2_id: "9aa6ff40-9c77-4a8f-a925-dff3a0ca9a63",
+	conversationGroup_id: "33fe4952-4c09-4fa5-a5d5-1718fa9513fa",
 	event_id: "33fe4952-4c09-4fa5-a5d5-1718fa9513fa",
 	event2_id: "02e000d5-a0a8-479d-b20a-e0b1293897fd",
 	group_id: "ab104f91-6ab9-449c-a5da-71b3064fdaa1",
@@ -242,6 +243,12 @@ export const conversation2DBData: ConversationEntity = {
 	id: DBIds.conversation2_id,
 	is_group: false,
 	name: "conversation2",
+};
+
+export const conversationGroupDBData: ConversationEntity = {
+	id: DBIds.conversationGroup_id,
+	is_group: true,
+	name: "name",
 };
 
 export const messageDBData: MessageEntity = {

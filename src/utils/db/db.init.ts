@@ -1,6 +1,6 @@
 import { Client, Pool, PoolClient, PoolConfig } from "pg";
 import { v4 as uuid } from "uuid";
-import { comment2DBData, commentDBData, commentDataNoID, contact2DBData, contact3DBData, contactDBData, conversation2DBData, conversationDBData, event2DBData, eventDBData, groupDBData, groupDBData2, invitation2DBData, invitationDBData, like2DBData, likeDBData, message2DBData, messageDBData, messageNoID, post2DBData, postDBData, postDataNoID, user2DBData, user3DBData, user4DBData, userDBData } from "./dataDB";
+import { comment2DBData, commentDBData, commentDataNoID, contact2DBData, contact3DBData, contactDBData, conversation2DBData, conversationDBData, conversationGroupDBData, event2DBData, eventDBData, groupDBData, groupDBData2, invitation2DBData, invitationDBData, like2DBData, likeDBData, message2DBData, messageDBData, messageNoID, post2DBData, postDBData, postDataNoID, user2DBData, user3DBData, user4DBData, userDBData } from "./dataDB";
 import { Config } from "./db.config";
 
 const initPool = new Pool(Config.initConfig);
@@ -117,6 +117,7 @@ const insertDataToDB = async (client: PoolClient) => {
 	query = "INSERT INTO conversations (id, is_group, name) VALUES ($1, $2, $3)";
 	await client.query(query, [...Object.values(conversationDBData)]);
 	await client.query(query, [...Object.values(conversation2DBData)]);
+	await client.query(query, [...Object.values(conversationGroupDBData)]);
 
 	query = "INSERT INTO contacts (id, conversation_id) VALUES ($1, $2)";
 	await client.query(query, [...Object.values(contactDBData)]);
