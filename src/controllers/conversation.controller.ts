@@ -20,7 +20,7 @@ export const createGroupConversationController = async (req: Request, res: Respo
 
 export const addUsersToGroupController = async (req: Request, res: Response, next: NextFunction) => {
 	try {
-		await addUsersToGroupService(req.body.participantsIds, req.body.conversationData);
+		await addUsersToGroupService(req.body.participantsIds, req.body.conversation_id);
 		res.status(200).json({ success: true });
 	} catch (err) {
 		next(err);

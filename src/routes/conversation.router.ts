@@ -2,6 +2,7 @@ import { NextFunction, Request, Response, Router } from "express";
 import { validateReq } from "../utils/validateReq/validateReq";
 import { ConversationCreationSchema, ChatParticipantsIdsSchema } from "../entities/conversation.entity/conversation.entity";
 import { addUsersToGroupController, changeConversationNameController, createConversationController, createGroupConversationController, deleteGroupConversationController, deleteUserFromGroupController, loadConversationsController } from "../controllers/conversation.controller";
+import { z } from "zod";
 
 export const ConversationRouter = Router();
 ConversationRouter
@@ -18,9 +19,9 @@ ConversationRouter
 		await createGroupConversationController(req, res, next);
 	})
 	.patch("/addUsersToGroupConversation", async (req: Request, res: Response, next: NextFunction) => {
-		validateReq(req, ["participantsIds", "conversationData"]);
+		validateReq(req, ["participantsIds", "conversation_id"]);
 		ChatParticipantsIdsSchema.parse(req.body.participantsIds);
-		ConversationCreationSchema.parse(req.body.conversationData);
+		z.string().uuid().parse(req.body.conversation_id);
 		await addUsersToGroupController(req, res, next);
 	})
 	.patch("/changeConversationName", async (req: Request, res: Response, next: NextFunction) => {
