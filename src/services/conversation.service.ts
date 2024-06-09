@@ -7,9 +7,10 @@ export const createConversationService = async (conctact_id: string, conversatio
 	await createConversationRepo(conctact_id, newConversation);
 };
 
-export const createGroupConversationService = async (participantsIds: string[], conversationData: Omit<ConversationEntity, "id">): Promise<void> => {
+export const createGroupConversationService = async (userId: string, otherParticipants: string[], conversationData: Omit<ConversationEntity, "id">): Promise<void> => {
+	const participants = [userId, ...otherParticipants];
 	const newConversation = conversationFactory(conversationData);
-	await createGroupConversationRepo(participantsIds, newConversation);
+	await createGroupConversationRepo(participants, newConversation);
 };
 
 export const addUsersToGroupService = async (participantsIds: string[], conversation_id: string): Promise<void> => {

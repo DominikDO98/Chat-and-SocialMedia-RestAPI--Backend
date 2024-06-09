@@ -13,6 +13,7 @@ import { LikeRouter } from "./routes/like.router";
 import { PostRouter } from "./routes/post.router";
 import { UserRouter } from "./routes/user.router";
 import { InvitationRouter } from "./routes/invitations.router";
+import { ConversationRouter } from "./routes/conversation.router";
 
 const app = express();
 
@@ -33,6 +34,7 @@ app.use("/like", authorizeToken, LikeRouter);
 app.use("/comment", authorizeToken, CommentRouter);
 app.use("/event", authorizeToken, EventRouter);
 app.use("/invitation", authorizeToken, InvitationRouter);
+app.use("/conversation", authorizeToken, ConversationRouter);
 
 app.use(handleDBErrors);
 // app.use(handleError);

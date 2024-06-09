@@ -11,7 +11,7 @@ export const createConversationController = async (req: Request, res: Response, 
 };
 export const createGroupConversationController = async (req: Request, res: Response, next: NextFunction) => {
 	try {
-		await createGroupConversationService(req.body.participantsIds, req.body.conversationData);
+		await createGroupConversationService(req.body.id, req.body.participantsIds, req.body.conversationData);
 		res.status(201).json({ success: true });
 	} catch (err) {
 		next(err);
