@@ -30,6 +30,6 @@ export const deleteGroupConversationService = async (conversation_id: string): P
 	await deleteGroupConversationRepo(conversation_id);
 };
 
-export const deleteUserFromGroupService = async (user_id: string): Promise<void> => {
-	await deleteUserFromGroupRepo(user_id);
+export const deleteUserFromGroupService = async (user_id: string, conversation_id: string): Promise<void> => {
+	await deleteUserFromGroupRepo(user_id, conversation_id);
 };

@@ -56,7 +56,7 @@ export const deleteGroupConversationController = async (req: Request, res: Respo
 
 export const deleteUserFromGroupController = async (req: Request, res: Response, next: NextFunction) => {
 	try {
-		await deleteUserFromGroupService(req.body.user_id);
+		await deleteUserFromGroupService(req.body.user_id, req.body.conversation_id);
 		res.status(200).json({ success: true });
 	} catch (err) {
 		next(err);

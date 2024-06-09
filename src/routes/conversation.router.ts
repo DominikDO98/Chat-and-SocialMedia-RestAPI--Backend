@@ -35,7 +35,7 @@ ConversationRouter
 		validateReq(req, ["conversation_id"]);
 		await deleteGroupConversationController(req, res, next);
 	})
-	.delete("/deleteUserFromGroupConversaiton", async (req: Request, res: Response, next: NextFunction) => {
-		validateReq(req, ["user_id"]);
+	.delete("/deleteUserFromGroupConversation", async (req: Request, res: Response, next: NextFunction) => {
+		validateReq(req, ["user_id", "conversation_id"]);
 		await deleteUserFromGroupController(req, res, next);
 	});

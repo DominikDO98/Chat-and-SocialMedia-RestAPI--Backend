@@ -79,6 +79,6 @@ export const deleteGroupConversationRepo = async (conversation_id: string): Prom
 	}
 };
 
-export const deleteUserFromGroupRepo = async (user_id: string): Promise<void> => {
-	await pool.query("DELETE FROM users_conversations WHERE user_id = $1", [user_id]);
+export const deleteUserFromGroupRepo = async (user_id: string, conversation_id: string): Promise<void> => {
+	await pool.query("DELETE FROM users_conversations WHERE user_id = $1 AND conversation_id = $2", [user_id, conversation_id]);
 };

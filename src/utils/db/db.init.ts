@@ -137,6 +137,7 @@ const insertDataToDB = async (client: PoolClient) => {
 	query = "INSERT INTO users_conversations (user_id, conversation_id) VALUES ($1, $2)";
 	await client.query(query, [userDBData.id, conversationDBData.id]);
 	await client.query(query, [user2DBData.id, conversationDBData.id]);
+	await client.query(query, [userDBData.id, conversationGroupDBData.id]);
 
 	query = "INSERT INTO users_events (user_id, event_id) VALUES ($1, $2)";
 	await client.query(query, [user2DBData.id, eventDBData.post.id]);
