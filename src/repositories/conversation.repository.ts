@@ -67,7 +67,7 @@ export const deleteGroupConversationRepo = async (conversation_id: string): Prom
 	const client = await pool.connect();
 	try {
 		await client.query("BEGIN");
-		await client.query("DELETE FROM users_conversations WHERE conversations_id = $1", [conversation_id]);
+		await client.query("DELETE FROM users_conversations WHERE conversation_id = $1", [conversation_id]);
 		await client.query("DELETE FROM conversations WHERE id = $1 AND is_group = true", [conversation_id]);
 		await client.query("COMMIT");
 	} catch (err) {
