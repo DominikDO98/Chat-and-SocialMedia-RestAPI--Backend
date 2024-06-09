@@ -57,7 +57,7 @@ export const changeConversationNameRepo = async (conversation_id: string, newNam
 };
 export const loadConversationsRepo = async (user_id: string): Promise<ConversationDataEntity[]> => {
 	const { rows } = await pool.query(
-		"WITH conversationData AS (SELECT conversations.name conversationname, messages.text AS last_message, messages.is_delivered AS is_delivered, messages.created_at AS date, messages.conversation_id AS conversation_id, users.username AS last_sender, ROW_NUMBER() OVER(PARTITION BY messages.conversation_id ORDER BY messages.created_at) AS messNumber FROM messages INNER JOIN users ON users.id = messages.send_by INNER JOIN conversations ON conversations.id = messages.conversation_id WHERE messages.conversation_id IN (SELECT users_conversations.conversation_id FROM users_conversations WHERE users_conversations.user_id = $1)) SELECT conversation_id, conversation_name, last_message, is_delivered, date, last_sender FROM conversationData WHERE messnumber = 1",
+		"WITH conversationData AS (SELECT conversations.name AS conversationname, messages.text AS last_message, messages.is_delivered AS is_delivered, messages.created_at AS date, messages.conversation_id AS conversation_id, users.username AS last_sender, ROW_NUMBER() OVER(PARTITION BY messages.conversation_id ORDER BY messages.created_at) AS messNumber FROM messages INNER JOIN users ON users.id = messages.send_by INNER JOIN conversations ON conversations.id = messages.conversation_id WHERE messages.conversation_id IN (SELECT users_conversations.conversation_id FROM users_conversations WHERE users_conversations.user_id = $1)) SELECT conversation_id, conversationname, last_message, is_delivered, date, last_sender FROM conversationData WHERE messnumber = 1",
 		[user_id],
 	);
 	return rows;
