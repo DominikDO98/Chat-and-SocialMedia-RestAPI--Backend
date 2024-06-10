@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { addUsersToGroupService, changeConversationNameService, createConversationService, createGroupConversationService, deleteGroupConversationService, deleteUserFromGroupService, loadGroupConversationsService } from "../services/conversation.service";
+import { addUsersToGroupService, changeConversationNameService, createConversationService, createGroupConversationService, deleteGroupConversationService, deleteUserFromGroupService, loadGroupConversationsService, loadPrivateConversationsService } from "../services/conversation.service";
 
 export const createConversationController = async (req: Request, res: Response, next: NextFunction) => {
 	try {
@@ -31,6 +31,15 @@ export const changeConversationNameController = async (req: Request, res: Respon
 	try {
 		await changeConversationNameService(req.body.conversation_id, req.body.newName);
 		res.status(200).json({ success: true });
+	} catch (err) {
+		next(err);
+	}
+};
+
+export const loadPrivateConversationsController = async (req: Request, res: Response, next: NextFunction) => {
+	try {
+		const conversations = await loadPrivateConversationsService(req.body.id);
+		res.status(200).json(conversations);
 	} catch (err) {
 		next(err);
 	}

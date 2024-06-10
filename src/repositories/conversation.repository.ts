@@ -13,8 +13,9 @@ export const createConversationRepo = async (contact_id: string, conversationDat
 		await client.query("BEGIN");
 		await client.query("INSERT INTO conversations (id, is_group, name) VALUES ($1, false, $2)", [conversationData.id, conversationData.name]);
 		await client.query("UPDATE contacts SET conversation_id = $1 WHERE id = $2", [conversationData.id, contact_id]);
-		await client.query("INSERT INTO users_conversations (user_id, conversation_id) SELECT user_id, conversation_id FROM users_contacts FULL JOIN contacts ON contacts.id = users_contacts.contact_id WHERE contact_id = $1 ", [contact_id]);
+		const { rows } = await client.query("INSERT INTO users_conversations (user_id, conversation_id) SELECT user_id, conversation_id FROM users_contacts FULL JOIN contacts ON contacts.id = users_contacts.contact_id WHERE contact_id = $1 RETURNING *", [contact_id]);
 		await client.query("COMMIT");
+		console.log(rows);
 	} catch (err) {
 		console.log(err);
 		client.query("ROLLBACK");
@@ -54,6 +55,14 @@ export const addUsersToGroupRepo = async (participantsIds: string[], converation
 };
 export const changeConversationNameRepo = async (conversation_id: string, newName: string): Promise<void> => {
 	await pool.query("UPDATE conversations SET name = $1 WHERE id = $2", [newName, conversation_id]);
+};
+
+export const loadPrivateConversationsRepo = async (user_id: string): Promise<ConversationDataEntity[]> => {
+	const { rows } = await pool.query(
+		"SELECT chatid, otheruser, otheruserPhoto, text, is_delivered, created_at, users.username as sender FROM (SELECT conversations.id as chatid, users.username as otheruser, users.profile_photo as otheruserPhoto, messages.text, messages.created_at, messages.send_by, messages.is_delivered, ROW_NUMBER() OVER(PARTITION BY messages.conversation_id ORDER BY messages.created_at DESC) FROM conversations 	FULL JOIN messages ON messages.conversation_id = conversations.id FULL JOIN users_conversations ON users_conversations.conversation_id = conversations.id FULL JOIN users ON users.id = users_conversations.user_id	WHERE conversations.id IN (SELECT conversation_id FROM users_conversations WHERE user_id = $1) AND is_group = false	AND NOT users_conversations.user_id = $1) FULL JOIN users ON users.id = send_by WHERE row_number = 1",
+		[user_id],
+	);
+	return rows;
 };
 export const loadGoupConversationsRepo = async (user_id: string): Promise<ConversationDataEntity[]> => {
 	const { rows } = await pool.query(
