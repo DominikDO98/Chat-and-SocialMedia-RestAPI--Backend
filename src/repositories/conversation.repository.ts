@@ -55,9 +55,9 @@ export const addUsersToGroupRepo = async (participantsIds: string[], converation
 export const changeConversationNameRepo = async (conversation_id: string, newName: string): Promise<void> => {
 	await pool.query("UPDATE conversations SET name = $1 WHERE id = $2", [newName, conversation_id]);
 };
-export const loadConversationsRepo = async (user_id: string): Promise<ConversationDataEntity[]> => {
+export const loadGoupConversationsRepo = async (user_id: string): Promise<ConversationDataEntity[]> => {
 	const { rows } = await pool.query(
-		"WITH conversationData AS (SELECT conversations.name AS conversationname, messages.text AS last_message, messages.is_delivered AS is_delivered, messages.created_at AS date, messages.conversation_id AS conversation_id, users.username AS last_sender, ROW_NUMBER() OVER(PARTITION BY messages.conversation_id ORDER BY messages.created_at) AS messNumber FROM messages INNER JOIN users ON users.id = messages.send_by INNER JOIN conversations ON conversations.id = messages.conversation_id WHERE messages.conversation_id IN (SELECT users_conversations.conversation_id FROM users_conversations WHERE users_conversations.user_id = $1)) SELECT conversation_id, conversationname, last_message, is_delivered, date, last_sender FROM conversationData WHERE messnumber = 1",
+		"SELECT chatid, name, text, is_delivered, created_at, users.username FROM (SELECT conversations.id as chatid, conversations.is_group, conversations.name, messages.text, messages.send_by, messages.is_delivered, messages.created_at, ROW_NUMBER() OVER(PARTITION BY conversations.id ORDER BY messages.created_at DESC)FROM conversations FULL JOIN messages ON messages.conversation_id = conversations.id WHERE conversations.id IN (SELECT conversation_id FROM users_conversations WHERE user_id = $1) AND is_group = true) FULL JOIN users ON send_by = users.id WHERE row_number = 1",
 		[user_id],
 	);
 	return rows;
