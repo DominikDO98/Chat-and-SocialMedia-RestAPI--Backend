@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { loadMessagesService, sendMessageService } from "../services/message.service";
+import { deleteMessageService, loadMessagesService, sendMessageService } from "../services/message.service";
 
 export const sendMessageController = async (req: Request, res: Response, next: NextFunction) => {
 	try {
@@ -14,6 +14,14 @@ export const loadMessagesController = async (req: Request, res: Response, next: 
 	try {
 		const messages = await loadMessagesService(req.body.chatId, req.body.offset);
 		res.status(200).json({ messages: messages });
+	} catch (err) {
+		next(err);
+	}
+};
+
+export const deleteMessageController = async (req: Request, res: Response, next: NextFunction) => {
+	try {
+		await deleteMessageService(req.body.messId);
 	} catch (err) {
 		next(err);
 	}
