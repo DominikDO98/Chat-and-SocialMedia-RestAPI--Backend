@@ -1,6 +1,6 @@
 import { conversationFactory } from "../entities/conversation.entity/conversation.entity";
-import { ConversationDataEntity, ConversationEntity } from "../entities/conversation.entity/conversation.type";
-import { createConversationRepo, createGroupConversationRepo, loadGoupConversationsRepo, addUsersToGroupRepo, changeConversationNameRepo, deleteGroupConversationRepo, deleteUserFromGroupRepo, loadPrivateConversationsRepo } from "../repositories/conversation.repository";
+import { ConversationEntity, GroupConversaitonDataEnitity, PrivateConversationDataEntity } from "../entities/conversation.entity/conversation.type";
+import { addUsersToGroupRepo, changeConversationNameRepo, createConversationRepo, createGroupConversationRepo, deleteGroupConversationRepo, deleteUserFromGroupRepo, loadGoupConversationsRepo, loadPrivateConversationsRepo } from "../repositories/conversation.repository";
 
 export const createConversationService = async (conctact_id: string, conversationData: Omit<ConversationEntity, "id">): Promise<void> => {
 	const newConversation = conversationFactory(conversationData);
@@ -21,12 +21,12 @@ export const changeConversationNameService = async (conversation_id: string, new
 	await changeConversationNameRepo(conversation_id, newName);
 };
 
-export const loadPrivateConversationsService = async (user_id: string): Promise<ConversationDataEntity[]> => {
+export const loadPrivateConversationsService = async (user_id: string): Promise<PrivateConversationDataEntity[]> => {
 	const conversations = await loadPrivateConversationsRepo(user_id);
 	return conversations;
 };
 
-export const loadGroupConversationsService = async (user_id: string): Promise<ConversationDataEntity[]> => {
+export const loadGroupConversationsService = async (user_id: string): Promise<GroupConversaitonDataEnitity[]> => {
 	const conversations = await loadGoupConversationsRepo(user_id);
 	return conversations;
 };

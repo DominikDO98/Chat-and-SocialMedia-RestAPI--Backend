@@ -4,11 +4,21 @@ export type ConversationEntity = {
 	name?: string;
 };
 
-export type ConversationDataEntity = {
-	conversationid: string;
-	conversationname: string;
-	lastmessage: string;
-	date: Date;
-	lastsender: string;
-	isdeliverd: boolean;
+export type PrivateConversationDataEntity = {
+	chatid: string;
+	otheruser: string;
+	otheruserphoto: Buffer;
+	text: string;
+	sender: string;
+	is_delivered: string;
+	created_at: Date;
+};
+
+export type GroupConversaitonDataEnitity = {
+	chatid: string;
+	name: string;
+	text: string;
+	sender: string;
+	is_delivered: boolean;
+	created_at: Date;
 };
