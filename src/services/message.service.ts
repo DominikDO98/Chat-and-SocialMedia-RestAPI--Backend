@@ -1,6 +1,6 @@
 import { messageFactory } from "../entities/message.entity/message.entity";
 import { MessageEntity } from "../entities/message.entity/message.type";
-import { loadMessagesRepo, sendMessageRepo } from "../repositories/message.repository";
+import { checkMessageAsDeliveredRepo, deleteMessageRepo, loadMessagesRepo, sendMessageRepo } from "../repositories/message.repository";
 
 export const sendMessageService = async (message: Omit<MessageEntity, "id" | "created_at" | "is_delivered" | "send_by">, id: string): Promise<void> => {
 	const newMessage = messageFactory(message, id);
@@ -11,4 +11,12 @@ export const loadMessagesService = async (chat_id: string, offsetSeed: number): 
 	const offset = offsetSeed * 50;
 	const messages = await loadMessagesRepo(chat_id, offset);
 	return messages;
+};
+
+export const deleteMessageService = async (mess_id: string): Promise<void> => {
+	await deleteMessageRepo(mess_id);
+};
+
+export const checkMessageAsDeliveredService = async (mess_id: string): Promise<void> => {
+	await checkMessageAsDeliveredRepo(mess_id);
 };
