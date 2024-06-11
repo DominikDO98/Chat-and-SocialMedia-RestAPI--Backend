@@ -9,7 +9,7 @@ export const MessageSchema = z.object({
 	created_at: z.date(),
 	send_by: z.string().uuid(),
 	is_delivered: z.boolean(),
-	picture: z.instanceof(Blob).optional(),
+	picture: z.instanceof(Buffer).optional(),
 	attachment: z.string().min(3).max(200).optional(),
 });
 
