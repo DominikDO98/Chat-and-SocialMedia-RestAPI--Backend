@@ -1,6 +1,6 @@
 import { Client, Pool, PoolClient, PoolConfig } from "pg";
 import { v4 as uuid } from "uuid";
-import { comment2DBData, commentDBData, commentDataNoID, contact2DBData, contact3DBData, contactDBData, conversation2DBData, conversationDBData, conversationGroupDBData, event2DBData, eventDBData, groupDBData, groupDBData2, invitation2DBData, invitationDBData, like2DBData, likeDBData, message2DBData, messageDBData, messageNoID, post2DBData, postDBData, postDataNoID, user2DBData, user3DBData, user4DBData, userDBData } from "./dataDB";
+import { comment2DBData, commentDBData, commentDataNoID, contact2DBData, contact3DBData, contactDBData, chat2DBData, chatDBData, chatGroupDBData, event2DBData, eventDBData, groupDBData, groupDBData2, invitation2DBData, invitationDBData, like2DBData, likeDBData, message2DBData, messageDBData, messageNoID, post2DBData, postDBData, postDataNoID, user2DBData, user3DBData, user4DBData, userDBData } from "./dataDB";
 import { Config } from "./db.config";
 
 const initPool = new Pool(Config.initConfig);
@@ -39,14 +39,14 @@ const initiateTables = async (client: PoolClient) => {
 	await client.query('CREATE TABLE IF NOT EXISTS public.invitations (id uuid NOT NULL, from_user_id uuid NOT NULL, to_user_id uuid NOT NULL,CONSTRAINT "Invitation_pkey" PRIMARY KEY (id), CONSTRAINT from_user_id_key FOREIGN KEY (from_user_id) REFERENCES public.users (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID, CONSTRAINT to_user_id_key FOREIGN KEY (to_user_id) REFERENCES public.users (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID)');
 
 	console.log("Contacts");
-	await client.query('CREATE TABLE IF NOT EXISTS public.contacts( id uuid NOT NULL, conversation_id uuid, CONSTRAINT "Contacts_pkey" PRIMARY KEY (id))');
+	await client.query('CREATE TABLE IF NOT EXISTS public.contacts( id uuid NOT NULL, chat_id uuid, CONSTRAINT "Contacts_pkey" PRIMARY KEY (id))');
 
-	console.log("Conversations");
-	await client.query('CREATE TABLE IF NOT EXISTS public.conversations(id uuid NOT NULL, is_group boolean NOT NULL, name character varying(20) COLLATE pg_catalog."default", CONSTRAINT "Conversations_pkey" PRIMARY KEY (id))');
+	console.log("Chats");
+	await client.query('CREATE TABLE IF NOT EXISTS public.chats(id uuid NOT NULL, is_group boolean NOT NULL, name character varying(20) COLLATE pg_catalog."default", CONSTRAINT "Chats_pkey" PRIMARY KEY (id))');
 
 	console.log("Messages");
 	await client.query(
-		'CREATE TABLE IF NOT EXISTS public.messages (id uuid NOT NULL, conversation_id uuid NOT NULL, text character varying(100) COLLATE pg_catalog."default" NOT NULL, created_at timestamp with time zone NOT NULL, send_by uuid NOT NULL, picture bytea, attachment character varying(200) COLLATE pg_catalog."default", is_delivered boolean NOT NULL, CONSTRAINT "Messages_pkey" PRIMARY KEY (id), CONSTRAINT message_to_conversation_key FOREIGN KEY (conversation_id) REFERENCES public.conversations (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID, CONSTRAINT message_user_key FOREIGN KEY (send_by) REFERENCES public.users (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID)',
+		'CREATE TABLE IF NOT EXISTS public.messages (id uuid NOT NULL, chat_id uuid NOT NULL, text character varying(100) COLLATE pg_catalog."default" NOT NULL, created_at timestamp with time zone NOT NULL, send_by uuid NOT NULL, picture bytea, attachment character varying(200) COLLATE pg_catalog."default", is_delivered boolean NOT NULL, CONSTRAINT "Messages_pkey" PRIMARY KEY (id), CONSTRAINT message_to_chat_key FOREIGN KEY (chat_id) REFERENCES public.chats (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID, CONSTRAINT message_user_key FOREIGN KEY (send_by) REFERENCES public.users (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID)',
 	);
 
 	console.log("Notifications");
@@ -62,8 +62,8 @@ const initiateTables = async (client: PoolClient) => {
 	console.log("users_contacts");
 	await client.query("CREATE TABLE IF NOT EXISTS public.users_contacts (user_id uuid NOT NULL, contact_id uuid NOT NULL, CONSTRAINT contacts_to_users_key FOREIGN KEY (contact_id) REFERENCES public.contacts (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID,CONSTRAINT users_to_contacts_key FOREIGN KEY (user_id) REFERENCES public.users (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID)");
 
-	console.log("users_conversations");
-	await client.query("CREATE TABLE IF NOT EXISTS public.users_conversations (user_id uuid, conversation_id uuid, CONSTRAINT converstion_to_user_key FOREIGN KEY (conversation_id) REFERENCES public.conversations (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID, CONSTRAINT user_to_conversation_key FOREIGN KEY (user_id) REFERENCES public.users (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID)");
+	console.log("users_chats");
+	await client.query("CREATE TABLE IF NOT EXISTS public.users_chats (user_id uuid, chat_id uuid, CONSTRAINT converstion_to_user_key FOREIGN KEY (chat_id) REFERENCES public.chats (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID, CONSTRAINT user_to_chat_key FOREIGN KEY (user_id) REFERENCES public.users (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID)");
 
 	console.log("users_events");
 	await client.query("CREATE TABLE IF NOT EXISTS public.users_events (user_id uuid NOT NULL, event_id uuid NOT NULL, CONSTRAINT event_id_key FOREIGN KEY (event_id) REFERENCES public.events (post_id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID, CONSTRAINT user_id_key FOREIGN KEY (user_id) REFERENCES public.users (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID)");
@@ -114,17 +114,17 @@ const insertDataToDB = async (client: PoolClient) => {
 	await client.query(query, [...Object.values(invitationDBData)]);
 	await client.query(query, [...Object.values(invitation2DBData)]);
 
-	query = "INSERT INTO conversations (id, is_group, name) VALUES ($1, $2, $3)";
-	await client.query(query, [...Object.values(conversationDBData)]);
-	await client.query(query, [...Object.values(conversation2DBData)]);
-	await client.query(query, [...Object.values(conversationGroupDBData)]);
+	query = "INSERT INTO chats (id, is_group, name) VALUES ($1, $2, $3)";
+	await client.query(query, [...Object.values(chatDBData)]);
+	await client.query(query, [...Object.values(chat2DBData)]);
+	await client.query(query, [...Object.values(chatGroupDBData)]);
 
-	query = "INSERT INTO contacts (id, conversation_id) VALUES ($1, $2)";
+	query = "INSERT INTO contacts (id, chat_id) VALUES ($1, $2)";
 	await client.query(query, [...Object.values(contactDBData)]);
 	await client.query(query, [...Object.values(contact2DBData)]);
 	await client.query(query, [...Object.values(contact3DBData)]);
 
-	query = "INSERT INTO messages (id, conversation_id, text, created_at, send_by, is_delivered, picture, attachment) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)";
+	query = "INSERT INTO messages (id, chat_id, text, created_at, send_by, is_delivered, picture, attachment) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)";
 	await client.query(query, [...Object.values(messageDBData)]);
 	await client.query(query, [...Object.values(message2DBData)]);
 	for (let i = 0; i < 9; i++) {
@@ -136,10 +136,10 @@ const insertDataToDB = async (client: PoolClient) => {
 	await client.query(query, [userDBData.id, contact3DBData.id]);
 	await client.query(query, [user3DBData.id, contact3DBData.id]);
 
-	query = "INSERT INTO users_conversations (user_id, conversation_id) VALUES ($1, $2)";
-	await client.query(query, [userDBData.id, conversationDBData.id]);
-	await client.query(query, [user2DBData.id, conversationDBData.id]);
-	await client.query(query, [userDBData.id, conversationGroupDBData.id]);
+	query = "INSERT INTO users_chats (user_id, chat_id) VALUES ($1, $2)";
+	await client.query(query, [userDBData.id, chatDBData.id]);
+	await client.query(query, [user2DBData.id, chatDBData.id]);
+	await client.query(query, [userDBData.id, chatGroupDBData.id]);
 
 	query = "INSERT INTO users_events (user_id, event_id) VALUES ($1, $2)";
 	await client.query(query, [user2DBData.id, eventDBData.post.id]);

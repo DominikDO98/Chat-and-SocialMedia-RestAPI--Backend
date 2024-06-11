@@ -4,16 +4,14 @@ import express from "express";
 import "express-async-errors";
 import { authorizeToken } from "./middleware/authorizeToken";
 import { handleDBErrors } from "./middleware/dbErrorHandler";
-import { handleError } from "./middleware/errorHandler";
 import { AuthRouter } from "./routes/auth.router";
 import { ChatRouter } from "./routes/chat.router";
 import { CommentRouter } from "./routes/comment.router";
 import { EventRouter } from "./routes/event.router";
+import { InvitationRouter } from "./routes/invitations.router";
 import { LikeRouter } from "./routes/like.router";
 import { PostRouter } from "./routes/post.router";
 import { UserRouter } from "./routes/user.router";
-import { InvitationRouter } from "./routes/invitations.router";
-import { ConversationRouter } from "./routes/conversation.router";
 
 const app = express();
 
@@ -34,7 +32,7 @@ app.use("/like", authorizeToken, LikeRouter);
 app.use("/comment", authorizeToken, CommentRouter);
 app.use("/event", authorizeToken, EventRouter);
 app.use("/invitation", authorizeToken, InvitationRouter);
-app.use("/conversation", authorizeToken, ConversationRouter);
+app.use("/chat", authorizeToken, ChatRouter);
 
 app.use(handleDBErrors);
 // app.use(handleError);
