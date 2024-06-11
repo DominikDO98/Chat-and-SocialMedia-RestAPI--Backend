@@ -9,3 +9,7 @@ export const loadMessagesRepo = async (chat_id: string, offset: number): Promise
 	const { rows } = await pool.query("SELECT id, chat_id, text, created_at, send_by, picture, attachment, is_delivered WHERE chat_id = $1 LIMIT 50 OFFSET $2", [chat_id, offset]);
 	return rows;
 };
+
+export const deleteMessageRepo = async (mess_id: string): Promise<void> => {
+	await pool.query("DELETE FROM messages WHERE id = $1", [mess_id]);
+};
