@@ -1,6 +1,6 @@
 export type MessageEntity = {
 	id: string;
-	conversaiton_id: string;
+	chat_id: string;
 	text: string;
 	created_at: Date;
 	send_by: string;

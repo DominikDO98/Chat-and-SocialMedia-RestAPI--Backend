@@ -4,7 +4,7 @@ import { MessageEntity } from "./message.type";
 
 export const MessageSchema = z.object({
 	id: z.string().uuid(),
-	conversaiton_id: z.string().uuid(),
+	chat_id: z.string().uuid(),
 	text: z.string().max(100),
 	created_at: z.date(),
 	send_by: z.string().uuid(),
@@ -16,7 +16,7 @@ export const MessageSchema = z.object({
 export const messageFactory = (newMessage: Omit<MessageEntity, "id" | "created_at" | "is_delivered">): MessageEntity => {
 	const message: MessageEntity = {
 		id: uuid(),
-		conversaiton_id: newMessage.conversaiton_id,
+		chat_id: newMessage.chat_id,
 		text: newMessage.text,
 		created_at: new Date(),
 		send_by: newMessage.send_by,
