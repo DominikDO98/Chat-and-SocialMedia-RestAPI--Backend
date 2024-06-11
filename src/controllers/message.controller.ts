@@ -22,6 +22,7 @@ export const loadMessagesController = async (req: Request, res: Response, next: 
 export const deleteMessageController = async (req: Request, res: Response, next: NextFunction) => {
 	try {
 		await deleteMessageService(req.body.messId);
+		res.status(200).json({ success: true });
 	} catch (err) {
 		next(err);
 	}
@@ -30,6 +31,7 @@ export const deleteMessageController = async (req: Request, res: Response, next:
 export const checkMessageAsDeliveredController = async (req: Request, res: Response, next: NextFunction) => {
 	try {
 		await checkMessageAsDeliveredService(req.body.messId);
+		res.status(200).json({ success: true });
 	} catch (err) {
 		next(err);
 	}
