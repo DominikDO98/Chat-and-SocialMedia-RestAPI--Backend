@@ -1,6 +1,8 @@
 import { hashSync } from "bcrypt";
-import { ConversationEntity, MessageEntity } from "../../entities/chat.entity/chat.types";
+import { MessageEntity } from "../../entities/_chat.entity/chat.types";
+import { ChatEntity } from "../../entities/chat.entity/chat.type";
 import { CommentEntity } from "../../entities/comment.entity/comment.types";
+import { ContactEntity } from "../../entities/contact.entity/contact.type";
 import { EventEntity } from "../../entities/event.entity/event.type";
 import { GroupEntity } from "../../entities/group.entity/group.types";
 import { InvitationEntity } from "../../entities/invitation.entity/invitation.type";
@@ -8,15 +10,16 @@ import { LikeEntity } from "../../entities/like.entity/like.type";
 import { PostEntity } from "../../entities/post.entity/post.types";
 import { UserEntity } from "../../entities/user.entity/user.types";
 import { convertImg } from "../../tests/user.tests/testingAssets/readFile";
-import { ContactEntity } from "../../entities/contact.entity/contact.type";
 
 export const DBIds = {
 	comment_id: "ab104f91-6ab9-449c-a5da-71b3064fdaa1",
 	comment2_id: "9aa6ff40-9c77-4a8f-a925-dff3a0ca9a63",
 	contact_id: "ab104f91-6ab9-449c-a5da-71b3064fdaa1",
 	contact2_id: "9aa6ff40-9c77-4a8f-a925-dff3a0ca9a63",
-	conversation_id: "ab104f91-6ab9-449c-a5da-71b3064fdaa1",
-	conversation2_id: "9aa6ff40-9c77-4a8f-a925-dff3a0ca9a63",
+	contact3_id: "33fe4952-4c09-4fa5-a5d5-1718fa9513fa",
+	chat_id: "ab104f91-6ab9-449c-a5da-71b3064fdaa1",
+	chat2_id: "9aa6ff40-9c77-4a8f-a925-dff3a0ca9a63",
+	chatGroup_id: "33fe4952-4c09-4fa5-a5d5-1718fa9513fa",
 	event_id: "33fe4952-4c09-4fa5-a5d5-1718fa9513fa",
 	event2_id: "02e000d5-a0a8-479d-b20a-e0b1293897fd",
 	group_id: "ab104f91-6ab9-449c-a5da-71b3064fdaa1",
@@ -218,29 +221,40 @@ export const invitation2DBData: InvitationEntity = {
 
 export const contactDBData: ContactEntity = {
 	id: DBIds.contact_id,
-	converation_id: DBIds.conversation_id,
+	chat_id: DBIds.chat_id,
 };
 
 export const contact2DBData: ContactEntity = {
 	id: DBIds.contact2_id,
-	converation_id: DBIds.conversation2_id,
+	chat_id: DBIds.chat2_id,
 };
 
-export const conversationDBData: ConversationEntity = {
-	id: DBIds.conversation_id,
-	is_group: false,
-	name: "conversation1",
+export const contact3DBData: ContactEntity = {
+	id: DBIds.contact3_id,
+	chat_id: undefined,
 };
 
-export const conversation2DBData: ConversationEntity = {
-	id: DBIds.conversation2_id,
+export const chatDBData: ChatEntity = {
+	id: DBIds.chat_id,
 	is_group: false,
-	name: "conversation2",
+	name: "chat1",
+};
+
+export const chat2DBData: ChatEntity = {
+	id: DBIds.chat2_id,
+	is_group: false,
+	name: "chat2",
+};
+
+export const chatGroupDBData: ChatEntity = {
+	id: DBIds.chatGroup_id,
+	is_group: true,
+	name: "name",
 };
 
 export const messageDBData: MessageEntity = {
 	id: DBIds.message_id,
-	conversaiton_id: DBIds.conversation_id,
+	conversaiton_id: DBIds.chat_id,
 	text: "Message text",
 	created_at: new Date(),
 	send_by: DBIds.user_id,
@@ -251,7 +265,7 @@ export const messageDBData: MessageEntity = {
 
 export const message2DBData: MessageEntity = {
 	id: DBIds.message2_id,
-	conversaiton_id: DBIds.conversation_id,
+	conversaiton_id: DBIds.chat_id,
 	text: "Message text2",
 	created_at: new Date(),
 	send_by: DBIds.user2_id,
@@ -261,7 +275,7 @@ export const message2DBData: MessageEntity = {
 };
 
 export const messageNoID: Omit<MessageEntity, "id"> = {
-	conversaiton_id: DBIds.conversation_id,
+	conversaiton_id: DBIds.chat_id,
 	text: "auto message",
 	created_at: new Date(),
 	send_by: DBIds.user_id,

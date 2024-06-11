@@ -9,8 +9,7 @@ export type MessageEntity = {
 	attachment?: string;
 };
 
-export type ConversationEntity = {
+export type ContactEntity = {
 	id: string;
-	is_group: boolean;
-	name?: string;
+	converation_id: string | undefined;
 };
