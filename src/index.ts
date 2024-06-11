@@ -14,6 +14,7 @@ import { InvitationRouter } from "./routes/invitations.router";
 import { LikeRouter } from "./routes/like.router";
 import { PostRouter } from "./routes/post.router";
 import { UserRouter } from "./routes/user.router";
+import { MessageRouter } from "./routes/messages.router";
 
 const app = express();
 
@@ -36,6 +37,7 @@ app.use("/event", authorizeToken, EventRouter);
 app.use("/invitation", authorizeToken, InvitationRouter);
 app.use("/contact", authorizeToken, ContactRouter);
 app.use("/chat", authorizeToken, ChatRouter);
+app.use("/message", authorizeToken, MessageRouter);
 
 app.use(handleDBErrors);
 app.use(handleError);
