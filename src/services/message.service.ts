@@ -7,8 +7,8 @@ export const sendMessageService = async (message: Omit<MessageEntity, "id" | "cr
 	await sendMessageRepo(newMessage);
 };
 
-export const loadMessagesService = async (chat_id: string, offsetSeed: number): Promise<MessageEntity[]> => {
-	const offset = offsetSeed * 50;
+export const loadMessagesService = async (chat_id: string, offsetSeed: string): Promise<MessageEntity[]> => {
+	const offset = Number(offsetSeed) * 50;
 	const messages = await loadMessagesRepo(chat_id, offset);
 	return messages;
 };

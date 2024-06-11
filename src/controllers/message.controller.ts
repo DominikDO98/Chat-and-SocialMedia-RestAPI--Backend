@@ -12,7 +12,7 @@ export const sendMessageController = async (req: Request, res: Response, next: N
 
 export const loadMessagesController = async (req: Request, res: Response, next: NextFunction) => {
 	try {
-		const messages = await loadMessagesService(req.body.chatId, req.body.offset);
+		const messages = await loadMessagesService(req.body.chatId, req.params.offset);
 		res.status(200).json({ messages: messages });
 	} catch (err) {
 		next(err);
