@@ -4,7 +4,7 @@ import { loadMessagesService, sendMessageService } from "../services/message.ser
 export const sendMessageController = async (req: Request, res: Response, next: NextFunction) => {
 	try {
 		await sendMessageService(req.body.messageData, req.body.id);
-		res.status(200).json({ success: true });
+		res.status(201).json({ success: true });
 	} catch (err) {
 		next(err);
 	}
