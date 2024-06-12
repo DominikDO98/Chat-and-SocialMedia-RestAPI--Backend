@@ -40,7 +40,7 @@ app.use("/chat", authorizeToken, ChatRouter);
 app.use("/message", authorizeToken, MessageRouter);
 
 app.use(handleDBErrors);
-app.use(handleError);
+// app.use(handleError);
 
 app.listen(3000, "127.0.0.1", () => {
 	console.log("server is listening on port 3000");
