@@ -22,7 +22,7 @@ MessageRouter
 		await deleteMessageController(req, res, next);
 	})
 	.patch("/checkMessagesAsDelivered", async (req: Request, res: Response, next: NextFunction) => {
-		validateReq(req, ["messId", "id"]);
+		validateReq(req, ["chatId", "id"]);
 		z.string().uuid().parse(req.body.chatId);
 		await checkMessagesAsDeliveredController(req, res, next);
 	});
