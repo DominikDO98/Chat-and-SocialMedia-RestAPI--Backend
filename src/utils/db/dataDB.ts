@@ -1,5 +1,4 @@
 import { hashSync } from "bcrypt";
-import { MessageEntity } from "../../entities/_chat.entity/chat.types";
 import { ChatEntity } from "../../entities/chat.entity/chat.type";
 import { CommentEntity } from "../../entities/comment.entity/comment.types";
 import { ContactEntity } from "../../entities/contact.entity/contact.type";
@@ -10,6 +9,7 @@ import { LikeEntity } from "../../entities/like.entity/like.type";
 import { PostEntity } from "../../entities/post.entity/post.types";
 import { UserEntity } from "../../entities/user.entity/user.types";
 import { convertImg } from "../../tests/user.tests/testingAssets/readFile";
+import { MessageEntity } from "../../entities/message.entity/message.type";
 
 export const DBIds = {
 	comment_id: "ab104f91-6ab9-449c-a5da-71b3064fdaa1",
@@ -254,7 +254,7 @@ export const chatGroupDBData: ChatEntity = {
 
 export const messageDBData: MessageEntity = {
 	id: DBIds.message_id,
-	conversaiton_id: DBIds.chat_id,
+	chat_id: DBIds.chat_id,
 	text: "Message text",
 	created_at: new Date(),
 	send_by: DBIds.user_id,
@@ -265,7 +265,7 @@ export const messageDBData: MessageEntity = {
 
 export const message2DBData: MessageEntity = {
 	id: DBIds.message2_id,
-	conversaiton_id: DBIds.chat_id,
+	chat_id: DBIds.chat_id,
 	text: "Message text2",
 	created_at: new Date(),
 	send_by: DBIds.user2_id,
@@ -275,7 +275,7 @@ export const message2DBData: MessageEntity = {
 };
 
 export const messageNoID: Omit<MessageEntity, "id"> = {
-	conversaiton_id: DBIds.chat_id,
+	chat_id: DBIds.chat_id,
 	text: "auto message",
 	created_at: new Date(),
 	send_by: DBIds.user_id,
