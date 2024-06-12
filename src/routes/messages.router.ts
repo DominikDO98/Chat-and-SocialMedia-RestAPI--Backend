@@ -21,7 +21,7 @@ MessageRouter
 		z.string().uuid().parse(req.body.messId);
 		await deleteMessageController(req, res, next);
 	})
-	.delete("/checkMessageAsDelivered", async (req: Request, res: Response, next: NextFunction) => {
+	.patch("/checkMessageAsDelivered", async (req: Request, res: Response, next: NextFunction) => {
 		validateReq(req, ["messId", "id"]);
 		z.string().uuid().parse(req.body.messId);
 		await checkMessageAsDeliveredController(req, res, next);
