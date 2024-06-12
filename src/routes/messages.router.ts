@@ -1,8 +1,8 @@
 import { NextFunction, Request, Response, Router } from "express";
-import { validateReq } from "../utils/validateReq/validateReq";
-import { checkMessageAsDeliveredController, deleteMessageController, loadMessagesController, sendMessageController } from "../controllers/message.controller";
-import { MessageSchema } from "../entities/message.entity/message.entity";
 import { z } from "zod";
+import { checkMessagesAsDeliveredController, deleteMessageController, loadMessagesController, sendMessageController } from "../controllers/message.controller";
+import { MessageSchema } from "../entities/message.entity/message.entity";
+import { validateReq } from "../utils/validateReq/validateReq";
 
 export const MessageRouter = Router();
 MessageRouter
@@ -21,8 +21,8 @@ MessageRouter
 		z.string().uuid().parse(req.body.messId);
 		await deleteMessageController(req, res, next);
 	})
-	.patch("/checkMessageAsDelivered", async (req: Request, res: Response, next: NextFunction) => {
+	.patch("/checkMessagesAsDelivered", async (req: Request, res: Response, next: NextFunction) => {
 		validateReq(req, ["messId", "id"]);
-		z.string().uuid().parse(req.body.messId);
-		await checkMessageAsDeliveredController(req, res, next);
+		z.string().uuid().parse(req.body.chatId);
+		await checkMessagesAsDeliveredController(req, res, next);
 	});

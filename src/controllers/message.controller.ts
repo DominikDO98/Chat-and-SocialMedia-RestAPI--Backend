@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { checkMessageAsDeliveredService, deleteMessageService, loadMessagesService, sendMessageService } from "../services/message.service";
+import { sendMessageService, loadMessagesService, deleteMessageService, checkMessagesAsDeliveredService } from "../services/message.service";
 
 export const sendMessageController = async (req: Request, res: Response, next: NextFunction) => {
 	try {
@@ -28,9 +28,9 @@ export const deleteMessageController = async (req: Request, res: Response, next:
 	}
 };
 
-export const checkMessageAsDeliveredController = async (req: Request, res: Response, next: NextFunction) => {
+export const checkMessagesAsDeliveredController = async (req: Request, res: Response, next: NextFunction) => {
 	try {
-		await checkMessageAsDeliveredService(req.body.messId);
+		await checkMessagesAsDeliveredService(req.body.chatId);
 		res.status(200).json({ success: true });
 	} catch (err) {
 		next(err);

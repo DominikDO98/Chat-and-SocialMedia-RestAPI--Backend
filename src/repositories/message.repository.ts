@@ -14,6 +14,6 @@ export const deleteMessageRepo = async (mess_id: string): Promise<void> => {
 	await pool.query("DELETE FROM messages WHERE id = $1", [mess_id]);
 };
 
-export const checkMessageAsDeliveredRepo = async (mess_id: string): Promise<void> => {
-	await pool.query("UPDATE messages SET is_delivered = true WHERE id = $1", [mess_id]);
+export const checkMessagesAsDeliveredRepo = async (chatId: string): Promise<void> => {
+	await pool.query("UPDATE messages SET is_delivered = true WHERE chat_id = $1", [chatId]);
 };
