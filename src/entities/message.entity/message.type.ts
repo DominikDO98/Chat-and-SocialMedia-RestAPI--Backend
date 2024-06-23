@@ -8,3 +8,5 @@ export type MessageEntity = {
 	picture?: Buffer;
 	attachment?: string;
 };
+
+export type MessageCreationEntity = Omit<MessageEntity, "id" | "created_at" | "is_delivered" | "send_by">;
