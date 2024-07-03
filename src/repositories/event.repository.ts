@@ -6,7 +6,7 @@ import { CustomError, ValidationError } from "../utils/errors/errors";
 export class EventRepository {
 	constructor() {}
 
-	static createEventRepo = async (postData: PostEntity, eventData: EventEntity): Promise<void> => {
+	static createEvent = async (postData: PostEntity, eventData: EventEntity): Promise<void> => {
 		const client = await pool.connect();
 		try {
 			await client.query("BEGIN;");
@@ -22,7 +22,7 @@ export class EventRepository {
 		}
 	};
 
-	static editEventRepo = async (postData: PostEntity, eventData: EventEntity): Promise<void> => {
+	static editEvent = async (postData: PostEntity, eventData: EventEntity): Promise<void> => {
 		const client = await pool.connect();
 		try {
 			await client.query("BEGIN;");
@@ -38,13 +38,13 @@ export class EventRepository {
 		}
 	};
 
-	static joinEventRepo = async (user_id: string, event_id: string): Promise<void> => {
+	static joinEvent = async (user_id: string, event_id: string): Promise<void> => {
 		await pool.query("INSERT INTO users_events (user_id, event_id) VALUES ($1, $2);", [user_id, event_id]);
 	};
-	static leaveEventRepo = async (user_id: string, event_id: string): Promise<void> => {
+	static leaveEvent = async (user_id: string, event_id: string): Promise<void> => {
 		await pool.query("DELETE FROM users_events WHERE user_id = $1 AND event_id = $2;", [user_id, event_id]);
 	};
-	static deleteEventRepo = async (user_id: string, event_id: string): Promise<void> => {
+	static deleteEvent = async (user_id: string, event_id: string): Promise<void> => {
 		const client = await pool.connect();
 		try {
 			await client.query("BEGIN;");
@@ -67,7 +67,7 @@ export class EventRepository {
 		}
 	};
 
-	static loadEventRepo = async (event_id: string): Promise<EventEntity> => {
+	static loadEvent = async (event_id: string): Promise<EventEntity> => {
 		const { rows } = await pool.query("SELECT post_id, date, lat, lon, (SELECT COUNT (user_id) FROM users_events WHERE event_id = $1) as particiants FROM events WHERE post_id = $1", [event_id]);
 		if (!rows[0]) {
 			throw new CustomError("Sorry! We're unable to find any details on that event. It is possible it was canceled by organiazer.", 404);

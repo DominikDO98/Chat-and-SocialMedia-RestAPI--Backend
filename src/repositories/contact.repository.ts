@@ -4,7 +4,7 @@ import { pool } from "../utils/db/db";
 export class ContactRepository {
 	constructor() {}
 
-	static deleteContactRepo = async (contact_id: string): Promise<void> => {
+	static deleteContact = async (contact_id: string): Promise<void> => {
 		const client = await pool.connect();
 		try {
 			await client.query("DELETE FROM users_contacts WHERE contact_id = $1", [contact_id]);
@@ -19,7 +19,7 @@ export class ContactRepository {
 			client.release();
 		}
 	};
-	static loadContactListRepo = async (user_id: string): Promise<ContactListEntity[]> => {
+	static loadContactList = async (user_id: string): Promise<ContactListEntity[]> => {
 		const { rows } = await pool.query("SELECT contact_id, chat_id, username, firstname, lastname FROM users_contacts FULL JOIN users ON users.id = users_contacts.user_id FULL JOIN contacts ON contacts.id = users_contacts.contact_id	WHERE contact_id IN	(SELECT contact_id FROM users_contacts WHERE user_id = $1) AND NOT user_id = $1 ORDER BY username ASC", [user_id]);
 		return rows;
 	};

@@ -5,13 +5,13 @@ import { ChatEntity, PrivateChatDataEntity, GroupChatDataEnitity } from "../enti
 export class ChatRepository {
 	constructor() {}
 
-	private addUsersLoop = async (participantsId: string[], client: PoolClient, converation_id: string) => {
+	static addUsersLoop = async (participantsId: string[], client: PoolClient, converation_id: string) => {
 		participantsId.forEach(async (user) => {
 			await client.query("INSERT INTO users_chats (user_id, chat_id) VALUES ($1, $2)", [user, converation_id]);
 		});
 	};
 
-	static createChatRepo = async (contact_id: string, chatData: ChatEntity): Promise<void> => {
+	static createChat = async (contact_id: string, chatData: ChatEntity): Promise<void> => {
 		const client = await pool.connect();
 		try {
 			await client.query("BEGIN");
@@ -28,7 +28,7 @@ export class ChatRepository {
 			client.release();
 		}
 	};
-	static createGroupChatRepo = async (participantsIds: string[], chatData: ChatEntity): Promise<void> => {
+	static createGroupChat = async (participantsIds: string[], chatData: ChatEntity): Promise<void> => {
 		const client = await pool.connect();
 		try {
 			await client.query("BEGIN");
@@ -43,7 +43,7 @@ export class ChatRepository {
 			client.release();
 		}
 	};
-	static addUsersToGroupRepo = async (participantsIds: string[], converation_id: string): Promise<void> => {
+	static addUsersToGroup = async (participantsIds: string[], converation_id: string): Promise<void> => {
 		const client = await pool.connect();
 		try {
 			await client.query("BEGIN");
@@ -57,18 +57,18 @@ export class ChatRepository {
 			client.release();
 		}
 	};
-	static changeChatNameRepo = async (chat_id: string, newName: string): Promise<void> => {
+	static changeChatName = async (chat_id: string, newName: string): Promise<void> => {
 		await pool.query("UPDATE chats SET name = $1 WHERE id = $2", [newName, chat_id]);
 	};
 
-	loadPrivateChatsRepo = async (user_id: string): Promise<PrivateChatDataEntity[]> => {
+	loadPrivateChats = async (user_id: string): Promise<PrivateChatDataEntity[]> => {
 		const { rows } = await pool.query(
 			"SELECT chatid, otheruser, otheruserPhoto, text, is_delivered, created_at, users.username as sender FROM (SELECT chats.id as chatid, users.username as otheruser, users.profile_photo as otheruserPhoto, messages.text, messages.created_at, messages.send_by, messages.is_delivered, ROW_NUMBER() OVER(PARTITION BY messages.chat_id ORDER BY messages.created_at DESC) FROM chats FULL JOIN messages ON messages.chat_id = chats.id FULL JOIN users_chats ON users_chats.chat_id = chats.id FULL JOIN users ON users.id = users_chats.user_id	WHERE chats.id IN (SELECT chat_id FROM users_chats WHERE user_id = $1) AND is_group = false	AND NOT users_chats.user_id = $1) FULL JOIN users ON users.id = send_by WHERE row_number = 1",
 			[user_id],
 		);
 		return rows;
 	};
-	static loadGoupChatsRepo = async (user_id: string): Promise<GroupChatDataEnitity[]> => {
+	static loadGoupChats = async (user_id: string): Promise<GroupChatDataEnitity[]> => {
 		const { rows } = await pool.query(
 			"SELECT chatid, name, text, is_delivered, created_at, users.username as sender FROM (SELECT chats.id as chatid, chats.is_group, chats.name, messages.text, messages.send_by, messages.is_delivered, messages.created_at, ROW_NUMBER() OVER(PARTITION BY chats.id ORDER BY messages.created_at DESC) FROM chats FULL JOIN messages ON messages.chat_id = chats.id WHERE chats.id IN (SELECT chat_id FROM users_chats WHERE user_id = $1) AND is_group = true) FULL JOIN users ON send_by = users.id WHERE row_number = 1",
 			[user_id],
@@ -76,7 +76,7 @@ export class ChatRepository {
 		return rows;
 	};
 
-	static deleteGroupChatRepo = async (chat_id: string): Promise<void> => {
+	static deleteGroupChat = async (chat_id: string): Promise<void> => {
 		const client = await pool.connect();
 		try {
 			await client.query("BEGIN");
@@ -92,7 +92,7 @@ export class ChatRepository {
 		}
 	};
 
-	static deleteUserFromGroupRepo = async (user_id: string, chat_id: string): Promise<void> => {
+	static deleteUserFromGroup = async (user_id: string, chat_id: string): Promise<void> => {
 		await pool.query("DELETE FROM users_chats WHERE user_id = $1 AND chat_id = $2", [user_id, chat_id]);
 	};
 }
