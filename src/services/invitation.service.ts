@@ -1,23 +1,29 @@
 import { v4 as uuid } from "uuid";
 import { invitationFactory } from "../entities/invitation.entity/invitation.entity";
 import { InvitationEntity, InvitationWithUser } from "../entities/invitation.entity/invitation.type";
-import { acceptInvitationRepo, cancelInvitationRepo, loadInvitationsRepo, rejectInvitationRepo, sendInvitationRepo } from "../repositories/invitation.repository";
+import { InvitationRepository } from "../repositories/invitation.repository";
 
-export const sendInvitationService = async (invitaitonData: Omit<InvitationEntity, "id">): Promise<void> => {
-	const invitaiton = invitationFactory(invitaitonData);
-	await sendInvitationRepo(invitaiton);
-};
-export const acceptInvitationService = async (invitation_id: string, user_id: string): Promise<void> => {
-	const contact_id = uuid();
-	await acceptInvitationRepo(invitation_id, contact_id, user_id);
-};
-export const rejectInvitationService = async (invitation_id: string, user_id: string): Promise<void> => {
-	await rejectInvitationRepo(invitation_id, user_id);
-};
-export const cancelInvitationService = async (invitation_id: string, user_id: string): Promise<void> => {
-	await cancelInvitationRepo(invitation_id, user_id);
-};
-export const loadInvitationsService = async (user_id: string): Promise<InvitationWithUser[]> => {
-	const invitations = await loadInvitationsRepo(user_id);
-	return invitations;
-};
+export class InvitationService {
+	private _invitationRepository = InvitationRepository;
+	constructor() {
+		this._invitationRepository;
+	}
+	sendInvitationService = async (invitaitonData: Omit<InvitationEntity, "id">): Promise<void> => {
+		const invitaiton = invitationFactory(invitaitonData);
+		await this._invitationRepository.sendInvitation(invitaiton);
+	};
+	acceptInvitationService = async (invitation_id: string, user_id: string): Promise<void> => {
+		const contact_id = uuid();
+		await this._invitationRepository.acceptInvitation(invitation_id, contact_id, user_id);
+	};
+	rejectInvitationService = async (invitation_id: string, user_id: string): Promise<void> => {
+		await this._invitationRepository.rejectInvitation(invitation_id, user_id);
+	};
+	cancelInvitationService = async (invitation_id: string, user_id: string): Promise<void> => {
+		await this._invitationRepository.cancelInvitation(invitation_id, user_id);
+	};
+	loadInvitationsService = async (user_id: string): Promise<InvitationWithUser[]> => {
+		const invitations = await this._invitationRepository.loadInvitations(user_id);
+		return invitations;
+	};
+}
