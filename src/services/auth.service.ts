@@ -7,11 +7,9 @@ import { AuthRepository } from "../repositories/auth.repository";
 
 export class AuthService {
 	private _authrepository = AuthRepository;
-
 	constructor() {
 		this._authrepository;
 	}
-
 	registerUser = async (userAuthData: Omit<UserCreationEnitity, "id">): Promise<Omit<UserRegistrationReturnedData, "id">> => {
 		const newUser = userFactory(userAuthData);
 		const newUserData = await this._authrepository.registerUser(newUser);
