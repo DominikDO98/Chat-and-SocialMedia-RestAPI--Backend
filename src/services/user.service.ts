@@ -1,6 +1,12 @@
 import { EditAdditionalUserData, LoadFullUserData } from "../entities/user.entity/user.types";
 import { editUserAdditionalDataRepo, loadUserDataRepo, uploadProfilePhotoRepo } from "../repositories/user.repository";
-
+import { UserRepository } from "../repositories/user.repository";
+class UserService {
+	private _userRepository = UserRepository;
+	constructor() {
+		this._userRepository;
+	}
+}
 export const loadUserDataService = async (userId: string): Promise<LoadFullUserData> => {
 	const userData = await loadUserDataRepo(userId);
 	return userData;
