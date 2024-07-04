@@ -1,19 +1,19 @@
 import { EditAdditionalUserData, LoadFullUserData } from "../entities/user.entity/user.types";
-import { editUserAdditionalDataRepo, loadUserDataRepo, uploadProfilePhotoRepo } from "../repositories/user.repository";
 import { UserRepository } from "../repositories/user.repository";
-class UserService {
+
+export class UserService {
 	private _userRepository = UserRepository;
 	constructor() {
 		this._userRepository;
 	}
+	loadUserDataService = async (userId: string): Promise<LoadFullUserData> => {
+		const userData = await this._userRepository.loadUserData(userId);
+		return userData;
+	};
+	editUserAdditionalDataService = async (userId: string, newData: Partial<EditAdditionalUserData>): Promise<void> => {
+		await this._userRepository.editUserAdditionalData(userId, newData);
+	};
+	uploadProfilePhotoService = async (photo: Buffer, userId: string): Promise<void> => {
+		await this._userRepository.uploadProfilePhoto(photo, userId);
+	};
 }
-export const loadUserDataService = async (userId: string): Promise<LoadFullUserData> => {
-	const userData = await loadUserDataRepo(userId);
-	return userData;
-};
-export const editUserAdditionalDataService = async (userId: string, newData: Partial<EditAdditionalUserData>): Promise<void> => {
-	await editUserAdditionalDataRepo(userId, newData);
-};
-export const uploadProfilePhotoService = async (photo: Buffer, userId: string): Promise<void> => {
-	await uploadProfilePhotoRepo(photo, userId);
-};
