@@ -1,40 +1,46 @@
 import { chatFactory } from "../entities/chat.entity/chat.entity";
-import { ChatEntity, PrivateChatDataEntity, GroupChatDataEnitity } from "../entities/chat.entity/chat.type";
-import { createChatRepo, createGroupChatRepo, addUsersToGroupRepo, changeChatNameRepo, loadPrivateChatsRepo, loadGoupChatsRepo, deleteGroupChatRepo, deleteUserFromGroupRepo } from "../repositories/chat.repository";
+import { ChatEntity, GroupChatDataEnitity, PrivateChatDataEntity } from "../entities/chat.entity/chat.type";
+import { ChatRepository } from "../repositories/chat.repository";
 
-export const createChatService = async (conctact_id: string, chatData: Omit<ChatEntity, "id">): Promise<void> => {
-	const newChat = chatFactory(chatData);
-	await createChatRepo(conctact_id, newChat);
-};
+export class ChatService {
+	private _chatRepository = ChatRepository;
+	constructor() {
+		this._chatRepository;
+	}
+	createChat = async (conctact_id: string, chatData: Omit<ChatEntity, "id">): Promise<void> => {
+		const newChat = chatFactory(chatData);
+		await this._chatsitory.createChat(conctact_id, newChat);
+	};
 
-export const createGroupChatService = async (userId: string, otherParticipants: string[], chatData: Omit<ChatEntity, "id">): Promise<void> => {
-	const participants = [userId, ...otherParticipants];
-	const newChat = chatFactory(chatData);
-	await createGroupChatRepo(participants, newChat);
-};
+	createGroupChat = async (userId: string, otherParticipants: string[], chatData: Omit<ChatEntity, "id">): Promise<void> => {
+		const participants = [userId, ...otherParticipants];
+		const newChat = chatFactory(chatData);
+		await this._chatsitory.createGroupChat(participants, newChat);
+	};
 
-export const addUsersToGroupService = async (participantsIds: string[], chat_id: string): Promise<void> => {
-	await addUsersToGroupRepo(participantsIds, chat_id);
-};
+	addUsersToGroup = async (participantsIds: string[], chat_id: string): Promise<void> => {
+		await this._chatsitory.addUsersToGroup(participantsIds, chat_id);
+	};
 
-export const changeChatNameService = async (chat_id: string, newName: string): Promise<void> => {
-	await changeChatNameRepo(chat_id, newName);
-};
+	changeChatName = async (chat_id: string, newName: string): Promise<void> => {
+		await this._chatsitory.changeChatName(chat_id, newName);
+	};
 
-export const loadPrivateChatsService = async (user_id: string): Promise<PrivateChatDataEntity[]> => {
-	const chats = await loadPrivateChatsRepo(user_id);
-	return chats;
-};
+	loadPrivateChats = async (user_id: string): Promise<PrivateChatDataEntity[]> => {
+		const chats = await this._chatsitory.loadPrivateChats(user_id);
+		return chats;
+	};
 
-export const loadGroupChatsService = async (user_id: string): Promise<GroupChatDataEnitity[]> => {
-	const chats = await loadGoupChatsRepo(user_id);
-	return chats;
-};
+	loadGroupChats = async (user_id: string): Promise<GroupChatDataEnitity[]> => {
+		const chats = await this._chatsitory.loadGoupChats(user_id);
+		return chats;
+	};
 
-export const deleteGroupChatService = async (chat_id: string): Promise<void> => {
-	await deleteGroupChatRepo(chat_id);
-};
+	deleteGroupChat = async (chat_id: string): Promise<void> => {
+		await this._chatsitory.deleteGroupChat(chat_id);
+	};
 
-export const deleteUserFromGroupService = async (user_id: string, chat_id: string): Promise<void> => {
-	await deleteUserFromGroupRepo(user_id, chat_id);
-};
+	deleteUserFromGroup = async (user_id: string, chat_id: string): Promise<void> => {
+		await this._chatsitory.deleteUserFromGroup(user_id, chat_id);
+	};
+}
