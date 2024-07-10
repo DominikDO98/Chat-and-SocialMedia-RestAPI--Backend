@@ -1,52 +1,57 @@
 import { NextFunction, Request, Response } from "express";
-import { createEventService, deleteEventService, editEventService, joinEventService, leaveEventService, loadEventService } from "../services/event.service";
+import { EventService } from "../services/event.service";
 
-//events
-export const createEventController = async (req: Request, res: Response, next: NextFunction) => {
-	try {
-		await createEventService(req.body.postData, req.body.eventData, req.body.id);
-		res.status(200).json({ success: true });
-	} catch (err) {
-		next(err);
+export class EventController {
+	private _eventService = new EventService();
+	constructor() {
+		this._eventService;
 	}
-};
-export const editEventContorller = async (req: Request, res: Response, next: NextFunction) => {
-	try {
-		await editEventService(req.body.postData, req.body.eventData, req.body.id);
-		res.status(200).json({ success: true });
-	} catch (err) {
-		next(err);
-	}
-};
-export const joinEventController = async (req: Request, res: Response, next: NextFunction) => {
-	try {
-		await joinEventService(req.body.id, req.body.eventId);
-		res.status(200).json({ success: true });
-	} catch (err) {
-		next(err);
-	}
-};
-export const leaveEventController = async (req: Request, res: Response, next: NextFunction) => {
-	try {
-		await leaveEventService(req.body.id, req.body.eventId);
-		res.status(200).json({ success: true });
-	} catch (err) {
-		next(err);
-	}
-};
-export const deleteEventController = async (req: Request, res: Response, next: NextFunction) => {
-	try {
-		await deleteEventService(req.body.id, req.body.eventId);
-		res.status(200).json({ success: true });
-	} catch (err) {
-		next(err);
-	}
-};
-export const loadEventController = async (req: Request, res: Response, next: NextFunction) => {
-	try {
-		const event = await loadEventService(req.params.eventId);
-		res.status(200).json({ event: event });
-	} catch (err) {
-		next(err);
-	}
-};
+	createEvent = async (req: Request, res: Response, next: NextFunction) => {
+		try {
+			await this._eventService.createEvent(req.body.postData, req.body.eventData, req.body.id);
+			res.status(200).json({ success: true });
+		} catch (err) {
+			next(err);
+		}
+	};
+	editEvent = async (req: Request, res: Response, next: NextFunction) => {
+		try {
+			await this._eventService.editEvent(req.body.postData, req.body.eventData, req.body.id);
+			res.status(200).json({ success: true });
+		} catch (err) {
+			next(err);
+		}
+	};
+	joinEvent = async (req: Request, res: Response, next: NextFunction) => {
+		try {
+			await this._eventService.joinEvent(req.body.id, req.body.eventId);
+			res.status(200).json({ success: true });
+		} catch (err) {
+			next(err);
+		}
+	};
+	leaveEvent = async (req: Request, res: Response, next: NextFunction) => {
+		try {
+			await this._eventService.leaveEvent(req.body.id, req.body.eventId);
+			res.status(200).json({ success: true });
+		} catch (err) {
+			next(err);
+		}
+	};
+	deleteEvent = async (req: Request, res: Response, next: NextFunction) => {
+		try {
+			await this._eventService.deleteEvent(req.body.id, req.body.eventId);
+			res.status(200).json({ success: true });
+		} catch (err) {
+			next(err);
+		}
+	};
+	loadEvent = async (req: Request, res: Response, next: NextFunction) => {
+		try {
+			const event = await this._eventService.loadEvent(req.params.eventId);
+			res.status(200).json({ event: event });
+		} catch (err) {
+			next(err);
+		}
+	};
+}

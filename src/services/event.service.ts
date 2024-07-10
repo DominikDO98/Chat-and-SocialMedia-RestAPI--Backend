@@ -9,31 +9,31 @@ export class EventService {
 	constructor() {
 		this._eventRepository;
 	}
-	createEventService = async (postData: Omit<PostEntity, "user_id">, eventData: EventEntity, user_id: string): Promise<void> => {
+	createEvent = async (postData: Omit<PostEntity, "user_id">, eventData: EventEntity, user_id: string): Promise<void> => {
 		const newPost = postFactory(postData, user_id);
 		const newEvent = eventFactory(eventData, newPost.id);
 		await this._eventRepository.createEvent(newPost, newEvent);
 	};
 
-	editEventService = async (postData: Omit<PostEntity, "user_id">, eventData: EventEntity, user_id: string): Promise<void> => {
+	editEvent = async (postData: Omit<PostEntity, "user_id">, eventData: EventEntity, user_id: string): Promise<void> => {
 		const newPost = postFactory(postData, user_id);
 		const newEvent = eventFactory(eventData, newPost.id);
 		await this._eventRepository.editEvent(newPost, newEvent);
 	};
 
-	joinEventService = async (user_id: string, event_id: string): Promise<void> => {
+	joinEvent = async (user_id: string, event_id: string): Promise<void> => {
 		await this._eventRepository.joinEvent(user_id, event_id);
 	};
 
-	leaveEventService = async (user_id: string, event_id: string): Promise<void> => {
+	leaveEvent = async (user_id: string, event_id: string): Promise<void> => {
 		await this._eventRepository.leaveEvent(user_id, event_id);
 	};
 
-	deleteEventService = async (user_id: string, event_id: string): Promise<void> => {
+	deleteEvent = async (user_id: string, event_id: string): Promise<void> => {
 		await this._eventRepository.deleteEvent(user_id, event_id);
 	};
 
-	loadEventService = async (event_id: string): Promise<EventEntity> => {
+	loadEvent = async (event_id: string): Promise<EventEntity> => {
 		const event = await this._eventRepository.loadEvent(event_id);
 		return event;
 	};
