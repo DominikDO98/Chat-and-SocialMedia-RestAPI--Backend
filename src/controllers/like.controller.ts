@@ -1,20 +1,25 @@
 import { NextFunction, Request, Response } from "express";
-import { giveLikeService, removeLikeService } from "../services/like.service";
+import { LikeService } from "../services/like.service";
 
-//likes
-export const giveLikeController = async (req: Request, res: Response, next: NextFunction) => {
-	try {
-		await giveLikeService(req.body.likeData, req.body.id);
-		res.status(200).json({ success: true });
-	} catch (err) {
-		next(err);
+export class LikeController {
+	private _likeService = new LikeService();
+	constructor() {
+		this._likeService;
 	}
-};
-export const removeLikeController = async (req: Request, res: Response, next: NextFunction) => {
-	try {
-		await removeLikeService(req.body.likeData, req.body.id);
-		res.status(200).json({ success: true });
-	} catch (err) {
-		next(err);
-	}
-};
+	giveLike = async (req: Request, res: Response, next: NextFunction) => {
+		try {
+			await this._likeService.giveLike(req.body.likeData, req.body.id);
+			res.status(200).json({ success: true });
+		} catch (err) {
+			next(err);
+		}
+	};
+	removeLike = async (req: Request, res: Response, next: NextFunction) => {
+		try {
+			await this._likeService.removeLike(req.body.likeData, req.body.id);
+			res.status(200).json({ success: true });
+		} catch (err) {
+			next(err);
+		}
+	};
+}

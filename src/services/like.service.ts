@@ -7,12 +7,12 @@ export class LikeService {
 	constructor() {
 		this._likeRepository;
 	}
-	giveLikeService = async (likeData: Omit<LikeEntity, "user_id">, user_id: string): Promise<void> => {
+	giveLike = async (likeData: Omit<LikeEntity, "user_id">, user_id: string): Promise<void> => {
 		const newLike = likeFactory(likeData, user_id);
 		await this._likeRepository.giveLike(newLike);
 	};
 
-	removeLikeService = async (likeData: Omit<LikeEntity, "user_id" | "created_at">, user_id: string): Promise<void> => {
+	removeLike = async (likeData: Omit<LikeEntity, "user_id" | "created_at">, user_id: string): Promise<void> => {
 		await this._likeRepository.removeLike(likeData, user_id);
 	};
 }
