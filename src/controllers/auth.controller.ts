@@ -1,31 +1,37 @@
-import { Request, Response, NextFunction } from "express";
-import { loginUserByEmailService, loginUserByNameService, registerUserService } from "../services/auth.service";
+import { NextFunction, Request, Response } from "express";
 import { UserCreationSchema, UserLoginByEmailSchema, UserLoginByNameSchema } from "../entities/user.entity/user.entity";
+import { AuthService } from "../services/auth.service";
 
-export const registerUserController = async (req: Request, res: Response, next: NextFunction) => {
-	try {
-		UserCreationSchema.parse(req.body.userAuthData);
-		const recivedData = await registerUserService(req.body.userAuthData);
-		res.cookie("authToken", recivedData.accessToken, { secure: false, httpOnly: true, domain: undefined }).status(201).json(recivedData.userData);
-	} catch (err) {
-		next(err);
+export class AuthController {
+	private _authService = new AuthService();
+	constructor() {
+		this._authService;
 	}
-};
-export const loginUserByNameController = async (req: Request, res: Response, next: NextFunction) => {
-	try {
-		UserLoginByNameSchema.parse(req.body.userAuthData);
-		const recivedData = await loginUserByNameService(req.body.userAuthData);
-		res.cookie("authToken", recivedData.accessToken, { secure: false, httpOnly: true, domain: undefined }).status(200).json(recivedData.userData);
-	} catch (err) {
-		next(err);
-	}
-};
-export const loginUserByEmailController = async (req: Request, res: Response, next: NextFunction) => {
-	try {
-		UserLoginByEmailSchema.parse(req.body.userAuthData);
-		const recivedData = await loginUserByEmailService(req.body.userAuthData);
-		res.cookie("authToken", recivedData.accessToken, { secure: false, httpOnly: true, domain: undefined }).status(200).json(recivedData.userData);
-	} catch (err) {
-		next(err);
-	}
-};
+	registerUser = async (req: Request, res: Response, next: NextFunction) => {
+		try {
+			UserCreationSchema.parse(req.body.userAuthData);
+			const recivedData = await this._authService.registerUser(req.body.userAuthData);
+			res.cookie("authToken", recivedData.accessToken, { secure: false, httpOnly: true, domain: undefined }).status(201).json(recivedData.userData);
+		} catch (err) {
+			next(err);
+		}
+	};
+	loginUserByName = async (req: Request, res: Response, next: NextFunction) => {
+		try {
+			UserLoginByNameSchema.parse(req.body.userAuthData);
+			const recivedData = await this._authService.loginUserByName(req.body.userAuthData);
+			res.cookie("authToken", recivedData.accessToken, { secure: false, httpOnly: true, domain: undefined }).status(200).json(recivedData.userData);
+		} catch (err) {
+			next(err);
+		}
+	};
+	loginUserByEmail = async (req: Request, res: Response, next: NextFunction) => {
+		try {
+			UserLoginByEmailSchema.parse(req.body.userAuthData);
+			const recivedData = await this._authService.loginUserByEmail(req.body.userAuthData);
+			res.cookie("authToken", recivedData.accessToken, { secure: false, httpOnly: true, domain: undefined }).status(200).json(recivedData.userData);
+		} catch (err) {
+			next(err);
+		}
+	};
+}
