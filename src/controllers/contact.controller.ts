@@ -1,20 +1,25 @@
 import { NextFunction, Request, Response } from "express";
-import { deleteContactService, loadContactListService } from "../services/contact.service";
+import { ContactService } from "../services/contact.service";
 
-export const deleteContactController = async (req: Request, res: Response, next: NextFunction) => {
-	try {
-		await deleteContactService(req.body.contact_id);
-		res.status(200).json({ success: true });
-	} catch (err) {
-		next(err);
+export class ContactController {
+	private _contactService = new ContactService();
+	constructor() {
+		this._contactService;
 	}
-};
-
-export const loadContactListController = async (req: Request, res: Response, next: NextFunction) => {
-	try {
-		const contactList = await loadContactListService(req.body.id);
-		res.status(200).json(contactList);
-	} catch (err) {
-		next(err);
-	}
-};
+	deleteContact = async (req: Request, res: Response, next: NextFunction) => {
+		try {
+			await this._contactService.deleteContact(req.body.contact_id);
+			res.status(200).json({ success: true });
+		} catch (err) {
+			next(err);
+		}
+	};
+	loadContactList = async (req: Request, res: Response, next: NextFunction) => {
+		try {
+			const contactList = await this._contactService.loadContactList(req.body.id);
+			res.status(200).json(contactList);
+		} catch (err) {
+			next(err);
+		}
+	};
+}

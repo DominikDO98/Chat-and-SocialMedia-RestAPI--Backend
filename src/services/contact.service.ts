@@ -6,11 +6,11 @@ export class ContactService {
 	constructor() {
 		this._contactRepository;
 	}
-	deleteContactService = async (contact_id: string): Promise<void> => {
+	deleteContact = async (contact_id: string): Promise<void> => {
 		await this._contactRepository.deleteContact(contact_id);
 	};
 
-	loadContactListService = async (user_id: string): Promise<ContactListEntity[]> => {
+	loadContactList = async (user_id: string): Promise<ContactListEntity[]> => {
 		const contactList = await this._contactRepository.loadContactList(user_id);
 		return contactList;
 	};
