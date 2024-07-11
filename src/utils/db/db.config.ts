@@ -5,7 +5,7 @@ config();
 export const devConfig: PoolConfig = {
 	database: process.env.DB,
 	host: process.env.HOST,
-	user: process.env.USER,
+	user: process.env.USER_DB,
 	password: process.env.PASSWORD,
 	port: 5432,
 };
@@ -13,14 +13,14 @@ export const devConfig: PoolConfig = {
 export const testConfig: PoolConfig = {
 	database: process.env.TEST_DB,
 	host: process.env.HOST,
-	user: process.env.USER,
+	user: process.env.USER_DB,
 	password: process.env.PASSWORD,
 	port: 5432,
 };
 
 export const initConfig: PoolConfig = {
 	host: process.env.HOST,
-	user: process.env.USER,
+	user: process.env.USER_DB,
 	password: process.env.PASSWORD,
 	port: 5432,
 };

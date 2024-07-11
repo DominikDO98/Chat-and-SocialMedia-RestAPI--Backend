@@ -4,7 +4,7 @@ declare global {
 		interface ProcessEnv {
 			DB: string;
 			HOST: string;
-			USER: string;
+			USER_DB: string;
 			PASSWORD: string;
 			TEST_DB: string;
 			ACCESS_TOKEN_SECRET: string;
