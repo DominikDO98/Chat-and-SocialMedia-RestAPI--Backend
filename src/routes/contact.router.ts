@@ -1,14 +1,15 @@
-import { Router, Request, Response, NextFunction } from "express";
+import { NextFunction, Request, Response, Router } from "express";
+import { ContactController } from "../controllers/contact.controller";
 import { validateReq } from "../utils/validateReq/validateReq";
-import { deleteContactController, loadContactListController } from "../controllers/contact.controller";
 
 export const ContactRouter = Router();
+const contactController = new ContactController();
 ContactRouter
-	//contacts
+	//prettier-ignore
 	.delete("/deleteContact", async (req: Request, res: Response, next: NextFunction) => {
 		validateReq(req, ["contact_id"]);
-		await deleteContactController(req, res, next);
+		await contactController.deleteContact(req, res, next);
 	})
 	.get("/loadContactList", async (req: Request, res: Response, next: NextFunction) => {
-		await loadContactListController(req, res, next);
+		await contactController.loadContactList(req, res, next);
 	});
