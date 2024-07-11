@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response, Router } from "express";
-import { addCommentController, CommentController, deleteCommentController, editCommentContorller, loadCommentsController } from "../controllers/comment.controller";
+import { CommentController } from "../controllers/comment.controller";
 import { CommentCreationSchema, CommentEditionSchema } from "../entities/comment.entity/comment.entity";
 import { validateReq } from "../utils/validateReq/validateReq";
 
