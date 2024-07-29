@@ -1,4 +1,4 @@
-export type GroupEntity = {
+export type TGroup = {
 	id: string;
 	admin_id: string;
 	name?: string;

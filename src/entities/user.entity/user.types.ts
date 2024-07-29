@@ -1,4 +1,4 @@
-export type UserEntity = {
+export type TUser = {
 	id: string;
 	username: string;
 	password: string;
@@ -14,21 +14,21 @@ export type UserEntity = {
 	description?: string;
 };
 //types for authtorization
-export type UserCreationEnitity = Pick<UserEntity, "id" | "username" | "password" | "email_address">;
-export type UserLoginByNameData = Pick<UserEntity, "username" | "password">;
-export type UserLoginByEmailData = Pick<UserEntity, "email_address" | "password">;
+export type TUserCreation = Pick<TUser, "id" | "username" | "password" | "email_address">;
+export type TUserLoginByNameData = Pick<TUser, "username" | "password">;
+export type TUserLoginByEmailData = Pick<TUser, "email_address" | "password">;
 
-export type UserRegistrationReturnedData = {
-	userData: Omit<UserEntity, "id" | "password">;
+export type TUserRegistrationReturnedData = {
+	userData: Omit<TUser, "id" | "password">;
 	id: string;
 	accessToken?: string;
 };
-export type UserLoginReturnedData = {
-	userData: Omit<UserEntity, "id" | "password">;
+export type TUserLoginReturnedData = {
+	userData: Omit<TUser, "id" | "password">;
 	password: string;
 	id: string;
 	accessToken?: string;
 };
 //types for editing profile
-export type LoadFullUserData = Omit<UserEntity, "id" | "password">;
-export type EditAdditionalUserData = Omit<UserEntity, "id" | "password" | "username" | "email_address" | "profile_photo">;
+export type TLoadFullUserData = Omit<TUser, "id" | "password">;
+export type TEditAdditionalUserData = Omit<TUser, "id" | "password" | "username" | "email_address" | "profile_photo">;

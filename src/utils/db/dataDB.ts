@@ -1,15 +1,15 @@
 import { hashSync } from "bcrypt";
-import { ChatEntity } from "../../entities/chat.entity/chat.type";
-import { CommentEntity } from "../../entities/comment.entity/comment.types";
-import { ContactEntity } from "../../entities/contact.entity/contact.type";
-import { EventEntity } from "../../entities/event.entity/event.type";
-import { GroupEntity } from "../../entities/group.entity/group.types";
-import { InvitationEntity } from "../../entities/invitation.entity/invitation.type";
-import { LikeEntity } from "../../entities/like.entity/like.type";
-import { PostEntity } from "../../entities/post.entity/post.types";
-import { UserEntity } from "../../entities/user.entity/user.types";
+import { TChat } from "../../entities/chat.entity/chat.type";
+import { TComment } from "../../entities/comment.entity/comment.types";
+import { TContact } from "../../entities/contact.entity/contact.type";
+import { TEvent } from "../../entities/event.entity/event.type";
+import { TGroup } from "../../entities/group.entity/group.types";
+import { TInvitation } from "../../entities/invitation.entity/invitation.type";
+import { TLike } from "../../entities/like.entity/like.type";
+import { TPost } from "../../entities/post.entity/post.types";
+import { TUser } from "../../entities/user.entity/user.types";
 import { convertImg } from "../../tests/user.tests/testingAssets/readFile";
-import { MessageEntity } from "../../entities/message.entity/message.type";
+import { TMessage } from "../../entities/message.entity/message.type";
 
 export const DBIds = {
 	comment_id: "ab104f91-6ab9-449c-a5da-71b3064fdaa1",
@@ -36,7 +36,7 @@ export const DBIds = {
 	user4_id: "f81c30a5-aba6-4749-b990-361f54cf5579",
 };
 
-export const userDBData: UserEntity = {
+export const userDBData: TUser = {
 	id: DBIds.user_id,
 	username: "testname",
 	password: hashSync("testpass", 10),
@@ -51,21 +51,21 @@ export const userDBData: UserEntity = {
 	profile_photo: convertImg(),
 };
 
-export const user2DBData: UserEntity = {
+export const user2DBData: TUser = {
 	...userDBData,
 	id: DBIds.user2_id,
 	username: "testname2",
 	password: hashSync("testpass2", 10),
 	email_address: "email2@gmail.com",
 };
-export const user3DBData: UserEntity = {
+export const user3DBData: TUser = {
 	...userDBData,
 	id: DBIds.user3_id,
 	username: "testname3",
 	password: hashSync("testpass3", 10),
 	email_address: "email3@gmail.com",
 };
-export const user4DBData: UserEntity = {
+export const user4DBData: TUser = {
 	...userDBData,
 	id: DBIds.user4_id,
 	username: "testname4",
@@ -73,7 +73,7 @@ export const user4DBData: UserEntity = {
 	email_address: "email4@gmail.com",
 };
 
-export const groupDBData: GroupEntity = {
+export const groupDBData: TGroup = {
 	id: DBIds.group_id,
 	admin_id: DBIds.user_id,
 	name: "nameOfTheTestGroup",
@@ -83,7 +83,7 @@ export const groupDBData: GroupEntity = {
 	description: "hi, it' a group",
 };
 
-export const groupDBData2: GroupEntity = {
+export const groupDBData2: TGroup = {
 	id: DBIds.group2_id,
 	admin_id: DBIds.user_id,
 	name: "groupName",
@@ -93,7 +93,7 @@ export const groupDBData2: GroupEntity = {
 	description: "Some Radom users group",
 };
 
-export const postDBData: PostEntity = {
+export const postDBData: TPost = {
 	id: DBIds.post_id,
 	user_id: DBIds.user_id,
 	group_id: DBIds.group_id,
@@ -105,7 +105,7 @@ export const postDBData: PostEntity = {
 	type: 0,
 };
 
-export const post2DBData: PostEntity = {
+export const post2DBData: TPost = {
 	id: DBIds.post2_id,
 	user_id: DBIds.user2_id,
 	group_id: DBIds.group_id,
@@ -117,7 +117,7 @@ export const post2DBData: PostEntity = {
 	type: 0,
 };
 
-export const postDataNoID: Omit<PostEntity, "id"> = {
+export const postDataNoID: Omit<TPost, "id"> = {
 	user_id: DBIds.user_id,
 	group_id: DBIds.group_id,
 	title: "posttitle",
@@ -128,7 +128,7 @@ export const postDataNoID: Omit<PostEntity, "id"> = {
 	type: 0,
 };
 
-export const commentDBData: CommentEntity = {
+export const commentDBData: TComment = {
 	id: DBIds.comment_id,
 	post_id: DBIds.post_id,
 	user_id: DBIds.user_id,
@@ -138,7 +138,7 @@ export const commentDBData: CommentEntity = {
 	created_at: new Date(),
 };
 
-export const comment2DBData: CommentEntity = {
+export const comment2DBData: TComment = {
 	id: DBIds.comment2_id,
 	post_id: DBIds.post_id,
 	user_id: DBIds.user_id,
@@ -148,7 +148,7 @@ export const comment2DBData: CommentEntity = {
 	created_at: new Date(),
 };
 
-export const commentDataNoID: Omit<CommentEntity, "id"> = {
+export const commentDataNoID: Omit<TComment, "id"> = {
 	post_id: DBIds.post_id,
 	user_id: DBIds.user_id,
 	text: "some text",
@@ -157,17 +157,17 @@ export const commentDataNoID: Omit<CommentEntity, "id"> = {
 	created_at: new Date(),
 };
 
-export const likeDBData: LikeEntity = {
+export const likeDBData: TLike = {
 	user_id: DBIds.user2_id,
 	post_id: DBIds.post_id,
 };
 
-export const like2DBData: LikeEntity = {
+export const like2DBData: TLike = {
 	user_id: DBIds.user3_id,
 	post_id: DBIds.post_id,
 };
 
-export const eventDBData: { post: PostEntity; event: EventEntity } = {
+export const eventDBData: { post: TPost; event: TEvent } = {
 	post: {
 		id: DBIds.event_id,
 		user_id: DBIds.user_id,
@@ -187,7 +187,7 @@ export const eventDBData: { post: PostEntity; event: EventEntity } = {
 	},
 };
 
-export const event2DBData: { post: PostEntity; event: EventEntity } = {
+export const event2DBData: { post: TPost; event: TEvent } = {
 	post: {
 		id: DBIds.event2_id,
 		user_id: DBIds.user_id,
@@ -207,52 +207,52 @@ export const event2DBData: { post: PostEntity; event: EventEntity } = {
 	},
 };
 
-export const invitationDBData: InvitationEntity = {
+export const invitationDBData: TInvitation = {
 	id: DBIds.invitation_id,
 	from_user_id: DBIds.user3_id,
 	to_user_id: DBIds.user_id,
 };
 
-export const invitation2DBData: InvitationEntity = {
+export const invitation2DBData: TInvitation = {
 	id: DBIds.invitation2_id,
 	from_user_id: DBIds.user_id,
 	to_user_id: DBIds.user4_id,
 };
 
-export const contactDBData: ContactEntity = {
+export const contactDBData: TContact = {
 	id: DBIds.contact_id,
 	chat_id: DBIds.chat_id,
 };
 
-export const contact2DBData: ContactEntity = {
+export const contact2DBData: TContact = {
 	id: DBIds.contact2_id,
 	chat_id: DBIds.chat2_id,
 };
 
-export const contact3DBData: ContactEntity = {
+export const contact3DBData: TContact = {
 	id: DBIds.contact3_id,
 	chat_id: undefined,
 };
 
-export const chatDBData: ChatEntity = {
+export const chatDBData: TChat = {
 	id: DBIds.chat_id,
 	is_group: false,
 	name: "chat1",
 };
 
-export const chat2DBData: ChatEntity = {
+export const chat2DBData: TChat = {
 	id: DBIds.chat2_id,
 	is_group: false,
 	name: "chat2",
 };
 
-export const chatGroupDBData: ChatEntity = {
+export const chatGroupDBData: TChat = {
 	id: DBIds.chatGroup_id,
 	is_group: true,
 	name: "name",
 };
 
-export const messageDBData: MessageEntity = {
+export const messageDBData: TMessage = {
 	id: DBIds.message_id,
 	chat_id: DBIds.chat_id,
 	text: "Message text",
@@ -263,7 +263,7 @@ export const messageDBData: MessageEntity = {
 	attachment: undefined,
 };
 
-export const message2DBData: MessageEntity = {
+export const message2DBData: TMessage = {
 	id: DBIds.message2_id,
 	chat_id: DBIds.chat_id,
 	text: "Message text2",
@@ -274,7 +274,7 @@ export const message2DBData: MessageEntity = {
 	attachment: undefined,
 };
 
-export const messageNoID: Omit<MessageEntity, "id"> = {
+export const messageNoID: Omit<TMessage, "id"> = {
 	chat_id: DBIds.chat_id,
 	text: "auto message",
 	created_at: new Date(),

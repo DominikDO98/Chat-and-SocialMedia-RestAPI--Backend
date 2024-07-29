@@ -1,16 +1,16 @@
-import { EditAdditionalUserData, LoadFullUserData } from "../entities/user.entity/user.types";
+import { TEditAdditionalUserData, TLoadFullUserData } from "../entities/user.entity/user.types";
 import { pool } from "../utils/db/db";
 import { CustomError } from "../utils/errors/errors";
 
 export class UserRepository {
 	constructor() {}
 
-	static loadUserData = async (userId: string): Promise<LoadFullUserData> => {
+	static loadUserData = async (userId: string): Promise<TLoadFullUserData> => {
 		const { rows } = await pool.query("SELECT username, email_address, profile_photo, lastname, firstname, birthday, country, city, occupation, school, description FROM users WHERE id = $1", [userId]);
 		if (!rows[0]) {
 			throw new CustomError("Failed to load user data, please try again later", 500);
 		}
-		const userData: LoadFullUserData = {
+		const userData: TLoadFullUserData = {
 			username: rows[0].username,
 			email_address: rows[0].email_address,
 			profile_photo: rows[0].profile_photo,
@@ -25,7 +25,7 @@ export class UserRepository {
 		return userData;
 	};
 
-	static editUserAdditionalData = async (userId: string, newData: EditAdditionalUserData): Promise<void> => {
+	static editUserAdditionalData = async (userId: string, newData: TEditAdditionalUserData): Promise<void> => {
 		await pool.query("UPDATE  users SET lastname = COALESCE($1, lastname), firstname = COALESCE($2, firstname), birthday = COALESCE($3, birthday), city = COALESCE($4, city), occupation = COALESCE($5, occupation), school = COALESCE($6, school), description = COALESCE($7, description) WHERE id = $8", [newData.lastname, newData.firstname, newData.birthday, newData.city, newData.occupation, newData.school, newData.description, userId]);
 	};
 

@@ -1,6 +1,6 @@
 import { v4 as uuid } from "uuid";
 import { z } from "zod";
-import { MessageEntity } from "./message.type";
+import { TMessage } from "./message.type";
 
 export const MessageSchema = z.object({
 	id: z.string().uuid(),
@@ -13,8 +13,8 @@ export const MessageSchema = z.object({
 	attachment: z.string().min(3).max(200).optional(),
 });
 
-export const messageFactory = (newMessage: Omit<MessageEntity, "id" | "created_at" | "is_delivered" | "send_by">, senderId: string): MessageEntity => {
-	const message: MessageEntity = {
+export const messageFactory = (newMessage: Omit<TMessage, "id" | "created_at" | "is_delivered" | "send_by">, senderId: string): TMessage => {
+	const message: TMessage = {
 		id: uuid(),
 		chat_id: newMessage.chat_id,
 		text: newMessage.text,

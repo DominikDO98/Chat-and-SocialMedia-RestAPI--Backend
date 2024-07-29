@@ -1,10 +1,10 @@
-export type ChatEntity = {
+export type TChat = {
 	id: string;
 	is_group: boolean;
 	name?: string;
 };
 
-export type PrivateChatDataEntity = {
+export type TPrivateChatData = {
 	chatid: string;
 	otheruser: string;
 	otheruserphoto: Buffer;
@@ -14,7 +14,7 @@ export type PrivateChatDataEntity = {
 	created_at: Date;
 };
 
-export type GroupChatDataEnitity = {
+export type TGroupChatData = {
 	chatid: string;
 	name: string;
 	text: string;

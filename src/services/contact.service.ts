@@ -1,4 +1,4 @@
-import { ContactListEntity } from "../entities/contact.entity/contact.type";
+import { TContactList } from "../entities/contact.entity/contact.type";
 import { ContactRepository } from "../repositories/contact.repository";
 
 export class ContactService {
@@ -10,7 +10,7 @@ export class ContactService {
 		await this._contactRepository.deleteContact(contact_id);
 	};
 
-	loadContactList = async (user_id: string): Promise<ContactListEntity[]> => {
+	loadContactList = async (user_id: string): Promise<TContactList[]> => {
 		const contactList = await this._contactRepository.loadContactList(user_id);
 		return contactList;
 	};

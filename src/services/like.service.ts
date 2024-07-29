@@ -1,5 +1,5 @@
 import { likeFactory } from "../entities/like.entity/like.entity";
-import { LikeEntity } from "../entities/like.entity/like.type";
+import { TLike } from "../entities/like.entity/like.type";
 import { LikeRepository } from "../repositories/like.repository";
 
 export class LikeService {
@@ -7,12 +7,12 @@ export class LikeService {
 	constructor() {
 		this._likeRepository;
 	}
-	giveLike = async (likeData: Omit<LikeEntity, "user_id">, user_id: string): Promise<void> => {
+	giveLike = async (likeData: Omit<TLike, "user_id">, user_id: string): Promise<void> => {
 		const newLike = likeFactory(likeData, user_id);
 		await this._likeRepository.giveLike(newLike);
 	};
 
-	removeLike = async (likeData: Omit<LikeEntity, "user_id" | "created_at">, user_id: string): Promise<void> => {
+	removeLike = async (likeData: Omit<TLike, "user_id" | "created_at">, user_id: string): Promise<void> => {
 		await this._likeRepository.removeLike(likeData, user_id);
 	};
 }
