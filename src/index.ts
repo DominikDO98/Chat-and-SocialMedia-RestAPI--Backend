@@ -42,6 +42,6 @@ app.use("/message", authorizeToken, MessageRouter);
 app.use(handleDBErrors);
 // app.use(handleError);
 
-app.listen(3000, "127.0.0.1", () => {
+app.listen(3000, "0.0.0.0", () => {
 	console.log("server is listening on port 3000");
 });
