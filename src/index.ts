@@ -15,6 +15,8 @@ import { LikeRouter } from "./routes/like.router";
 import { PostRouter } from "./routes/post.router";
 import { UserRouter } from "./routes/user.router";
 import { MessageRouter } from "./routes/messages.router";
+import { config } from "dotenv";
+config();
 
 const app = express();
 
@@ -42,6 +44,6 @@ app.use("/message", authorizeToken, MessageRouter);
 app.use(handleDBErrors);
 // app.use(handleError);
 
-app.listen(3000, "0.0.0.0", () => {
+app.listen(process.env.DOCKER_APP_PORT ? Number(process.env.DOCKER_APP_PORT) : 3000, process.env.DOCKER_APP_HOST || "127.0.0.1", () => {
 	console.log("server is listening on port 3000");
 });
