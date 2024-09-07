@@ -4,7 +4,7 @@ config();
 
 export const devConfig: PoolConfig = {
 	database: process.env.POSTGRES_DB,
-	host: process.env.DOCKER_APP_HOST || "localhost",
+	host: process.env.DOCKER_POSTGRES_HOST || process.env.POSTGRES_HOST,
 	user: process.env.POSTGRES_USER,
 	password: process.env.POSTGRES_PASSWORD,
 	port: process.env.DOCKER_APP_PORT ? Number(process.env.DOCKER_APP_PORT) : 5000,

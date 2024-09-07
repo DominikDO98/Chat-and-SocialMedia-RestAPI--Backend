@@ -45,5 +45,5 @@ app.use(handleDBErrors);
 // app.use(handleError);
 
 app.listen(process.env.DOCKER_APP_PORT ? Number(process.env.DOCKER_APP_PORT) : 3000, process.env.DOCKER_APP_HOST || "127.0.0.1", () => {
-	console.log("server is listening on port 3000");
+	console.log(`server is listening on port ${process.env.DOCKER_APP_PORT ? Number(process.env.DOCKER_APP_PORT) : 3000}`);
 });
