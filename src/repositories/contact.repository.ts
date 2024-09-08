@@ -2,8 +2,6 @@ import { TContactList } from "../entities/contact.entity/contact.type";
 import { pool } from "../utils/db/db";
 
 export class ContactRepository {
-	constructor() {}
-
 	static deleteContact = async (contact_id: string): Promise<void> => {
 		const client = await pool.connect();
 		try {

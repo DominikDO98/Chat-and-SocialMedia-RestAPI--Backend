@@ -4,8 +4,6 @@ import { pool } from "../utils/db/db";
 import { CustomError, ValidationError } from "../utils/errors/errors";
 
 export class EventRepository {
-	constructor() {}
-
 	static createEvent = async (postData: TPost, eventData: TEvent): Promise<void> => {
 		const client = await pool.connect();
 		try {

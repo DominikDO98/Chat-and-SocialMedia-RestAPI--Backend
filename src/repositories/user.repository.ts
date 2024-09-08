@@ -3,8 +3,6 @@ import { pool } from "../utils/db/db";
 import { CustomError } from "../utils/errors/errors";
 
 export class UserRepository {
-	constructor() {}
-
 	static loadUserData = async (userId: string): Promise<TLoadFullUserData> => {
 		const { rows } = await pool.query("SELECT username, email_address, profile_photo, lastname, firstname, birthday, country, city, occupation, school, description FROM users WHERE id = $1", [userId]);
 		if (!rows[0]) {

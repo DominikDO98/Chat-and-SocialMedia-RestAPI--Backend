@@ -3,8 +3,6 @@ import { pool } from "../utils/db/db";
 import { TChat, TPrivateChatData, TGroupChatData } from "../entities/chat.entity/chat.type";
 
 export class ChatRepository {
-	constructor() {}
-
 	static addUsersLoop = async (participantsId: string[], client: PoolClient, converation_id: string) => {
 		participantsId.forEach(async (user) => {
 			await client.query("INSERT INTO users_chats (user_id, chat_id) VALUES ($1, $2)", [user, converation_id]);

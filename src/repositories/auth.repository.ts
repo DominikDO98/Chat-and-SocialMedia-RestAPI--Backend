@@ -3,8 +3,6 @@ import { pool } from "../utils/db/db";
 import { AuthenticationError } from "../utils/errors/errors";
 
 export class AuthRepository {
-	constructor() {}
-
 	static registerUser = async (userAuthData: TUserCreation): Promise<TUserRegistrationReturnedData> => {
 		const { rows } = await pool.query("INSERT INTO users (id, username, password, email_address) VALUES ($1, $2, $3, $4) RETURNING id", [userAuthData.id, userAuthData.username, userAuthData.password, userAuthData.email_address]);
 		const id = rows[0].id;

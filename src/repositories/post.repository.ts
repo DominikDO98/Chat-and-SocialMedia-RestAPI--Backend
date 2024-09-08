@@ -3,8 +3,6 @@ import { pool } from "../utils/db/db";
 import { ValidationError } from "../utils/errors/errors";
 
 export class PostRepository {
-	constructor() {}
-
 	static createPost = async (postCreationData: TPost): Promise<void> => {
 		await pool.query("INSERT INTO posts (id, user_id, group_id, title, text, picture, attachment, created_at, type) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) ", [postCreationData.id, postCreationData.user_id, postCreationData.group_id, postCreationData.title, postCreationData.text, postCreationData.picture, postCreationData.attachment, postCreationData.created_at, postCreationData.type]);
 	};

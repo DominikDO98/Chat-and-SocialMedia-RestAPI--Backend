@@ -1,5 +1,5 @@
 import { chatFactory } from "../entities/chat.entity/chat.entity";
-import { TChat, TGroupChatData, IPrivateChatData } from "../entities/chat.entity/chat.type";
+import { TChat, TGroupChatData, TPrivateChatData } from "../entities/chat.entity/chat.type";
 import { ChatRepository } from "../repositories/chat.repository";
 
 export class ChatService {
@@ -26,7 +26,7 @@ export class ChatService {
 		await this._chatRepository.changeChatName(chat_id, newName);
 	};
 
-	loadPrivateChats = async (user_id: string): Promise<IPrivateChatData[]> => {
+	loadPrivateChats = async (user_id: string): Promise<TPrivateChatData[]> => {
 		const chats = await this._chatRepository.loadPrivateChats(user_id);
 		return chats;
 	};

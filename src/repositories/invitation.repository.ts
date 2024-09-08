@@ -2,8 +2,6 @@ import { TInvitation, TInvitationWithUser } from "../entities/invitation.entity/
 import { pool } from "../utils/db/db";
 
 export class InvitationRepository {
-	constructor() {}
-
 	static sendInvitation = async (invitation: TInvitation): Promise<void> => {
 		await pool.query("INSERT INTO invitations (id, from_user_id, to_user_id) VALUES ($1, $2, $3)", [invitation.id, invitation.from_user_id, invitation.to_user_id]);
 	};

@@ -2,8 +2,6 @@ import { TMessage } from "../entities/message.entity/message.type";
 import { pool } from "../utils/db/db";
 
 export class MessageRepository {
-	constructor() {}
-
 	static sendMessage = async (message: TMessage): Promise<void> => {
 		await pool.query("INSERT INTO messages (id, chat_id, text, created_at, send_by, picture, attachment, is_delivered) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)", [message.id, message.chat_id, message.text, message.created_at, message.send_by, message.picture, message.attachment, message.is_delivered]);
 	};

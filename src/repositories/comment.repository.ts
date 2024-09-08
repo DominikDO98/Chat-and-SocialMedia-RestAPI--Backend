@@ -2,8 +2,6 @@ import { TComment } from "../entities/comment.entity/comment.types";
 import { pool } from "../utils/db/db";
 
 export class CommentRepository {
-	constructor() {}
-
 	static addComment = async (commentData: TComment): Promise<void> => {
 		await pool.query("INSERT INTO comments (id, post_id, user_id, text, picture, attachment, created_at) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING id, post_id, user_id, text, picture, attachment, created_at", [commentData.id, commentData.post_id, commentData.user_id, commentData.text, commentData.picture, commentData.attachment, commentData.created_at]);
 	};
