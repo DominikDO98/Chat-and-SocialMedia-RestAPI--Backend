@@ -1,7 +1,7 @@
 import { hashSync } from "bcrypt";
 import { v4 as uuid } from "uuid";
 import { z } from "zod";
-import { UserCreationEnitity } from "./user.types";
+import { TUserCreation } from "./user.types";
 
 export const UserSchema = z.object({
 	id: z.string().uuid(),
@@ -42,9 +42,9 @@ export const EditUserAddtionalDataSchema = UserSchema.omit({
 	email_address: true,
 });
 
-export const userFactory = (newUser: Omit<UserCreationEnitity, "id">): UserCreationEnitity => {
+export const userFactory = (newUser: Omit<TUserCreation, "id">): TUserCreation => {
 	const hashedPassword = hashSync(newUser.password, 10);
-	const user: UserCreationEnitity = {
+	const user: TUserCreation = {
 		id: uuid(),
 		username: newUser.username,
 		password: hashedPassword,

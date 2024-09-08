@@ -1,9 +1,9 @@
-export type InvitationEntity = {
+export type TInvitation = {
 	id: string;
 	from_user_id: string;
 	to_user_id: string;
 };
-export type InvitationWithUser = {
+export type TInvitationWithUser = {
 	invitationId: string;
 	username: string;
 	firstname: string;

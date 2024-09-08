@@ -1,6 +1,6 @@
 import { v4 as uuid } from "uuid";
 import { z } from "zod";
-import { GroupEntity } from "./group.types";
+import { TGroup } from "./group.types";
 
 export const GroupSchema = z.object({
 	id: z.string().uuid(),
@@ -12,8 +12,8 @@ export const GroupSchema = z.object({
 	profile_photo: z.instanceof(Buffer).optional(),
 });
 
-export const groupFactory = (newGroup: Omit<GroupEntity, "id" | "created_at">): GroupEntity => {
-	const group: GroupEntity = {
+export const groupFactory = (newGroup: Omit<TGroup, "id" | "created_at">): TGroup => {
+	const group: TGroup = {
 		id: uuid(),
 		admin_id: newGroup.admin_id,
 		name: newGroup.name ? newGroup.name : "Group",

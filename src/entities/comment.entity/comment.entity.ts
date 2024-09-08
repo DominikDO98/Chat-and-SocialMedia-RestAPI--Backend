@@ -1,6 +1,6 @@
 import { v4 as uuid } from "uuid";
 import { z } from "zod";
-import { CommentEntity } from "./comment.types";
+import { TComment } from "./comment.types";
 
 export const CommentSchema = z.object({
 	id: z.string().uuid(),
@@ -22,8 +22,8 @@ export const CommentEditionSchema = CommentSchema.omit({
 	created_at: true,
 });
 
-export const commentFactory = (newComment: Omit<CommentEntity, "id" | "user_id" | "created_at">, user_id: string): CommentEntity => {
-	const comment: CommentEntity = {
+export const commentFactory = (newComment: Omit<TComment, "id" | "user_id" | "created_at">, user_id: string): TComment => {
+	const comment: TComment = {
 		id: uuid(),
 		post_id: newComment.post_id,
 		user_id: user_id,

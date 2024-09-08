@@ -1,5 +1,5 @@
 import { commentFactory } from "../entities/comment.entity/comment.entity";
-import { CommentEntity } from "../entities/comment.entity/comment.types";
+import { TComment } from "../entities/comment.entity/comment.types";
 import { CommentRepository } from "../repositories/comment.repository";
 
 export class CommnetService {
@@ -7,12 +7,12 @@ export class CommnetService {
 	constructor() {
 		this._commentReposiotory;
 	}
-	addComment = async (commentData: Omit<CommentEntity, "user_id">, user_id: string): Promise<void> => {
+	addComment = async (commentData: Omit<TComment, "user_id">, user_id: string): Promise<void> => {
 		const newComment = commentFactory(commentData, user_id);
 		await this._commentReposiotory.addComment(newComment);
 	};
 
-	editComment = async (commentChanges: Omit<CommentEntity, "post_id" | "user_id" | "created_at">, user_id: string): Promise<void> => {
+	editComment = async (commentChanges: Omit<TComment, "post_id" | "user_id" | "created_at">, user_id: string): Promise<void> => {
 		await this._commentReposiotory.editComment(commentChanges, user_id);
 	};
 
@@ -24,7 +24,7 @@ export class CommnetService {
 		await this._commentReposiotory.deleteComment(ids);
 	};
 
-	loadComments = async (post_id: string, offset: number): Promise<CommentEntity[]> => {
+	loadComments = async (post_id: string, offset: number): Promise<TComment[]> => {
 		const comments = await this._commentReposiotory.loadComments(post_id, offset);
 		return comments;
 	};

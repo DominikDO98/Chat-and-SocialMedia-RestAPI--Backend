@@ -1,4 +1,4 @@
-export type MessageEntity = {
+export type TMessage = {
 	id: string;
 	chat_id: string;
 	text: string;
@@ -9,4 +9,4 @@ export type MessageEntity = {
 	attachment?: string;
 };
 
-export type MessageCreationEntity = Omit<MessageEntity, "id" | "created_at" | "is_delivered" | "send_by">;
+export type TMessageCreation = Omit<TMessage, "id" | "created_at" | "is_delivered" | "send_by">;

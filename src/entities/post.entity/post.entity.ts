@@ -1,6 +1,6 @@
 import { v4 as uuid } from "uuid";
 import { z } from "zod";
-import { PostEntity } from "./post.types";
+import { TPost } from "./post.types";
 
 export const PostSchema = z.object({
 	id: z.string().uuid(),
@@ -22,8 +22,8 @@ export const PostCreationSchema = PostSchema.omit({
 	created_at: true,
 });
 
-export const postFactory = (newPost: Omit<PostEntity, "id" | "user_id" | "created_at">, user_id: string): PostEntity => {
-	const post: PostEntity = {
+export const postFactory = (newPost: Omit<TPost, "id" | "user_id" | "created_at">, user_id: string): TPost => {
+	const post: TPost = {
 		id: uuid(),
 		user_id: user_id,
 		group_id: newPost.group_id ? newPost.group_id : undefined,

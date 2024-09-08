@@ -1,12 +1,12 @@
-import { EventEntity } from "../entities/event.entity/event.type";
-import { PostEntity } from "../entities/post.entity/post.types";
+import { TEvent } from "../entities/event.entity/event.type";
+import { TPost } from "../entities/post.entity/post.types";
 import { pool } from "../utils/db/db";
 import { CustomError, ValidationError } from "../utils/errors/errors";
 
 export class EventRepository {
 	constructor() {}
 
-	static createEvent = async (postData: PostEntity, eventData: EventEntity): Promise<void> => {
+	static createEvent = async (postData: TPost, eventData: TEvent): Promise<void> => {
 		const client = await pool.connect();
 		try {
 			await client.query("BEGIN;");
@@ -22,7 +22,7 @@ export class EventRepository {
 		}
 	};
 
-	static editEvent = async (postData: PostEntity, eventData: EventEntity): Promise<void> => {
+	static editEvent = async (postData: TPost, eventData: TEvent): Promise<void> => {
 		const client = await pool.connect();
 		try {
 			await client.query("BEGIN;");
@@ -67,7 +67,7 @@ export class EventRepository {
 		}
 	};
 
-	static loadEvent = async (event_id: string): Promise<EventEntity> => {
+	static loadEvent = async (event_id: string): Promise<TEvent> => {
 		const { rows } = await pool.query("SELECT post_id, date, lat, lon, (SELECT COUNT (user_id) FROM users_events WHERE event_id = $1) as particiants FROM events WHERE post_id = $1", [event_id]);
 		if (!rows[0]) {
 			throw new CustomError("Sorry! We're unable to find any details on that event. It is possible it was canceled by organiazer.", 404);

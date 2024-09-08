@@ -1,4 +1,4 @@
-export type CommentEntity = {
+export type TComment = {
 	id: string;
 	post_id: string;
 	user_id: string;

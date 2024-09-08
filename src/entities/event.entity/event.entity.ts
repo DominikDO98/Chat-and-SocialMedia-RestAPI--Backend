@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { EventEntity } from "./event.type";
+import { TEvent } from "./event.type";
 
 export const EventSchema = z.object({
 	post_id: z.string().uuid().optional(),
@@ -8,7 +8,7 @@ export const EventSchema = z.object({
 	lon: z.number().max(180).multipleOf(0.000001).optional(),
 });
 
-export const eventFactory = (newEvent: EventEntity, post_id: string): EventEntity => {
+export const eventFactory = (newEvent: TEvent, post_id: string): TEvent => {
 	const event = {
 		post_id: post_id,
 		date: new Date(newEvent.date),

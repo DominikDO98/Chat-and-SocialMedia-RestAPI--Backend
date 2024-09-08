@@ -1,6 +1,6 @@
 import { v4 as uuid } from "uuid";
 import { z } from "zod";
-import { InvitationEntity } from "./invitation.type";
+import { TInvitation } from "./invitation.type";
 
 export const InvitationSchema = z.object({
 	id: z.string().uuid(),
@@ -10,8 +10,8 @@ export const InvitationSchema = z.object({
 
 export const InvitationCreationSchema = z.string().uuid();
 
-export const invitationFactory = (newInvitation: Omit<InvitationEntity, "id">): InvitationEntity => {
-	const invitation: InvitationEntity = {
+export const invitationFactory = (newInvitation: Omit<TInvitation, "id">): TInvitation => {
+	const invitation: TInvitation = {
 		id: uuid(),
 		from_user_id: newInvitation.from_user_id,
 		to_user_id: newInvitation.to_user_id,
