@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
-import { UserCreationSchema, UserLoginByEmailSchema, UserLoginByNameSchema } from "../entities/user.entity/user.factory";
 import { AuthService } from "../services/auth.service";
+import { UserCreationSchema, UserLoginByNameSchema, UserLoginByEmailSchema } from "../entities/user.entity/user.schema";
 
 export class AuthController {
 	private _authService = new AuthService();
