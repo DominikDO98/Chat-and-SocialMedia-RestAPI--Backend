@@ -2,6 +2,7 @@ import { TLike } from "../entities/like.entity/like.type";
 import { pool } from "../utils/db/db";
 
 export class LikeRepository {
+	//add remove all likes by post_id
 	static giveLike = async (likeData: TLike): Promise<void> => {
 		await pool.query("INSERT INTO likes (user_id, post_id) SELECT $1, $2 WHERE NOT EXISTS (SELECT user_id, post_id FROM likes WHERE user_id = $1 AND post_id = $2);", [likeData.user_id, likeData.post_id]);
 	};

@@ -2,13 +2,14 @@ import { TContactList } from "../entities/contact.entity/contact.type";
 import { pool } from "../utils/db/db";
 
 export class ContactRepository {
+	//add createContact
 	static deleteContact = async (contact_id: string): Promise<void> => {
 		const client = await pool.connect();
 		try {
 			await client.query("DELETE FROM users_contacts WHERE contact_id = $1", [contact_id]);
-			await client.query("DELETE FROM messages WHERE chat_id IN (SELECT chat_id FROM contacts WHERE id = $1)", [contact_id]);
-			await client.query("DELETE FROM users_chats WHERE chat_id IN (SELECT chat_id FROM contacts WHERE id = $1 )", [contact_id]);
-			await client.query("DELETE FROM chats WHERE id IN (SELECT chat_id FROM contacts WHERE id = $1)", [contact_id]);
+			await client.query("DELETE FROM messages WHERE chat_id IN (SELECT chat_id FROM contacts WHERE id = $1)", [contact_id]); //delete use messages.repo
+			await client.query("DELETE FROM users_chats WHERE chat_id IN (SELECT chat_id FROM contacts WHERE id = $1 )", [contact_id]); //delete, sue chat.repo
+			await client.query("DELETE FROM chats WHERE id IN (SELECT chat_id FROM contacts WHERE id = $1)", [contact_id]); //delete use.chat repo
 			await client.query("DELETE FROM contacts WHERE id = $1", [contact_id]);
 		} catch (err) {
 			console.log(err);

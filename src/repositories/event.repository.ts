@@ -8,7 +8,7 @@ export class EventRepository {
 		const client = await pool.connect();
 		try {
 			await client.query("BEGIN;");
-			await client.query("INSERT INTO posts (id, user_id, group_id, title, text, picture, attachment, created_at, type) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9);", [postData.id, postData.user_id, postData.group_id, postData.title, postData.text, postData.picture, postData.attachment, postData.created_at, postData.type]);
+			await client.query("INSERT INTO posts (id, user_id, group_id, title, text, picture, attachment, created_at, type) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9);", [postData.id, postData.user_id, postData.group_id, postData.title, postData.text, postData.picture, postData.attachment, postData.created_at, postData.type]); //delete use post.repo
 			await client.query("INSERT INTO events (post_id, date, lat, lon) VALUES ($1, $2, $3, $4);", [eventData.post_id, eventData.date, eventData.lat, eventData.lon]);
 			await client.query("COMMIT;");
 		} catch (err) {
@@ -24,7 +24,7 @@ export class EventRepository {
 		const client = await pool.connect();
 		try {
 			await client.query("BEGIN;");
-			await client.query("UPDATE posts SET title = COALESCE($1, title), text = COALESCE($2, text), picture = COALESCE($3, picture), attachment = COALESCE($4, attachment) WHERE id = $5 AND user_id = $6;", [postData.title, postData.text, postData.picture, postData.attachment, postData.id, postData.user_id]);
+			await client.query("UPDATE posts SET title = COALESCE($1, title), text = COALESCE($2, text), picture = COALESCE($3, picture), attachment = COALESCE($4, attachment) WHERE id = $5 AND user_id = $6;", [postData.title, postData.text, postData.picture, postData.attachment, postData.id, postData.user_id]); //use post.repo
 			await client.query("UPDATE events SET date = COALESCE($1, date), lat = COALESCE($2, lat), lon = COALESCE($3, lon) FROM posts WHERE events.post_id = posts.id AND posts.user_id = $4 AND events.post_id = $5;", [eventData.date, eventData.lat, eventData.lon, postData.user_id, eventData.post_id]);
 			await client.query("COMMIT;");
 		} catch (err) {
@@ -51,10 +51,10 @@ export class EventRepository {
 				throw new ValidationError("Unauthorized post operation!", 401);
 			}
 			await client.query("DELETE FROM users_events WHERE event_id = $1;", [event_id]);
-			await client.query("DELETE FROM likes WHERE post_id = $1;", [event_id]);
-			await client.query("DELETE FROM comments WHERE post_id = $1;", [event_id]);
+			await client.query("DELETE FROM likes WHERE post_id = $1;", [event_id]); //use likes
+			await client.query("DELETE FROM comments WHERE post_id = $1;", [event_id]); //use comments
 			await client.query("DELETE FROM events USING posts WHERE events.post_id = posts.id AND posts.user_id = $1 AND events.post_id = $2;", [user_id, event_id]);
-			await client.query("DELETE FROM posts WHERE user_id = $1 AND id = $2;", [user_id, event_id]);
+			await client.query("DELETE FROM posts WHERE user_id = $1 AND id = $2;", [user_id, event_id]); //use posts
 			await client.query("COMMIT;");
 		} catch (err) {
 			console.log(err);
@@ -68,7 +68,7 @@ export class EventRepository {
 	static loadEvent = async (event_id: string): Promise<TEvent> => {
 		const { rows } = await pool.query("SELECT post_id, date, lat, lon, (SELECT COUNT (user_id) FROM users_events WHERE event_id = $1) as particiants FROM events WHERE post_id = $1", [event_id]);
 		if (!rows[0]) {
-			throw new CustomError("Sorry! We're unable to find any details on that event. It is possible it was canceled by organiazer.", 404);
+			throw new CustomError("Sorry! We're unable to find any details on that event.", 404);
 		}
 		return rows[0];
 	};

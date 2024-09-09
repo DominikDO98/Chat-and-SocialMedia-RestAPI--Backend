@@ -3,6 +3,7 @@ import { pool } from "../utils/db/db";
 import { TChat, TPrivateChatData, TGroupChatData } from "../entities/chat.entity/chat.type";
 
 export class ChatRepository {
+	//add delete private chat
 	static addUsersLoop = async (participantsId: string[], client: PoolClient, converation_id: string) => {
 		participantsId.forEach(async (user) => {
 			await client.query("INSERT INTO users_chats (user_id, chat_id) VALUES ($1, $2)", [user, converation_id]);
@@ -14,7 +15,7 @@ export class ChatRepository {
 		try {
 			await client.query("BEGIN");
 			await client.query("INSERT INTO chats (id, is_group, name) VALUES ($1, false, $2)", [chatData.id, chatData.name]);
-			await client.query("UPDATE contacts SET chat_id = $1 WHERE id = $2", [chatData.id, contact_id]);
+			await client.query("UPDATE contacts SET chat_id = $1 WHERE id = $2", [chatData.id, contact_id]); //delete, use contacts.repo
 			const { rows } = await client.query("INSERT INTO users_chats (user_id, chat_id) SELECT user_id, chat_id FROM users_contacts FULL JOIN contacts ON contacts.id = users_contacts.contact_id WHERE contact_id = $1 RETURNING *", [contact_id]);
 			await client.query("COMMIT");
 			console.log(rows);
