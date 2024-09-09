@@ -1,6 +1,6 @@
-import { eventFactory } from "../entities/event.entity/event.entity";
+import { eventFactory } from "../entities/event.entity/event.factory";
 import { TEvent } from "../entities/event.entity/event.type";
-import { postFactory } from "../entities/post.entity/post.entity";
+import { postFactory } from "../entities/post.entity/post.factory";
 import { TPost } from "../entities/post.entity/post.types";
 import { EventRepository } from "../repositories/event.repository";
 

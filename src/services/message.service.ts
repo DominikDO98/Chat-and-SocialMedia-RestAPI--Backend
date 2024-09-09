@@ -1,4 +1,4 @@
-import { messageFactory } from "../entities/message.entity/message.entity";
+import { messageFactory } from "../entities/message.entity/message.factory";
 import { TMessageCreation, TMessage } from "../entities/message.entity/message.type";
 import { MessageRepository } from "../repositories/message.repository";
 

@@ -1,4 +1,4 @@
-import { likeFactory } from "../entities/like.entity/like.entity";
+import { likeFactory } from "../entities/like.entity/like.factory";
 import { TLike } from "../entities/like.entity/like.type";
 import { LikeRepository } from "../repositories/like.repository";
 

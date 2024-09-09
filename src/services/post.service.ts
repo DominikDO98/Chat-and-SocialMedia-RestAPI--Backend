@@ -1,4 +1,4 @@
-import { postFactory } from "../entities/post.entity/post.entity";
+import { postFactory } from "../entities/post.entity/post.factory";
 import { TPost } from "../entities/post.entity/post.types";
 import { PostRepository } from "../repositories/post.repository";
 

@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response, Router } from "express";
 import { LikeController } from "../controllers/like.controller";
-import { LikeCreationSchema } from "../entities/like.entity/like.entity";
+import { LikeCreationSchema } from "../entities/like.entity/like.factory";
 import { validateReq } from "../utils/validateReq/validateReq";
 
 export const LikeRouter = Router();

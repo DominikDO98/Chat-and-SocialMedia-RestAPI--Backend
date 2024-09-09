@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response, Router } from "express";
 import { z } from "zod";
 import { MessageController } from "../controllers/message.controller";
-import { MessageSchema } from "../entities/message.entity/message.entity";
+import { MessageSchema } from "../entities/message.entity/message.factory";
 import { validateReq } from "../utils/validateReq/validateReq";
 
 export const MessageRouter = Router();

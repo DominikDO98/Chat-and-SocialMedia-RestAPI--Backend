@@ -1,4 +1,4 @@
-import { commentFactory } from "../entities/comment.entity/comment.entity";
+import { commentFactory } from "../entities/comment.entity/comment.factory";
 import { TComment } from "../entities/comment.entity/comment.types";
 import { CommentRepository } from "../repositories/comment.repository";
 

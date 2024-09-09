@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response, Router } from "express";
 import { CommentController } from "../controllers/comment.controller";
-import { CommentCreationSchema, CommentEditionSchema } from "../entities/comment.entity/comment.entity";
+import { CommentCreationSchema, CommentEditionSchema } from "../entities/comment.entity/comment.factory";
 import { validateReq } from "../utils/validateReq/validateReq";
 
 export const CommentRouter = Router();

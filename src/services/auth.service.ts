@@ -1,5 +1,5 @@
 import bcrypt from "bcrypt";
-import { userFactory } from "../entities/user.entity/user.entity";
+import { userFactory } from "../entities/user.entity/user.factory";
 import { TUserCreation, TUserLoginByEmailData, TUserLoginByNameData, TUserLoginReturnedData, TUserRegistrationReturnedData } from "../entities/user.entity/user.types";
 import { generateAccessToken } from "../utils/authenticationUtils/jwt.utils";
 import { AuthenticationError } from "../utils/errors/errors";

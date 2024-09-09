@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { UserCreationSchema, UserLoginByEmailSchema, UserLoginByNameSchema } from "../entities/user.entity/user.entity";
+import { UserCreationSchema, UserLoginByEmailSchema, UserLoginByNameSchema } from "../entities/user.entity/user.factory";
 import { AuthService } from "../services/auth.service";
 
 export class AuthController {

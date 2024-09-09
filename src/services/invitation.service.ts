@@ -1,5 +1,5 @@
 import { v4 as uuid } from "uuid";
-import { invitationFactory } from "../entities/invitation.entity/invitation.entity";
+import { invitationFactory } from "../entities/invitation.entity/invitation.factory";
 import { TInvitation, TInvitationWithUser } from "../entities/invitation.entity/invitation.type";
 import { InvitationRepository } from "../repositories/invitation.repository";
 

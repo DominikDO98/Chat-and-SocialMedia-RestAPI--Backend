@@ -1,4 +1,4 @@
-import { chatFactory } from "../entities/chat.entity/chat.entity";
+import { chatFactory } from "../entities/chat.entity/chat.factory";
 import { TChat, TGroupChatData, TPrivateChatData } from "../entities/chat.entity/chat.type";
 import { ChatRepository } from "../repositories/chat.repository";
 
