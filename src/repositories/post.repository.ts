@@ -20,8 +20,8 @@ export class PostRepository {
 			if (!rows[0]) {
 				throw new ValidationError("Unauthorized post operation!", 401);
 			}
-			await client.query("DELETE FROM likes WHERE post_id = $1", [post_id]);
-			await client.query("DELETE FROM comments WHERE post_id = $1", [post_id]);
+			await client.query("DELETE FROM likes WHERE post_id = $1", [post_id]); //use likes
+			await client.query("DELETE FROM comments WHERE post_id = $1", [post_id]); //use comments
 			await client.query("DELETE FROM posts WHERE user_id = $1 AND id = $2", [user_id, post_id]);
 			await client.query("COMMIT");
 		} catch (err) {
