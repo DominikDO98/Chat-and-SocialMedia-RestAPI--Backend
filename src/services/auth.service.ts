@@ -1,9 +1,9 @@
 import bcrypt from "bcrypt";
-import { userFactory } from "../entities/user.entity/user.factory";
 import { TUserCreation, TUserLoginByEmailData, TUserLoginByNameData, TUserLoginReturnedData, TUserRegistrationReturnedData } from "../entities/user.entity/user.types";
 import { generateAccessToken } from "../utils/authenticationUtils/jwt.utils";
 import { AuthenticationError } from "../utils/errors/errors";
 import { AuthRepository } from "../repositories/auth.repository";
+import { userFactory } from "../entities/user.entity/user.factory";
 
 export class AuthService {
 	private _authrepository = AuthRepository;
