@@ -1,5 +1,5 @@
 import { hashSync } from "bcrypt";
-import { TChat } from "../../entities/chat.entity/chat.type";
+import { IChat } from "../../entities/chat.entity/chat.type";
 import { TComment } from "../../entities/comment.entity/comment.types";
 import { TContact } from "../../entities/contact.entity/contact.type";
 import { TEvent } from "../../entities/event.entity/event.type";
@@ -234,19 +234,19 @@ export const contact3DBData: TContact = {
 	chat_id: undefined,
 };
 
-export const chatDBData: TChat = {
+export const chatDBData: IChat = {
 	id: DBIds.chat_id,
 	is_group: false,
 	name: "chat1",
 };
 
-export const chat2DBData: TChat = {
+export const chat2DBData: IChat = {
 	id: DBIds.chat2_id,
 	is_group: false,
 	name: "chat2",
 };
 
-export const chatGroupDBData: TChat = {
+export const chatGroupDBData: IChat = {
 	id: DBIds.chatGroup_id,
 	is_group: true,
 	name: "name",

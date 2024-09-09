@@ -1,8 +1,8 @@
 import { NextFunction, Request, Response, Router } from "express";
 import { z } from "zod";
 import { ChatController } from "../controllers/chat.controller";
-import { ChatCreationSchema, ChatParticipantsIdsSchema } from "../entities/chat.entity/chat.factory";
 import { validateReq } from "../utils/validateReq/validateReq";
+import { ChatCreationSchema, ChatParticipantsIdsSchema } from "../entities/chat.entity/chat.schema";
 
 export const ChatRouter = Router();
 const chatController = new ChatController();

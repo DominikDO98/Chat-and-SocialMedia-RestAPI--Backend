@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response, Router } from "express";
 import { UserController } from "../controllers/user.controller";
-import { EditUserAddtionalDataSchema } from "../entities/user.entity/user.factory";
+import { EditUserAddtionalDataSchema } from "../entities/user.entity/user.schema";
 import { convertImg } from "../tests/user.tests/testingAssets/readFile";
 import { validateReq } from "../utils/validateReq/validateReq";
 

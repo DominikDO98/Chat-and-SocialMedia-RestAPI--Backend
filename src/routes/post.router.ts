@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response, Router } from "express";
 import { PostController } from "../controllers/post.contorller";
-import { PostCreationSchema, PostEditionSchema } from "../entities/post.entity/post.factory";
+import { PostCreationSchema, PostEditionSchema } from "../entities/post.entity/post.schema";
 import { validateReq } from "../utils/validateReq/validateReq";
 
 export const PostRouter = Router();

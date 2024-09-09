@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response, Router } from "express";
 import { InvitationController } from "../controllers/inivitations.controller";
-import { InvitationCreationSchema } from "../entities/invitation.entity/invitation.factory";
+import { InvitationCreationSchema } from "../entities/invitation.entity/invitation.schema";
 import { validateReq } from "../utils/validateReq/validateReq";
 
 export const InvitationRouter = Router();

@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response, Router } from "express";
 import { EventController } from "../controllers/event.controller";
-import { EventSchema } from "../entities/event.entity/event.factory";
-import { PostCreationSchema } from "../entities/post.entity/post.factory";
+import { EventSchema } from "../entities/event.entity/event.schema";
+import { PostCreationSchema } from "../entities/post.entity/post.schema";
 import { validateReq } from "../utils/validateReq/validateReq";
 
 export const EventRouter = Router();

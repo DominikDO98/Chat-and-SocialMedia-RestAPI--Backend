@@ -1,10 +1,10 @@
-export type TChat = {
+export interface IChat {
 	id: string;
 	is_group: boolean;
 	name?: string;
-};
+}
 
-export type TPrivateChatData = {
+export interface IPrivateChatData {
 	chatid: string;
 	otheruser: string;
 	otheruserphoto: Buffer;
@@ -12,13 +12,13 @@ export type TPrivateChatData = {
 	sender: string;
 	is_delivered: string;
 	created_at: Date;
-};
+}
 
-export type TGroupChatData = {
+export interface IGroupChatData {
 	chatid: string;
 	name: string;
 	text: string;
 	sender: string;
 	is_delivered: boolean;
 	created_at: Date;
-};
+}
