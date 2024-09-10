@@ -1,4 +1,4 @@
-import { TContactList } from "../entities/contact.entity/contact.type";
+import { IContactList } from "../entities/contact.entity/contact.type";
 import { pool } from "../utils/db/db";
 
 export class ContactRepository {
@@ -18,7 +18,7 @@ export class ContactRepository {
 			client.release();
 		}
 	};
-	static loadContactList = async (user_id: string): Promise<TContactList[]> => {
+	static loadContactList = async (user_id: string): Promise<IContactList[]> => {
 		const { rows } = await pool.query("SELECT contact_id, chat_id, username, firstname, lastname FROM users_contacts FULL JOIN users ON users.id = users_contacts.user_id FULL JOIN contacts ON contacts.id = users_contacts.contact_id	WHERE contact_id IN	(SELECT contact_id FROM users_contacts WHERE user_id = $1) AND NOT user_id = $1 ORDER BY username ASC", [user_id]);
 		return rows;
 	};

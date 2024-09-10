@@ -1,7 +1,7 @@
 import { hashSync } from "bcrypt";
 import { IChat } from "../../entities/chat.entity/chat.type";
 import { IComment } from "../../entities/comment.entity/comment.types";
-import { TContact } from "../../entities/contact.entity/contact.type";
+import { IContact } from "../../entities/contact.entity/contact.type";
 import { TEvent } from "../../entities/event.entity/event.type";
 import { TGroup } from "../../entities/group.entity/group.types";
 import { TInvitation } from "../../entities/invitation.entity/invitation.type";
@@ -219,17 +219,17 @@ export const invitation2DBData: TInvitation = {
 	to_user_id: DBIds.user4_id,
 };
 
-export const contactDBData: TContact = {
+export const contactDBData: IContact = {
 	id: DBIds.contact_id,
 	chat_id: DBIds.chat_id,
 };
 
-export const contact2DBData: TContact = {
+export const contact2DBData: IContact = {
 	id: DBIds.contact2_id,
 	chat_id: DBIds.chat2_id,
 };
 
-export const contact3DBData: TContact = {
+export const contact3DBData: IContact = {
 	id: DBIds.contact3_id,
 	chat_id: undefined,
 };

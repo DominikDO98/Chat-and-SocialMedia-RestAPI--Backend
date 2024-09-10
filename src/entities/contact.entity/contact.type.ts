@@ -1,11 +1,11 @@
-export type TContact = {
+export interface IContact {
 	id: string;
 	chat_id: string | undefined;
-};
-export type TContactList = {
+}
+export interface IContactList {
 	contact_id: string;
 	chat_id: string | null | undefined;
 	username: string;
 	firstname: string;
 	lastname: string;
-};
+}
