@@ -1,7 +1,7 @@
 import { v4 as uuid } from "uuid";
 import { IChat } from "./chat.type";
 
-export class ChatEntity implements IChat {
+export class Chat implements IChat {
 	id;
 	is_group;
 	name;
