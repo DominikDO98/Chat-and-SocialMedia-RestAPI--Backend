@@ -2,7 +2,7 @@ import { hashSync } from "bcrypt";
 import { IChat } from "../../entities/chat.entity/chat.type";
 import { IComment } from "../../entities/comment.entity/comment.types";
 import { IContact } from "../../entities/contact.entity/contact.type";
-import { TEvent } from "../../entities/event.entity/event.type";
+import { IEvent } from "../../entities/event.entity/event.type";
 import { TGroup } from "../../entities/group.entity/group.types";
 import { TInvitation } from "../../entities/invitation.entity/invitation.type";
 import { TLike } from "../../entities/like.entity/like.type";
@@ -167,7 +167,7 @@ export const like2DBData: TLike = {
 	post_id: DBIds.post_id,
 };
 
-export const eventDBData: { post: TPost; event: TEvent } = {
+export const eventDBData: { post: TPost; event: IEvent } = {
 	post: {
 		id: DBIds.event_id,
 		user_id: DBIds.user_id,
@@ -187,7 +187,7 @@ export const eventDBData: { post: TPost; event: TEvent } = {
 	},
 };
 
-export const event2DBData: { post: TPost; event: TEvent } = {
+export const event2DBData: { post: TPost; event: IEvent } = {
 	post: {
 		id: DBIds.event2_id,
 		user_id: DBIds.user_id,

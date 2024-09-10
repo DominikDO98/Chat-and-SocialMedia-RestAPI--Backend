@@ -1,5 +1,5 @@
-import { eventFactory } from "../entities/event.entity/event.factory";
-import { TEvent } from "../entities/event.entity/event.type";
+import { Event } from "../entities/event.entity";
+import { IEvent } from "../entities/event.entity/event.type";
 import { postFactory } from "../entities/post.entity/post.factory";
 import { TPost } from "../entities/post.entity/post.types";
 import { EventRepository } from "../repositories/event.repository";
@@ -9,15 +9,15 @@ export class EventService {
 	constructor() {
 		this._eventRepository;
 	}
-	createEvent = async (postData: Omit<TPost, "user_id">, eventData: TEvent, user_id: string): Promise<void> => {
+	createEvent = async (postData: Omit<TPost, "user_id">, eventData: IEvent, user_id: string): Promise<void> => {
 		const newPost = postFactory(postData, user_id);
-		const newEvent = eventFactory(eventData, newPost.id);
+		const newEvent = new Event(eventData, newPost.id);
 		await this._eventRepository.createEvent(newPost, newEvent);
 	};
 
-	editEvent = async (postData: Omit<TPost, "user_id">, eventData: TEvent, user_id: string): Promise<void> => {
+	editEvent = async (postData: Omit<TPost, "user_id">, eventData: IEvent, user_id: string): Promise<void> => {
 		const newPost = postFactory(postData, user_id);
-		const newEvent = eventFactory(eventData, newPost.id);
+		const newEvent = new Event(eventData, newPost.id);
 		await this._eventRepository.editEvent(newPost, newEvent);
 	};
 
@@ -33,7 +33,7 @@ export class EventService {
 		await this._eventRepository.deleteEvent(user_id, event_id);
 	};
 
-	loadEvent = async (event_id: string): Promise<TEvent> => {
+	loadEvent = async (event_id: string): Promise<IEvent> => {
 		const event = await this._eventRepository.loadEvent(event_id);
 		return event;
 	};
