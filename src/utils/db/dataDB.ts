@@ -1,6 +1,6 @@
 import { hashSync } from "bcrypt";
 import { IChat } from "../../entities/chat.entity/chat.type";
-import { TComment } from "../../entities/comment.entity/comment.types";
+import { IComment } from "../../entities/comment.entity/comment.types";
 import { TContact } from "../../entities/contact.entity/contact.type";
 import { TEvent } from "../../entities/event.entity/event.type";
 import { TGroup } from "../../entities/group.entity/group.types";
@@ -128,7 +128,7 @@ export const postDataNoID: Omit<TPost, "id"> = {
 	type: 0,
 };
 
-export const commentDBData: TComment = {
+export const commentDBData: IComment = {
 	id: DBIds.comment_id,
 	post_id: DBIds.post_id,
 	user_id: DBIds.user_id,
@@ -138,7 +138,7 @@ export const commentDBData: TComment = {
 	created_at: new Date(),
 };
 
-export const comment2DBData: TComment = {
+export const comment2DBData: IComment = {
 	id: DBIds.comment2_id,
 	post_id: DBIds.post_id,
 	user_id: DBIds.user_id,
@@ -148,7 +148,7 @@ export const comment2DBData: TComment = {
 	created_at: new Date(),
 };
 
-export const commentDataNoID: Omit<TComment, "id"> = {
+export const commentDataNoID: Omit<IComment, "id"> = {
 	post_id: DBIds.post_id,
 	user_id: DBIds.user_id,
 	text: "some text",
