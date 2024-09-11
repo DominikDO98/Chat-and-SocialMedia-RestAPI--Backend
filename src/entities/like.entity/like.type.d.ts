@@ -1,4 +1,4 @@
-export type TLike = {
+export interface ILikeEntity {
 	post_id: string;
 	user_id: string;
-};
+}

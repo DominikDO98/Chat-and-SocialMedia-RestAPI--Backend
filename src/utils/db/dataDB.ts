@@ -5,7 +5,7 @@ import { IContactEntity } from "../../entities/contact.entity/contact.type";
 import { IEventEntity } from "../../entities/event.entity/event.types";
 import { IGroupEntity } from "../../entities/group.entity/group.types";
 import { IInvitationEntity } from "../../entities/invitation.entity/invitation.type";
-import { TLike } from "../../entities/like.entity/like.type";
+import { ILikeEntity } from "../../entities/like.entity/like.type";
 import { TPost } from "../../entities/post.entity/post.types";
 import { TUser } from "../../entities/user.entity/user.types";
 import { convertImg } from "../../tests/user.tests/testingAssets/readFile";
@@ -157,12 +157,12 @@ export const commentDataNoID: Omit<ICommentEntity, "id"> = {
 	created_at: new Date(),
 };
 
-export const likeDBData: TLike = {
+export const likeDBData: ILikeEntity = {
 	user_id: DBIds.user2_id,
 	post_id: DBIds.post_id,
 };
 
-export const like2DBData: TLike = {
+export const like2DBData: ILikeEntity = {
 	user_id: DBIds.user3_id,
 	post_id: DBIds.post_id,
 };
