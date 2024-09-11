@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const GroupSchema = z.object({
+export const GroupEntitySchema = z.object({
 	id: z.string().uuid(),
 	admin_id: z.string().uuid(),
 	name: z.string().min(3).max(20),

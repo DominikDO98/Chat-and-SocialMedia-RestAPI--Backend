@@ -1,5 +1,5 @@
-import { Chat } from "../entities/chat.entity/index";
-import { IChat, IGroupChatData, IPrivateChatData } from "../entities/chat.entity/chat.type";
+import { ChatEntity } from "../entities/chat.entity/chat.entity";
+import { IChatEntity, IGroupChatData, IPrivateChatData } from "../entities/chat.entity/chat.type";
 import { ChatRepository } from "../repositories/chat.repository";
 
 export class ChatService {
@@ -7,12 +7,12 @@ export class ChatService {
 	constructor() {
 		this._chatRepository;
 	}
-	createChat = async (conctact_id: string, chatData: Omit<IChat, "id">): Promise<void> => {
-		const newChat = new Chat(chatData);
+	createChat = async (conctact_id: string, chatData: Omit<IChatEntity, "id">): Promise<void> => {
+		const newChat = new ChatEntity(chatData);
 		await this._chatRepository.createChat(conctact_id, newChat);
 	};
 
-	createGroupChat = async (userId: string, otherParticipants: string[], chatData: Omit<IChat, "id">): Promise<void> => {
+	createGroupChat = async (userId: string, otherParticipants: string[], chatData: Omit<IChatEntity, "id">): Promise<void> => {
 		const participants = [userId, ...otherParticipants];
 		const newChat = new Chat(chatData);
 		await this._chatRepository.createGroupChat(participants, newChat);

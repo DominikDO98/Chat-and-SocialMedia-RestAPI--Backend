@@ -1,8 +1,8 @@
 import { hashSync } from "bcrypt";
-import { IChat } from "../../entities/chat.entity/chat.type";
-import { IComment } from "../../entities/comment.entity/comment.types";
-import { IContact } from "../../entities/contact.entity/contact.type";
-import { IEvent } from "../../entities/event.entity/event.types";
+import { IChatEntity } from "../../entities/chat.entity/chat.type";
+import { ICommentEntity } from "../../entities/comment.entity/comment.types";
+import { IContactEntity } from "../../entities/contact.entity/contact.type";
+import { IEventEntity } from "../../entities/event.entity/event.types";
 import { IGroupEntity } from "../../entities/group.entity/group.types";
 import { TInvitation } from "../../entities/invitation.entity/invitation.type";
 import { TLike } from "../../entities/like.entity/like.type";
@@ -128,7 +128,7 @@ export const postDataNoID: Omit<TPost, "id"> = {
 	type: 0,
 };
 
-export const commentDBData: IComment = {
+export const commentDBData: ICommentEntity = {
 	id: DBIds.comment_id,
 	post_id: DBIds.post_id,
 	user_id: DBIds.user_id,
@@ -138,7 +138,7 @@ export const commentDBData: IComment = {
 	created_at: new Date(),
 };
 
-export const comment2DBData: IComment = {
+export const comment2DBData: ICommentEntity = {
 	id: DBIds.comment2_id,
 	post_id: DBIds.post_id,
 	user_id: DBIds.user_id,
@@ -148,7 +148,7 @@ export const comment2DBData: IComment = {
 	created_at: new Date(),
 };
 
-export const commentDataNoID: Omit<IComment, "id"> = {
+export const commentDataNoID: Omit<ICommentEntity, "id"> = {
 	post_id: DBIds.post_id,
 	user_id: DBIds.user_id,
 	text: "some text",
@@ -167,7 +167,7 @@ export const like2DBData: TLike = {
 	post_id: DBIds.post_id,
 };
 
-export const eventDBData: { post: TPost; event: IEvent } = {
+export const eventDBData: { post: TPost; event: IEventEntity } = {
 	post: {
 		id: DBIds.event_id,
 		user_id: DBIds.user_id,
@@ -187,7 +187,7 @@ export const eventDBData: { post: TPost; event: IEvent } = {
 	},
 };
 
-export const event2DBData: { post: TPost; event: IEvent } = {
+export const event2DBData: { post: TPost; event: IEventEntity } = {
 	post: {
 		id: DBIds.event2_id,
 		user_id: DBIds.user_id,
@@ -219,34 +219,34 @@ export const invitation2DBData: TInvitation = {
 	to_user_id: DBIds.user4_id,
 };
 
-export const contactDBData: IContact = {
+export const contactDBData: IContactEntity = {
 	id: DBIds.contact_id,
 	chat_id: DBIds.chat_id,
 };
 
-export const contact2DBData: IContact = {
+export const contact2DBData: IContactEntity = {
 	id: DBIds.contact2_id,
 	chat_id: DBIds.chat2_id,
 };
 
-export const contact3DBData: IContact = {
+export const contact3DBData: IContactEntity = {
 	id: DBIds.contact3_id,
 	chat_id: undefined,
 };
 
-export const chatDBData: IChat = {
+export const chatDBData: IChatEntity = {
 	id: DBIds.chat_id,
 	is_group: false,
 	name: "chat1",
 };
 
-export const chat2DBData: IChat = {
+export const chat2DBData: IChatEntity = {
 	id: DBIds.chat2_id,
 	is_group: false,
 	name: "chat2",
 };
 
-export const chatGroupDBData: IChat = {
+export const chatGroupDBData: IChatEntity = {
 	id: DBIds.chatGroup_id,
 	is_group: true,
 	name: "name",

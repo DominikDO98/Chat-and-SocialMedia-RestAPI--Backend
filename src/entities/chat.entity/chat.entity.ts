@@ -1,11 +1,11 @@
 import { v4 as uuid } from "uuid";
-import { IChat } from "./chat.type";
+import { IChatEntity } from "./chat.type";
 
-export class Chat implements IChat {
+export class ChatEntity implements IChatEntity {
 	id;
 	is_group;
 	name;
-	constructor(newChat: Omit<IChat, "id">) {
+	constructor(newChat: Omit<IChatEntity, "id">) {
 		this.id = uuid();
 		this.is_group = newChat.is_group ? newChat.is_group : false;
 		this.name = newChat.is_group && newChat.name ? newChat.name : undefined;

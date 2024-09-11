@@ -1,7 +1,7 @@
 import { v4 as uuid } from "uuid";
-import { IComment } from "./comment.types";
+import { ICommentEntity } from "./comment.types";
 
-export class Comment implements IComment {
+export class CommentEnitity implements ICommentEntity {
 	id;
 	post_id;
 	user_id;
@@ -9,7 +9,7 @@ export class Comment implements IComment {
 	created_at;
 	picture?;
 	attachment?;
-	constructor(newComment: Omit<IComment, "id" | "user_id" | "created_at">, user_id: string) {
+	constructor(newComment: Omit<ICommentEntity, "id" | "user_id" | "created_at">, user_id: string) {
 		this.id = uuid();
 		this.user_id = user_id;
 		this.post_id = newComment.post_id;

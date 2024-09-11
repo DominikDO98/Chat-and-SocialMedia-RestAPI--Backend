@@ -1,6 +1,6 @@
 import { PoolClient } from "pg";
 import { pool } from "../utils/db/db";
-import { IChat, IPrivateChatData, IGroupChatData } from "../entities/chat.entity/chat.type";
+import { IChatEntity, IPrivateChatData, IGroupChatData } from "../entities/chat.entity/chat.type";
 
 export class ChatRepository {
 	//add delete private chat
@@ -10,7 +10,7 @@ export class ChatRepository {
 		});
 	};
 
-	static createChat = async (contact_id: string, chatData: IChat): Promise<void> => {
+	static createChat = async (contact_id: string, chatData: IChatEntity): Promise<void> => {
 		const client = await pool.connect();
 		try {
 			await client.query("BEGIN");
@@ -27,7 +27,7 @@ export class ChatRepository {
 			client.release();
 		}
 	};
-	static createGroupChat = async (participantsIds: string[], chatData: IChat): Promise<void> => {
+	static createGroupChat = async (participantsIds: string[], chatData: IChatEntity): Promise<void> => {
 		const client = await pool.connect();
 		try {
 			await client.query("BEGIN");

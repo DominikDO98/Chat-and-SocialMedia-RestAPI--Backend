@@ -1,4 +1,4 @@
-export interface IChat {
+export interface IChatEntity {
 	id: string;
 	is_group: boolean;
 	name?: string;

@@ -1,4 +1,4 @@
-export interface IContact {
+export interface IContactEntity {
 	id: string;
 	chat_id: string | undefined;
 }

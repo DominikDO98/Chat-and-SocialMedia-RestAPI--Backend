@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response, Router } from "express";
 import { EventController } from "../controllers/event.controller";
-import { EventSchema } from "../entities/event.entity/event.schema";
+import { EventEntitySchema } from "../entities/event.entity/event.schema";
 import { PostCreationSchema } from "../entities/post.entity/post.schema";
 import { validateReq } from "../utils/validateReq/validateReq";
 
@@ -11,7 +11,7 @@ EventRouter
 	.post("/createEvent", async (req: Request, res: Response, next: NextFunction) => {
 		validateReq(req, ["postData", "eventData", "id"]);
 		PostCreationSchema.parse(req.body.postData);
-		EventSchema.parse(req.body.eventData);
+		EventEntitySchema.parse(req.body.eventData);
 		await eventController.createEvent(req, res, next);
 	})
 	.patch("/editEvent", async (req: Request, res: Response, next: NextFunction) => {
