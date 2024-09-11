@@ -4,7 +4,7 @@ import { ICommentEntity } from "../../entities/comment.entity/comment.types";
 import { IContactEntity } from "../../entities/contact.entity/contact.type";
 import { IEventEntity } from "../../entities/event.entity/event.types";
 import { IGroupEntity } from "../../entities/group.entity/group.types";
-import { TInvitation } from "../../entities/invitation.entity/invitation.type";
+import { IInvitationEntity } from "../../entities/invitation.entity/invitation.type";
 import { TLike } from "../../entities/like.entity/like.type";
 import { TPost } from "../../entities/post.entity/post.types";
 import { TUser } from "../../entities/user.entity/user.types";
@@ -207,13 +207,13 @@ export const event2DBData: { post: TPost; event: IEventEntity } = {
 	},
 };
 
-export const invitationDBData: TInvitation = {
+export const invitationDBData: IInvitationEntity = {
 	id: DBIds.invitation_id,
 	from_user_id: DBIds.user3_id,
 	to_user_id: DBIds.user_id,
 };
 
-export const invitation2DBData: TInvitation = {
+export const invitation2DBData: IInvitationEntity = {
 	id: DBIds.invitation2_id,
 	from_user_id: DBIds.user_id,
 	to_user_id: DBIds.user4_id,

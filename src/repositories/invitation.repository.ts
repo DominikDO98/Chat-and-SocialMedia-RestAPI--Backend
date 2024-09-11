@@ -1,8 +1,8 @@
-import { TInvitation, TInvitationWithUser } from "../entities/invitation.entity/invitation.type";
+import { IInvitationEntity, IInvitationWithUser } from "../entities/invitation.entity/invitation.type";
 import { pool } from "../utils/db/db";
 
 export class InvitationRepository {
-	static sendInvitation = async (invitation: TInvitation): Promise<void> => {
+	static sendInvitation = async (invitation: IInvitationEntity): Promise<void> => {
 		await pool.query("INSERT INTO invitations (id, from_user_id, to_user_id) VALUES ($1, $2, $3)", [invitation.id, invitation.from_user_id, invitation.to_user_id]);
 	};
 
@@ -33,7 +33,7 @@ export class InvitationRepository {
 		await pool.query("DELETE FROM invitations WHERE id = $1 AND from_user_id = $2", [invitation_id, user_id]);
 	};
 
-	static loadInvitations = async (user_id: string): Promise<TInvitationWithUser[]> => {
+	static loadInvitations = async (user_id: string): Promise<IInvitationWithUser[]> => {
 		//TODO: cahnge to return user data instead of ids
 		const { rows } = await pool.query("SELECT invitations.id as invitationid, username, firstname, lastname FROM invitations FULL JOIN users ON users.id = invitations.from_user_id WHERE to_user_id = $1", [user_id]);
 		return rows;
