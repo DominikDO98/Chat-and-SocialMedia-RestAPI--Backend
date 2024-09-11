@@ -2,8 +2,8 @@ import { hashSync } from "bcrypt";
 import { IChat } from "../../entities/chat.entity/chat.type";
 import { IComment } from "../../entities/comment.entity/comment.types";
 import { IContact } from "../../entities/contact.entity/contact.type";
-import { IEvent } from "../../entities/event.entity/event.type";
-import { TGroup } from "../../entities/group.entity/group.types";
+import { IEvent } from "../../entities/event.entity/event.types";
+import { IGroupEntity } from "../../entities/group.entity/group.types";
 import { TInvitation } from "../../entities/invitation.entity/invitation.type";
 import { TLike } from "../../entities/like.entity/like.type";
 import { TPost } from "../../entities/post.entity/post.types";
@@ -73,7 +73,7 @@ export const user4DBData: TUser = {
 	email_address: "email4@gmail.com",
 };
 
-export const groupDBData: TGroup = {
+export const groupDBData: IGroupEntity = {
 	id: DBIds.group_id,
 	admin_id: DBIds.user_id,
 	name: "nameOfTheTestGroup",
@@ -83,7 +83,7 @@ export const groupDBData: TGroup = {
 	description: "hi, it' a group",
 };
 
-export const groupDBData2: TGroup = {
+export const groupDBData2: IGroupEntity = {
 	id: DBIds.group2_id,
 	admin_id: DBIds.user_id,
 	name: "groupName",

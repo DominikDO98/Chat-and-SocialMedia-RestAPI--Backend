@@ -1,4 +1,4 @@
-import { IEvent } from "../entities/event.entity/event.type";
+import { IEvent } from "../entities/event.entity/event.types";
 import { TPost } from "../entities/post.entity/post.types";
 import { pool } from "../utils/db/db";
 import { CustomError, ValidationError } from "../utils/errors/errors";
