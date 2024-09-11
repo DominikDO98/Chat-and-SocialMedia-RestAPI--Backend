@@ -14,7 +14,7 @@ export class ChatService {
 
 	createGroupChat = async (userId: string, otherParticipants: string[], chatData: Omit<IChatEntity, "id">): Promise<void> => {
 		const participants = [userId, ...otherParticipants];
-		const newChat = new Chat(chatData);
+		const newChat = new ChatEntity(chatData);
 		await this._chatRepository.createGroupChat(participants, newChat);
 	};
 
