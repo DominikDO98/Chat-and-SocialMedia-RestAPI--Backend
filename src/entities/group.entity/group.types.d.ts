@@ -1,4 +1,4 @@
-export type TGroup = {
+export interface IGroupEntity {
 	id: string;
 	admin_id: string;
 	name?: string;
@@ -6,4 +6,4 @@ export type TGroup = {
 	is_private?: boolean;
 	description: string;
 	profile_photo?: Buffer;
-};
+}
