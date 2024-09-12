@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const MessageSchema = z.object({
+export const MessageEntitySchema = z.object({
 	id: z.string().uuid(),
 	chat_id: z.string().uuid(),
 	text: z.string().max(100),

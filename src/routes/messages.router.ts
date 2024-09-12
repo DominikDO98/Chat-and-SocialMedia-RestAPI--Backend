@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response, Router } from "express";
 import { z } from "zod";
 import { MessageController } from "../controllers/message.controller";
-import { MessageSchema } from "../entities/message.entity/message.schema";
+import { MessageEntitySchema } from "../entities/message.entity/message.schema";
 import { validateReq } from "../utils/validateReq/validateReq";
 
 export const MessageRouter = Router();
@@ -10,7 +10,7 @@ MessageRouter
 	//prettier-ignore
 	.post("/sendMessage", async (req: Request, res: Response, next: NextFunction) => {
 		validateReq(req, ["message", "id"]);
-		MessageSchema.omit({ id: true, created_at: true, send_by: true, is_delivered: true }).parse(req.body.message);
+		MessageEntitySchema.omit({ id: true, created_at: true, send_by: true, is_delivered: true }).parse(req.body.message);
 		await messageController.sendMessage(req, res, next);
 	})
 	.get("/loadMessages/:chatId/:offset", async (req: Request, res: Response, next: NextFunction) => {

@@ -1,4 +1,4 @@
-export type TMessage = {
+export interface IMessageEntity {
 	id: string;
 	chat_id: string;
 	text: string;
@@ -7,6 +7,6 @@ export type TMessage = {
 	is_delivered: boolean;
 	picture?: Buffer;
 	attachment?: string;
-};
+}
 
-export type TMessageCreation = Omit<TMessage, "id" | "created_at" | "is_delivered" | "send_by">;
+export type TMessageCreation = Omit<IMessageEntity, "id" | "created_at" | "is_delivered" | "send_by">;

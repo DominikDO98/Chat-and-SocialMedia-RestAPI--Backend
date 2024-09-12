@@ -9,7 +9,7 @@ import { ILikeEntity } from "../../entities/like.entity/like.type";
 import { TPost } from "../../entities/post.entity/post.types";
 import { TUser } from "../../entities/user.entity/user.types";
 import { convertImg } from "../../tests/user.tests/testingAssets/readFile";
-import { TMessage } from "../../entities/message.entity/message.type";
+import { IMessageEntity } from "../../entities/message.entity/message.type";
 
 export const DBIds = {
 	comment_id: "ab104f91-6ab9-449c-a5da-71b3064fdaa1",
@@ -252,7 +252,7 @@ export const chatGroupDBData: IChatEntity = {
 	name: "name",
 };
 
-export const messageDBData: TMessage = {
+export const messageDBData: IMessageEntity = {
 	id: DBIds.message_id,
 	chat_id: DBIds.chat_id,
 	text: "Message text",
@@ -263,7 +263,7 @@ export const messageDBData: TMessage = {
 	attachment: undefined,
 };
 
-export const message2DBData: TMessage = {
+export const message2DBData: IMessageEntity = {
 	id: DBIds.message2_id,
 	chat_id: DBIds.chat_id,
 	text: "Message text2",
@@ -274,7 +274,7 @@ export const message2DBData: TMessage = {
 	attachment: undefined,
 };
 
-export const messageNoID: Omit<TMessage, "id"> = {
+export const messageNoID: Omit<IMessageEntity, "id"> = {
 	chat_id: DBIds.chat_id,
 	text: "auto message",
 	created_at: new Date(),

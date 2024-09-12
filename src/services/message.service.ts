@@ -1,5 +1,5 @@
-import { messageFactory } from "../entities/message.entity/message.factory";
-import { TMessageCreation, TMessage } from "../entities/message.entity/message.type";
+import { MessageEntity } from "../entities/message.entity/message.entity";
+import { IMessageEntity, TMessageCreation } from "../entities/message.entity/message.type";
 import { MessageRepository } from "../repositories/message.repository";
 
 export class MessageService {
@@ -8,11 +8,11 @@ export class MessageService {
 		this._messageRepository;
 	}
 	sendMessage = async (message: TMessageCreation, id: string): Promise<void> => {
-		const newMessage = messageFactory(message, id);
+		const newMessage = new MessageEntity(message, id);
 		await this._messageRepository.sendMessage(newMessage);
 	};
 
-	loadMessages = async (chat_id: string, offsetSeed: string): Promise<TMessage[]> => {
+	loadMessages = async (chat_id: string, offsetSeed: string): Promise<IMessageEntity[]> => {
 		const offset = Number(offsetSeed) * 50;
 		const messages = await this._messageRepository.loadMessages(chat_id, offset);
 		return messages;
