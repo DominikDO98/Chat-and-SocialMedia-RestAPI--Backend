@@ -1,10 +1,10 @@
 import { IEventEntity } from "../entities/event.entity/event.types";
-import { TPost } from "../entities/post.entity/post.types";
+import { IPostEntity } from "../entities/post.entity/post.types";
 import { pool } from "../utils/db/db";
 import { CustomError, ValidationError } from "../utils/errors/errors";
 
 export class EventRepository {
-	static createEvent = async (postData: TPost, eventData: IEventEntity): Promise<void> => {
+	static createEvent = async (postData: IPostEntity, eventData: IEventEntity): Promise<void> => {
 		const client = await pool.connect();
 		try {
 			await client.query("BEGIN;");
@@ -20,7 +20,7 @@ export class EventRepository {
 		}
 	};
 
-	static editEvent = async (postData: TPost, eventData: IEventEntity): Promise<void> => {
+	static editEvent = async (postData: IPostEntity, eventData: IEventEntity): Promise<void> => {
 		const client = await pool.connect();
 		try {
 			await client.query("BEGIN;");

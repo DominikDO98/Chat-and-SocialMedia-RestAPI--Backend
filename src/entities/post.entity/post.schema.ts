@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const PostSchema = z.object({
+export const PostEntitySchema = z.object({
 	id: z.string().uuid(),
 	user_id: z.string().uuid(),
 	group_id: z.string().uuid().optional(),
@@ -12,9 +12,9 @@ export const PostSchema = z.object({
 	type: z.number(),
 });
 
-export const PostEditionSchema = PostSchema.partial();
+export const PostEditionSchema = PostEntitySchema.partial();
 
-export const PostCreationSchema = PostSchema.omit({
+export const PostCreationSchema = PostEntitySchema.omit({
 	id: true,
 	user_id: true,
 	created_at: true,

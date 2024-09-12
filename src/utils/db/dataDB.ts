@@ -6,7 +6,7 @@ import { IEventEntity } from "../../entities/event.entity/event.types";
 import { IGroupEntity } from "../../entities/group.entity/group.types";
 import { IInvitationEntity } from "../../entities/invitation.entity/invitation.type";
 import { ILikeEntity } from "../../entities/like.entity/like.type";
-import { TPost } from "../../entities/post.entity/post.types";
+import { IPostEntity } from "../../entities/post.entity/post.types";
 import { TUser } from "../../entities/user.entity/user.types";
 import { convertImg } from "../../tests/user.tests/testingAssets/readFile";
 import { IMessageEntity } from "../../entities/message.entity/message.type";
@@ -93,7 +93,7 @@ export const groupDBData2: IGroupEntity = {
 	description: "Some Radom users group",
 };
 
-export const postDBData: TPost = {
+export const postDBData: IPostEntity = {
 	id: DBIds.post_id,
 	user_id: DBIds.user_id,
 	group_id: DBIds.group_id,
@@ -105,7 +105,7 @@ export const postDBData: TPost = {
 	type: 0,
 };
 
-export const post2DBData: TPost = {
+export const post2DBData: IPostEntity = {
 	id: DBIds.post2_id,
 	user_id: DBIds.user2_id,
 	group_id: DBIds.group_id,
@@ -117,7 +117,7 @@ export const post2DBData: TPost = {
 	type: 0,
 };
 
-export const postDataNoID: Omit<TPost, "id"> = {
+export const postDataNoID: Omit<IPostEntity, "id"> = {
 	user_id: DBIds.user_id,
 	group_id: DBIds.group_id,
 	title: "posttitle",
@@ -167,7 +167,7 @@ export const like2DBData: ILikeEntity = {
 	post_id: DBIds.post_id,
 };
 
-export const eventDBData: { post: TPost; event: IEventEntity } = {
+export const eventDBData: { post: IPostEntity; event: IEventEntity } = {
 	post: {
 		id: DBIds.event_id,
 		user_id: DBIds.user_id,
@@ -187,7 +187,7 @@ export const eventDBData: { post: TPost; event: IEventEntity } = {
 	},
 };
 
-export const event2DBData: { post: TPost; event: IEventEntity } = {
+export const event2DBData: { post: IPostEntity; event: IEventEntity } = {
 	post: {
 		id: DBIds.event2_id,
 		user_id: DBIds.user_id,

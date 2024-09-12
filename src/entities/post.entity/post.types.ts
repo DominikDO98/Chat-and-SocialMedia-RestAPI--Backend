@@ -1,4 +1,4 @@
-export type TPost = {
+export type IPostEntity = {
 	id: string;
 	user_id: string;
 	group_id?: string;
