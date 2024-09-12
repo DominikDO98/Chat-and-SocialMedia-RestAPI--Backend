@@ -1,7 +1,7 @@
 import { z } from "zod";
 
-export const UserSchema = z.object({
-	id: z.string().uuid(),
+export const UserSchemaEntity = z.object({
+	_id: z.string().uuid(),
 	username: z.string().min(5).max(36),
 	password: z.string().min(8).max(60),
 	email_address: z.string().email().max(320),
@@ -16,7 +16,7 @@ export const UserSchema = z.object({
 	description: z.string().max(200).optional(),
 });
 //user authorization schemas
-export const UserCreationSchema = UserSchema.pick({
+export const UserCreationSchema = UserSchemaEntity.pick({
 	username: true,
 	password: true,
 	email_address: true,
@@ -28,11 +28,11 @@ export const UserLoginByEmailSchema = UserCreationSchema.omit({
 	username: true,
 });
 //edit userprofile schemas
-export const LoadFullUserDataSchema = UserSchema.omit({
+export const LoadFullUserDataSchema = UserSchemaEntity.omit({
 	id: true,
 	password: true,
 });
-export const EditUserAddtionalDataSchema = UserSchema.omit({
+export const EditUserAddtionalDataSchema = UserSchemaEntity.omit({
 	id: true,
 	password: true,
 	username: true,
