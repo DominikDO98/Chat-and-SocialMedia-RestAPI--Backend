@@ -3,7 +3,7 @@ import { TUserCreation, TUserLoginByEmailData, TUserLoginByNameData, TUserLoginR
 import { generateAccessToken } from "../utils/authenticationUtils/jwt.utils";
 import { AuthenticationError } from "../utils/errors/errors";
 import { AuthRepository } from "../repositories/auth.repository";
-import { userFactory } from "../entities/user.entity/user.factory";
+import { UserRegistrationEntity } from "../entities/user.entity/user.entity";
 
 export class AuthService {
 	private _authrepository = AuthRepository;
@@ -11,7 +11,7 @@ export class AuthService {
 		this._authrepository;
 	}
 	registerUser = async (userAuthData: Omit<TUserCreation, "id">): Promise<Omit<TUserRegistrationReturnedData, "id">> => {
-		const newUser = userFactory(userAuthData);
+		const newUser = new UserRegistrationEntity(userAuthData);
 		const newUserData = await this._authrepository.registerUser(newUser);
 		const accessToken = generateAccessToken(newUserData.id);
 		return {
