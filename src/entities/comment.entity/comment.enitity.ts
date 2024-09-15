@@ -2,13 +2,13 @@ import { v4 as uuid } from "uuid";
 import { ICommentEntity } from "./comment.types";
 
 export class CommentEnitity implements ICommentEntity {
-	id;
-	post_id;
-	user_id;
-	text;
-	created_at;
-	picture?;
-	attachment?;
+	public id;
+	public post_id;
+	public user_id;
+	public text;
+	public created_at;
+	public picture?;
+	public attachment?;
 	constructor(newComment: Omit<ICommentEntity, "id" | "user_id" | "created_at">, user_id: string) {
 		this.id = uuid();
 		this.user_id = user_id;
