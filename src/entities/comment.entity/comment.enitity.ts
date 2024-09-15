@@ -1,7 +1,7 @@
 import { v4 as uuid } from "uuid";
 import { ICommentEntity } from "./comment.types";
 
-export class CommentEnitity implements ICommentEntity {
+export class CommentEntity implements ICommentEntity {
 	public id;
 	public post_id;
 	public user_id;

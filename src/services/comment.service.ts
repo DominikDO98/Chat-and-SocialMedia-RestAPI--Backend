@@ -1,4 +1,4 @@
-import { Comment } from "../entities/comment.entity/comment.enitity";
+import { CommentEntity } from "../entities/comment.entity/comment.enitity";
 import { ICommentEntity } from "../entities/comment.entity/comment.types";
 import { CommentRepository } from "../repositories/comment.repository";
 
@@ -8,7 +8,7 @@ export class CommnetService {
 		this._commentReposiotory;
 	}
 	addComment = async (commentData: Omit<ICommentEntity, "user_id">, user_id: string): Promise<void> => {
-		const newComment = new Comment(commentData, user_id);
+		const newComment = new CommentEntity(commentData, user_id);
 		await this._commentReposiotory.addComment(newComment);
 	};
 

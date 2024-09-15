@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 export const UserSchemaEntity = z.object({
-	_id: z.string().uuid(),
+	id: z.string().uuid(),
 	username: z.string().min(5).max(36),
 	password: z.string().min(8).max(60),
 	email_address: z.string().email().max(320),
