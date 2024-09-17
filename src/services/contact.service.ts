@@ -3,9 +3,7 @@ import { ContactRepository } from "../repositories/contact.repository";
 
 export class ContactService {
 	private _contactRepository = ContactRepository;
-	constructor() {
-		this._contactRepository;
-	}
+
 	deleteContact = async (contact_id: string): Promise<void> => {
 		await this._contactRepository.deleteContact(contact_id);
 	};

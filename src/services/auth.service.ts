@@ -7,9 +7,7 @@ import { AuthenticationError } from "../utils/errors/errors";
 
 export class AuthService {
 	private _authrepository = AuthRepository;
-	constructor() {
-		this._authrepository;
-	}
+
 	registerUser = async (userAuthData: Omit<TUserCreation, "id">): Promise<Omit<TUserRegistrationReturnedData, "id">> => {
 		const newUser = UserFactory.createUser(userAuthData);
 		const newUserData = await this._authrepository.registerUser(newUser);

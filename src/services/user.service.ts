@@ -3,9 +3,7 @@ import { UserRepository } from "../repositories/user.repository";
 
 export class UserService {
 	private _userRepository = UserRepository;
-	constructor() {
-		this._userRepository;
-	}
+
 	loadUserData = async (userId: string): Promise<TLoadFullUserData> => {
 		const userData = await this._userRepository.loadUserData(userId);
 		return userData;

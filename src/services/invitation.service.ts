@@ -5,9 +5,7 @@ import { InvitationRepository } from "../repositories/invitation.repository";
 
 export class InvitationService {
 	private _invitationRepository = InvitationRepository;
-	constructor() {
-		this._invitationRepository;
-	}
+
 	sendInvitation = async (invitaitonData: Omit<IInvitationEntity, "id">): Promise<void> => {
 		const invitaiton = new InvitationEntity(invitaitonData);
 		await this._invitationRepository.sendInvitation(invitaiton);

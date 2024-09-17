@@ -4,9 +4,7 @@ import { CommentRepository } from "../repositories/comment.repository";
 
 export class CommnetService {
 	private _commentReposiotory = CommentRepository;
-	constructor() {
-		this._commentReposiotory;
-	}
+
 	addComment = async (commentData: Omit<ICommentEntity, "user_id">, user_id: string): Promise<void> => {
 		const newComment = new CommentEntity(commentData, user_id);
 		await this._commentReposiotory.addComment(newComment);

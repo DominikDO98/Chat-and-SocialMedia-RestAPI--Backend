@@ -6,9 +6,7 @@ import { EventRepository } from "../repositories/event.repository";
 
 export class EventService {
 	private _eventRepository = EventRepository;
-	constructor() {
-		this._eventRepository;
-	}
+
 	createEvent = async (postData: Omit<IPostEntity, "user_id">, eventData: IEventEntity, user_id: string): Promise<void> => {
 		const newPost = new PostEntity(postData, user_id);
 		const newEvent = new EventEntity(eventData, newPost.id);

@@ -4,9 +4,7 @@ import { PostRepository } from "../repositories/post.repository";
 
 export class PostService {
 	private _postRepository = PostRepository;
-	constructor() {
-		this._postRepository;
-	}
+
 	createPost = async (postCreationData: Omit<IPostEntity, "id" | "user_id" | "created_at">, user_id: string): Promise<void> => {
 		const newPost = new PostEntity(postCreationData, user_id);
 		await this._postRepository.createPost(newPost);

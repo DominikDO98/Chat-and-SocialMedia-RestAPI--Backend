@@ -4,9 +4,7 @@ import { ChatRepository } from "../repositories/chat.repository";
 
 export class ChatService {
 	private _chatRepository = ChatRepository;
-	constructor() {
-		this._chatRepository;
-	}
+
 	createChat = async (conctact_id: string, chatData: Omit<IChatEntity, "id">): Promise<void> => {
 		const newChat = new ChatEntity(chatData);
 		await this._chatRepository.createChat(conctact_id, newChat);

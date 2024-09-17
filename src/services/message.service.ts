@@ -4,9 +4,7 @@ import { MessageRepository } from "../repositories/message.repository";
 
 export class MessageService {
 	private _messageRepository = MessageRepository;
-	constructor() {
-		this._messageRepository;
-	}
+
 	sendMessage = async (message: TMessageCreation, id: string): Promise<void> => {
 		const newMessage = new MessageEntity(message, id);
 		await this._messageRepository.sendMessage(newMessage);
