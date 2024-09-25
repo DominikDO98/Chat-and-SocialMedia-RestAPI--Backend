@@ -1,4 +1,4 @@
-import { TEditAdditionalUserData, TLoadFullUserData } from "../entities/user.entity/user.types";
+import { TEditAdditionalUserData, TLoadFullUserData } from "../entities/user.entity/user";
 import { UserRepository } from "../repositories/user.repository";
 
 export class UserService {

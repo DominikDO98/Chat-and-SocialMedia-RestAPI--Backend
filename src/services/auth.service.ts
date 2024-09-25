@@ -1,44 +1,20 @@
-import bcrypt from "bcrypt";
-import { UserFactory } from "../entities/user.entity/user.factory";
-import { TUserCreation, TUserLoginByEmailData, TUserLoginByNameData, TUserLoginReturnedData, TUserRegistrationReturnedData } from "../entities/user.entity/user.types";
-import { AuthRepository } from "../repositories/auth.repository";
-import { generateAccessToken } from "../utils/authenticationUtils/jwt.utils";
-import { AuthenticationError } from "../utils/errors/errors";
+import { TAuthRegistration, TAuthRegistrationReturnedData, TAuthLoginByNameData, TAuthLoginReturnedData, TAuthLoginByEmailData } from "../entities/auth.entity/auth";
+import { AuthRegisterEntity, AuthLoginNameEntity, AuthLoginEmailEntity } from "../entities/auth.entity/auth.entity";
 
 export class AuthService {
-	private _authrepository = AuthRepository;
-
-	registerUser = async (userAuthData: Omit<TUserCreation, "id">): Promise<Omit<TUserRegistrationReturnedData, "id">> => {
-		const newUser = UserFactory.createUser(userAuthData);
-		const newUserData = await this._authrepository.registerUser(newUser);
-		const accessToken = generateAccessToken(newUserData.id);
-		return {
-			userData: newUserData.userData,
-			accessToken: accessToken,
-		};
+	registerUser = async (userAuthData: Omit<TAuthRegistration, "id">): Promise<Omit<TAuthRegistrationReturnedData, "id">> => {
+		const user = new AuthRegisterEntity(userAuthData);
+		const data = await user.registerUser();
+		return data;
 	};
-	loginUserByName = async (userAuthData: TUserLoginByNameData): Promise<Omit<TUserLoginReturnedData, "id" | "password">> => {
-		const user = await this._authrepository.loginUserByName(userAuthData.username);
-		const validationResult = await bcrypt.compare(userAuthData.password, user.password);
-		if (!validationResult) {
-			throw new AuthenticationError("Wrong password", "password", 401);
-		}
-		const accessToken = generateAccessToken(user.id);
-		return {
-			userData: user.userData,
-			accessToken: accessToken,
-		};
+	loginUserByName = async (userAuthData: TAuthLoginByNameData): Promise<Omit<TAuthLoginReturnedData, "id" | "password">> => {
+		const user = new AuthLoginNameEntity(userAuthData);
+		const data = await user.login();
+		return data;
 	};
-	loginUserByEmail = async (userAuthData: TUserLoginByEmailData): Promise<Omit<TUserLoginReturnedData, "id" | "password">> => {
-		const user = await this._authrepository.loginUserByEmail(userAuthData.email_address);
-		const validationResult = await bcrypt.compare(userAuthData.password, user.password);
-		if (!validationResult) {
-			throw new AuthenticationError("Wrong password", "password", 401);
-		}
-		const accessToken = generateAccessToken(user.id);
-		return {
-			userData: user.userData,
-			accessToken: accessToken,
-		};
+	loginUserByEmail = async (userAuthData: TAuthLoginByEmailData): Promise<Omit<TAuthLoginReturnedData, "id" | "password">> => {
+		const user = new AuthLoginEmailEntity(userAuthData);
+		const data = await user.login();
+		return data;
 	};
 }

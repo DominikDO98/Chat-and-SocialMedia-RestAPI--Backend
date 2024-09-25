@@ -7,7 +7,7 @@ import { IGroupEntity } from "../../entities/group.entity/group.types";
 import { IInvitationEntity } from "../../entities/invitation.entity/invitation.type";
 import { ILikeEntity } from "../../entities/like.entity/like.type";
 import { IPostEntity } from "../../entities/post.entity/post.types";
-import { IUserEntity } from "../../entities/user.entity/user.types";
+import { IAuthEntity } from "../../entities/user.entity/user";
 import { convertImg } from "../../tests/user.tests/testingAssets/readFile";
 import { IMessageEntity } from "../../entities/message.entity/message.type";
 
@@ -36,7 +36,7 @@ export const DBIds = {
 	user4_id: "f81c30a5-aba6-4749-b990-361f54cf5579",
 };
 
-export const userDBData: IUserEntity = {
+export const userDBData: IAuthEntity = {
 	id: DBIds.user_id,
 	username: "testname",
 	password: hashSync("testpass", 10),
@@ -51,21 +51,21 @@ export const userDBData: IUserEntity = {
 	profile_photo: convertImg(),
 };
 
-export const user2DBData: IUserEntity = {
+export const user2DBData: IAuthEntity = {
 	...userDBData,
 	id: DBIds.user2_id,
 	username: "testname2",
 	password: hashSync("testpass2", 10),
 	email_address: "email2@gmail.com",
 };
-export const user3DBData: IUserEntity = {
+export const user3DBData: IAuthEntity = {
 	...userDBData,
 	id: DBIds.user3_id,
 	username: "testname3",
 	password: hashSync("testpass3", 10),
 	email_address: "email3@gmail.com",
 };
-export const user4DBData: IUserEntity = {
+export const user4DBData: IAuthEntity = {
 	...userDBData,
 	id: DBIds.user4_id,
 	username: "testname4",

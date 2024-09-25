@@ -1,4 +1,4 @@
-import { TEditAdditionalUserData, TLoadFullUserData } from "../entities/user.entity/user.types";
+import { TEditAdditionalUserData, TLoadFullUserData } from "../entities/user.entity/user";
 import { pool } from "../utils/db/db";
 import { CustomError } from "../utils/errors/errors";
 
