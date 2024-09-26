@@ -7,9 +7,10 @@ import { IGroupEntity } from "../../entities/group.entity/group.types";
 import { IInvitationEntity } from "../../entities/invitation.entity/invitation.type";
 import { ILikeEntity } from "../../entities/like.entity/like.type";
 import { IPostEntity } from "../../entities/post.entity/post.types";
-import { IAuthEntity } from "../../entities/user.entity/user";
 import { convertImg } from "../../tests/user.tests/testingAssets/readFile";
 import { IMessageEntity } from "../../entities/message.entity/message.type";
+import { IAuthEntity } from "../../entities/auth.entity/auth";
+import { IUserEntity } from "../../entities/user.entity/user";
 
 export const DBIds = {
 	comment_id: "ab104f91-6ab9-449c-a5da-71b3064fdaa1",
@@ -40,15 +41,7 @@ export const userDBData: IAuthEntity = {
 	id: DBIds.user_id,
 	username: "testname",
 	password: hashSync("testpass", 10),
-	email_address: "email@gmail.com",
-	lastname: "testlast",
-	firstname: "testfirst",
-	birthday: new Date("2024-04-25"),
-	city: "testingcity",
-	occupation: "physical worker",
-	school: "testingschool",
-	description: "hi",
-	profile_photo: convertImg(),
+	emailAddress: "email@gmail.com",
 };
 
 export const user2DBData: IAuthEntity = {
@@ -56,21 +49,49 @@ export const user2DBData: IAuthEntity = {
 	id: DBIds.user2_id,
 	username: "testname2",
 	password: hashSync("testpass2", 10),
-	email_address: "email2@gmail.com",
+	emailAddress: "email2@gmail.com",
 };
 export const user3DBData: IAuthEntity = {
 	...userDBData,
 	id: DBIds.user3_id,
 	username: "testname3",
 	password: hashSync("testpass3", 10),
-	email_address: "email3@gmail.com",
+	emailAddress: "email3@gmail.com",
 };
 export const user4DBData: IAuthEntity = {
 	...userDBData,
 	id: DBIds.user4_id,
 	username: "testname4",
 	password: hashSync("testpass4", 10),
-	email_address: "email4@gmail.com",
+	emailAddress: "email4@gmail.com",
+};
+
+export const userdata1DBData: IUserEntity = {
+	userId: DBIds.user_id,
+	lastname: "testlast",
+	firstname: "testfirst",
+	birthday: new Date("2024-04-25"),
+	country: "Pakistan",
+	city: "testingcity",
+	occupation: "physical worker",
+	school: "testingschool",
+	description: "hi",
+	profilePhoto: convertImg(),
+};
+
+export const userdata2DBData: IUserEntity = {
+	...userdata1DBData,
+	userId: DBIds.user2_id,
+};
+
+export const userdata3DBData: IUserEntity = {
+	...userdata1DBData,
+	userId: DBIds.user3_id,
+};
+
+export const userdata4DBData: IUserEntity = {
+	...userdata1DBData,
+	userId: DBIds.user4_id,
 };
 
 export const groupDBData: IGroupEntity = {

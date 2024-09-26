@@ -1,6 +1,6 @@
-import { Client, Pool, PoolClient, PoolConfig } from "pg";
+import { Pool, PoolClient } from "pg";
 import { v4 as uuid } from "uuid";
-import { comment2DBData, commentDBData, commentDataNoID, contact2DBData, contact3DBData, contactDBData, chat2DBData, chatDBData, chatGroupDBData, event2DBData, eventDBData, groupDBData, groupDBData2, invitation2DBData, invitationDBData, like2DBData, likeDBData, message2DBData, messageDBData, messageNoID, post2DBData, postDBData, postDataNoID, user2DBData, user3DBData, user4DBData, userDBData } from "./dataDB";
+import { chat2DBData, chatDBData, chatGroupDBData, comment2DBData, commentDBData, commentDataNoID, contact2DBData, contact3DBData, contactDBData, event2DBData, eventDBData, groupDBData, groupDBData2, invitation2DBData, invitationDBData, like2DBData, likeDBData, message2DBData, messageDBData, messageNoID, post2DBData, postDBData, postDataNoID, user2DBData, user3DBData, user4DBData, userDBData, userdata1DBData, userdata2DBData, userdata3DBData, userdata4DBData } from "./dataDB";
 import { Config } from "./db.config";
 
 const initPool = new Pool(Config.initConfig);
@@ -10,8 +10,11 @@ const initiateTables = async (client: PoolClient) => {
 	console.log("Tables");
 
 	console.log("Users");
+	await client.query('CREATE TABLE IF NOT EXISTS public.users (id uuid NOT NULL, username character varying(36) COLLATE pg_catalog."default" NOT NULL, password character varying(72) COLLATE pg_catalog."default" NOT NULL, email_address character varying(320) COLLATE pg_catalog."default" NOT NULL, CONSTRAINT "Users_pkey" PRIMARY KEY (id), CONSTRAINT email_address_ukey UNIQUE (email_address) INCLUDE(email_address), CONSTRAINT username_ukey UNIQUE (username) INCLUDE(username))');
+
+	console.log("UserData");
 	await client.query(
-		'CREATE TABLE IF NOT EXISTS public.users (id uuid NOT NULL, username character varying(36) COLLATE pg_catalog."default" NOT NULL, password character varying(72) COLLATE pg_catalog."default" NOT NULL, email_address character varying(320) COLLATE pg_catalog."default" NOT NULL, profile_photo bytea, firstname character varying(20) COLLATE pg_catalog."default", lastname character varying(20) COLLATE pg_catalog."default", birthday timestamp with time zone, country character varying(27) COLLATE pg_catalog."default", city character varying(85) COLLATE pg_catalog."default", occupation character varying(50) COLLATE pg_catalog."default", school character varying(50) COLLATE pg_catalog."default", description character varying(200) COLLATE pg_catalog."default", CONSTRAINT "Users_pkey" PRIMARY KEY (id), CONSTRAINT email_address_ukey UNIQUE (email_address) INCLUDE(email_address), CONSTRAINT username_ukey UNIQUE (username) INCLUDE(username))',
+		'CREATE TABLE IF NOT EXISTS public.userdata (user_id uuid NOT NULL, profile_photo bytea, firstname character varying(20) COLLATE pg_catalog."default", lastname character varying(20) COLLATE pg_catalog."default", birthday timestamp with time zone, country character varying(27) COLLATE pg_catalog."default", city character varying(85) COLLATE pg_catalog."default", occupation character varying(50) COLLATE pg_catalog."default", school character varying(50) COLLATE pg_catalog."default", description character varying(200) COLLATE pg_catalog."default", CONSTRAINT "Userdata_pkey" PRIMARY KEY (user_id), CONSTRAINT user_id_key FOREIGN KEY (user_id) REFERENCES public.users (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID)',
 	);
 
 	console.log("Groups");
@@ -78,11 +81,17 @@ const initiateTables = async (client: PoolClient) => {
 };
 
 const insertDataToDB = async (client: PoolClient) => {
-	let query = "INSERT INTO users (id, username, password, email_address, lastname, firstname, birthday, city, occupation, school, description, profile_photo) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)";
+	let query = "INSERT INTO users (id, username, password, email_address) VALUES ($1, $2, $3, $4)";
 	await client.query(query, [...Object.values(userDBData)]);
 	await client.query(query, [...Object.values(user2DBData)]);
 	await client.query(query, [...Object.values(user3DBData)]);
 	await client.query(query, [...Object.values(user4DBData)]);
+
+	query = "INSERT INTO userdata (user_id, lastname, firstname, birthday, country, city, occupation, school, description, profile_photo) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)";
+	await client.query(query, [...Object.values(userdata1DBData)]);
+	await client.query(query, [...Object.values(userdata2DBData)]);
+	await client.query(query, [...Object.values(userdata3DBData)]);
+	await client.query(query, [...Object.values(userdata4DBData)]);
 
 	query = "INSERT INTO groups (id, admin_id, name, profile_photo, created_at, is_private, description) VALUES ($1, $2, $3, $4, $5, $6, $7)";
 	await client.query(query, [...Object.values(groupDBData)]);
