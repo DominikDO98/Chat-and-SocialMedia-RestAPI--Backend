@@ -1,6 +1,5 @@
 import { NextFunction, Request, Response, Router } from "express";
 import { UserController } from "../controllers/user.controller";
-import { EditUserAddtionalDataSchema } from "../entities/user.entity/user.schema";
 import { convertImg } from "../tests/user.tests/testingAssets/readFile";
 import { validateReq } from "../utils/validateReq/validateReq";
 
@@ -13,7 +12,7 @@ UserRouter
 	})
 	.post("/", async (req: Request, res: Response, next: NextFunction) => {
 		validateReq(req, ["editUserData"]);
-		EditUserAddtionalDataSchema.parse(req.body.editUserData);
+		// EditUserAddtionalDataSchema.parse(req.body.editUserData);
 		await userController.editUserAdditionalData(req, res, next);
 	})
 	.post("/uploadPhoto", async (req: Request, res: Response, next: NextFunction) => {

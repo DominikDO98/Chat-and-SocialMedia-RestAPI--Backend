@@ -1,5 +1,5 @@
 export interface IUserEntity {
-	userId: string;
+	user_id: string;
 	profilePhoto: Buffer | undefined;
 	lastname: string | undefined;
 	firstname: string | undefined;
