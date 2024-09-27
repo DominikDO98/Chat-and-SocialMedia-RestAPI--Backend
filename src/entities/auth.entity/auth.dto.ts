@@ -5,6 +5,6 @@ export class AuthDTO implements IAuthDTO {
 	public readonly emailAddress: string;
 	constructor(user: IAuthEntity) {
 		this.username = user.username;
-		this.emailAddress = user.emailAddress;
+		this.emailAddress = user.email_address;
 	}
 }

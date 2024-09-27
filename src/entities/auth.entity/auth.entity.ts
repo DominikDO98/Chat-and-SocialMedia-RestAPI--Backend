@@ -4,11 +4,11 @@ export class AuthEntity implements IAuthEntity {
 	public readonly id: string;
 	public readonly username;
 	public readonly password;
-	public readonly emailAddress;
-	constructor(id: string, newUser: TAuthCreation) {
+	public readonly email_address;
+	constructor(id: string, hashedPassword: string, newUser: TAuthCreation) {
 		this.id = id;
 		this.username = newUser.username;
-		this.password = newUser.password;
-		this.emailAddress = newUser.emailAddress;
+		this.password = hashedPassword;
+		this.email_address = newUser.emailAddress;
 	}
 }
