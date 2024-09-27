@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { AuthService } from "../services/auth.service";
-import { AuthCreationSchema, AuthLoginByNameSchema, AuthLoginByEmailSchema } from "../entities/user.entity/user.schema";
+import { AuthCreationSchema, AuthLoginByNameSchema, AuthLoginByEmailSchema } from "../entities/auth.entity/auth.schema";
 
 export class AuthController {
 	private _authService = new AuthService();
@@ -11,7 +11,7 @@ export class AuthController {
 		try {
 			AuthCreationSchema.parse(req.body.userAuthData);
 			const recivedData = await this._authService.registerUser(req.body.userAuthData);
-			res.cookie("authToken", recivedData.accessToken, { secure: false, httpOnly: true, domain: undefined }).status(201).json(recivedData.userData);
+			res.cookie("authToken", recivedData.accessToken, { secure: false, httpOnly: true, domain: undefined }).status(201).json(recivedData.dto);
 		} catch (err) {
 			next(err);
 		}
@@ -20,7 +20,7 @@ export class AuthController {
 		try {
 			AuthLoginByNameSchema.parse(req.body.userAuthData);
 			const recivedData = await this._authService.loginUserByName(req.body.userAuthData);
-			res.cookie("authToken", recivedData.accessToken, { secure: false, httpOnly: true, domain: undefined }).status(200).json(recivedData.userData);
+			res.cookie("authToken", recivedData.accessToken, { secure: false, httpOnly: true, domain: undefined }).status(200).json(recivedData.dto);
 		} catch (err) {
 			next(err);
 		}
@@ -29,7 +29,7 @@ export class AuthController {
 		try {
 			AuthLoginByEmailSchema.parse(req.body.userAuthData);
 			const recivedData = await this._authService.loginUserByEmail(req.body.userAuthData);
-			res.cookie("authToken", recivedData.accessToken, { secure: false, httpOnly: true, domain: undefined }).status(200).json(recivedData.userData);
+			res.cookie("authToken", recivedData.accessToken, { secure: false, httpOnly: true, domain: undefined }).status(200).json(recivedData.dto);
 		} catch (err) {
 			next(err);
 		}
