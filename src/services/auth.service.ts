@@ -2,15 +2,18 @@ import { IAuthDTO, TAuthCreation, TAuthLoginByEmailData, TAuthLoginByNameData } 
 import { AuthDTO } from "../entities/auth.entity/auth.dto";
 import { AuthEntity } from "../entities/auth.entity/auth.entity";
 import { AuthRepository } from "../repositories/auth.repository";
+import { ProfileRepository } from "../repositories/profile.repository";
 import { AuthUtils } from "../utils/authenticationUtils/authUtils";
 import { AuthenticationError } from "../utils/errors/errors";
 export class AuthService {
 	private _authrepository = AuthRepository;
+	private _profileRepository = ProfileRepository;
 	registerUser = async (userAuthData: TAuthCreation): Promise<{ dto: IAuthDTO; accessToken: string }> => {
 		const id = AuthUtils.uuid();
 		const hashPassword = AuthUtils.hashPassword(userAuthData.password);
 		const userEntity = new AuthEntity(id, hashPassword, userAuthData);
 		const newUserEntity = await this._authrepository.create(userEntity);
+		await this._profileRepository.createProfile(id);
 		const dto = new AuthDTO(newUserEntity);
 		const accessToken = AuthUtils.generateAccessToken(newUserEntity.id);
 		return {

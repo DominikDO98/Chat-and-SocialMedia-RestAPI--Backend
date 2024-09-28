@@ -9,7 +9,7 @@ import { ILikeEntity } from "../../entities/like.entity/like.type";
 import { IPostEntity } from "../../entities/post.entity/post.types";
 import { convertImg } from "../../tests/user.tests/testingAssets/readFile";
 import { IMessageEntity } from "../../entities/message.entity/message.type";
-import { IUserEntity } from "../../entities/user.entity/user";
+import { IProfileEntity } from "../../entities/user.entity/profile";
 import { IAuthEntity } from "../../entities/auth.entity/auth";
 
 export const DBIds = {
@@ -63,7 +63,7 @@ export const user4DBData: IAuthEntity = {
 	email_address: "email4@gmail.com",
 };
 
-export const userdata1DBData: IUserEntity = {
+export const profile1DBData: IProfileEntity = {
 	user_id: DBIds.user_id,
 	lastname: "testlast",
 	firstname: "testfirst",
@@ -73,21 +73,21 @@ export const userdata1DBData: IUserEntity = {
 	occupation: "physical worker",
 	school: "testingschool",
 	description: "hi",
-	profilePhoto: convertImg(),
+	profile_photo: convertImg(),
 };
 
-export const userdata2DBData: IUserEntity = {
-	...userdata1DBData,
+export const profile2DBData: IProfileEntity = {
+	...profile1DBData,
 	user_id: DBIds.user2_id,
 };
 
-export const userdata3DBData: IUserEntity = {
-	...userdata1DBData,
+export const profile3DBData: IProfileEntity = {
+	...profile1DBData,
 	user_id: DBIds.user3_id,
 };
 
-export const userdata4DBData: IUserEntity = {
-	...userdata1DBData,
+export const profile4DBData: IProfileEntity = {
+	...profile1DBData,
 	user_id: DBIds.user4_id,
 };
 
