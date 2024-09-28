@@ -1,6 +1,6 @@
 import { IProfileDTO, TEditProfile } from "../entities/user.entity/profile";
-import { ProfileDTO } from "../entities/user.entity/user.dto";
-import { ProfileEntity } from "../entities/user.entity/user.entity";
+import { ProfileDTO } from "../entities/user.entity/profile.dto";
+import { ProfileEntity } from "../entities/user.entity/profile.entity";
 import { ProfileRepository } from "../repositories/profile.repository";
 
 export class ProfileService {

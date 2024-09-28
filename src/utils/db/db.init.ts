@@ -12,9 +12,9 @@ const initiateTables = async (client: PoolClient) => {
 	console.log("Users");
 	await client.query('CREATE TABLE IF NOT EXISTS public.users (id uuid NOT NULL, username character varying(36) COLLATE pg_catalog."default" NOT NULL, password character varying(72) COLLATE pg_catalog."default" NOT NULL, email_address character varying(320) COLLATE pg_catalog."default" NOT NULL, CONSTRAINT "Users_pkey" PRIMARY KEY (id), CONSTRAINT email_address_ukey UNIQUE (email_address) INCLUDE(email_address), CONSTRAINT username_ukey UNIQUE (username) INCLUDE(username))');
 
-	console.log("Profile");
+	console.log("Profiles");
 	await client.query(
-		'CREATE TABLE IF NOT EXISTS public.profile (user_id uuid NOT NULL, profile_photo bytea, firstname character varying(20) COLLATE pg_catalog."default", lastname character varying(20) COLLATE pg_catalog."default", birthday timestamp with time zone, country character varying(27) COLLATE pg_catalog."default", city character varying(85) COLLATE pg_catalog."default", occupation character varying(50) COLLATE pg_catalog."default", school character varying(50) COLLATE pg_catalog."default", description character varying(200) COLLATE pg_catalog."default", CONSTRAINT "Profile_pkey" PRIMARY KEY (user_id), CONSTRAINT user_id_key FOREIGN KEY (user_id) REFERENCES public.users (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID)',
+		'CREATE TABLE IF NOT EXISTS public.profiles (user_id uuid NOT NULL, profile_photo bytea, firstname character varying(20) COLLATE pg_catalog."default", lastname character varying(20) COLLATE pg_catalog."default", birthday timestamp with time zone, country character varying(27) COLLATE pg_catalog."default", city character varying(85) COLLATE pg_catalog."default", occupation character varying(50) COLLATE pg_catalog."default", school character varying(50) COLLATE pg_catalog."default", description character varying(200) COLLATE pg_catalog."default", CONSTRAINT "Profile_pkey" PRIMARY KEY (user_id), CONSTRAINT user_id_key FOREIGN KEY (user_id) REFERENCES public.users (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID)',
 	);
 
 	console.log("Groups");
@@ -87,7 +87,7 @@ const insertDataToDB = async (client: PoolClient) => {
 	await client.query(query, [...Object.values(user3DBData)]);
 	await client.query(query, [...Object.values(user4DBData)]);
 
-	query = "INSERT INTO userdata (user_id, lastname, firstname, birthday, country, city, occupation, school, description, profile_photo) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)";
+	query = "INSERT INTO profiles (user_id, lastname, firstname, birthday, country, city, occupation, school, description, profile_photo) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)";
 	await client.query(query, [...Object.values(profile1DBData)]);
 	await client.query(query, [...Object.values(profile2DBData)]);
 	await client.query(query, [...Object.values(profile3DBData)]);
