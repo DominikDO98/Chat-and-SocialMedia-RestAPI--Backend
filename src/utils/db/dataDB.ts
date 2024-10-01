@@ -1,16 +1,16 @@
 import { hashSync } from "bcrypt";
+import { IAuthEntity } from "../../entities/auth.entity/auth";
 import { IChatEntity } from "../../entities/chat.entity/chat.type";
-import { ICommentEntity } from "../../entities/comment.entity/comment.types";
+import { ICommentEntity } from "../../entities/comment.entity/comment";
 import { IContactEntity } from "../../entities/contact.entity/contact.type";
 import { IEventEntity } from "../../entities/event.entity/event.types";
 import { IGroupEntity } from "../../entities/group.entity/group.types";
 import { IInvitationEntity } from "../../entities/invitation.entity/invitation.type";
-import { ILikeEntity } from "../../entities/like.entity/like.type";
-import { IPostEntity } from "../../entities/post.entity/post.types";
-import { convertImg } from "../../tests/user.tests/testingAssets/readFile";
+import { ILikeEntity } from "../../entities/like.entity/like";
 import { IMessageEntity } from "../../entities/message.entity/message.type";
+import { IPostEntity } from "../../entities/post.entity/post";
 import { IProfileEntity } from "../../entities/user.entity/profile";
-import { IAuthEntity } from "../../entities/auth.entity/auth";
+import { convertImg } from "../assets/readFile";
 
 export const DBIds = {
 	comment_id: "ab104f91-6ab9-449c-a5da-71b3064fdaa1",

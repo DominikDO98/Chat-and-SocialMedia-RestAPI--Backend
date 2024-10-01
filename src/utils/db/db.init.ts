@@ -14,7 +14,7 @@ const initiateTables = async (client: PoolClient) => {
 
 	console.log("Profiles");
 	await client.query(
-		'CREATE TABLE IF NOT EXISTS public.profiles (user_id uuid NOT NULL, profile_photo bytea, firstname character varying(20) COLLATE pg_catalog."default", lastname character varying(20) COLLATE pg_catalog."default", birthday timestamp with time zone, country character varying(27) COLLATE pg_catalog."default", city character varying(85) COLLATE pg_catalog."default", occupation character varying(50) COLLATE pg_catalog."default", school character varying(50) COLLATE pg_catalog."default", description character varying(200) COLLATE pg_catalog."default", CONSTRAINT "Profile_pkey" PRIMARY KEY (user_id), CONSTRAINT user_id_key FOREIGN KEY (user_id) REFERENCES public.users (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID)',
+		'CREATE TABLE IF NOT EXISTS public.profiles (user_id uuid NOT NULL, profile_photo bytea, firstname character varying(20) COLLATE pg_catalog."default", lastname character varying(20) COLLATE pg_catalog."default", birthday timestamp with time zone, country character varying(27) COLLATE pg_catalog."default", city character varying(85) COLLATE pg_catalog."default", occupation character varying(50) COLLATE pg_catalog."default", school character varying(50) COLLATE pg_catalog."default", description character varying(200) COLLATE pg_catalog."default", CONSTRAINT "Profile_pkey" PRIMARY KEY (user_id), CONSTRAINT user_id_key FOREIGN KEY (user_id) REFERENCES public.users (id) MATCH SIMPLE ON UPDATE CASCADE ON DELETE CASCADE NOT VALID)',
 	);
 
 	console.log("Groups");
@@ -24,22 +24,22 @@ const initiateTables = async (client: PoolClient) => {
 
 	console.log("Posts");
 	await client.query(
-		'CREATE TABLE IF NOT EXISTS public.posts (id uuid NOT NULL, user_id uuid NOT NULL, group_id uuid, title character varying(30) COLLATE pg_catalog."default" NOT NULL, text character varying(200) COLLATE pg_catalog."default" NOT NULL, picture bytea, attachment character varying(200) COLLATE pg_catalog."default", created_at timestamp with time zone NOT NULL, type smallint NOT NULL, CONSTRAINT "Posts_pkey" PRIMARY KEY (id), CONSTRAINT group_id_key FOREIGN KEY (group_id) REFERENCES public."groups" (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID, CONSTRAINT user_id_key FOREIGN KEY (user_id) REFERENCES public.users (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID)',
+		'CREATE TABLE IF NOT EXISTS public.posts (id uuid NOT NULL, user_id uuid NOT NULL, group_id uuid, title character varying(30) COLLATE pg_catalog."default" NOT NULL, text character varying(200) COLLATE pg_catalog."default" NOT NULL, picture bytea, attachment character varying(200) COLLATE pg_catalog."default", created_at timestamp with time zone NOT NULL, type smallint NOT NULL, CONSTRAINT "Posts_pkey" PRIMARY KEY (id), CONSTRAINT group_id_key FOREIGN KEY (group_id) REFERENCES public."groups" (id) MATCH SIMPLE ON UPDATE CASCADE ON DELETE CASCADE NOT VALID, CONSTRAINT user_id_key FOREIGN KEY (user_id) REFERENCES public.users (id) MATCH SIMPLE ON UPDATE CASCADE ON DELETE CASCADE NOT VALID)',
 	);
 
 	console.log("Comments table");
 	await client.query(
-		'CREATE TABLE IF NOT EXISTS public.comments (id uuid NOT NULL, post_id uuid NOT NULL, user_id uuid NOT NULL, text character varying(50) COLLATE pg_catalog."default" NOT NULL, picture bytea, attachment character varying COLLATE pg_catalog."default",   created_at timestamp with time zone NOT NULL, CONSTRAINT "Comments_pkey" PRIMARY KEY (id), CONSTRAINT post_id_key FOREIGN KEY (post_id)       REFERENCES public.posts (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID, CONSTRAINT user_id_key FOREIGN KEY (user_id)     REFERENCES public.users (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID)',
+		'CREATE TABLE IF NOT EXISTS public.comments (id uuid NOT NULL, post_id uuid NOT NULL, user_id uuid NOT NULL, text character varying(50) COLLATE pg_catalog."default" NOT NULL, picture bytea, attachment character varying COLLATE pg_catalog."default",   created_at timestamp with time zone NOT NULL, CONSTRAINT "Comments_pkey" PRIMARY KEY (id), CONSTRAINT post_id_key FOREIGN KEY (post_id)       REFERENCES public.posts (id) MATCH SIMPLE ON UPDATE CASCADE ON DELETE CASCADE NOT VALID, CONSTRAINT user_id_key FOREIGN KEY (user_id)     REFERENCES public.users (id) MATCH SIMPLE ON UPDATE CASCADE ON DELETE CASCADE NOT VALID)',
 	);
 
 	console.log("Likes");
-	await client.query("CREATE TABLE IF NOT EXISTS public.likes (post_id uuid NOT NULL, user_id uuid NOT NULL, CONSTRAINT post_id_key FOREIGN KEY (post_id) REFERENCES public.posts (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID, CONSTRAINT user_id_key FOREIGN KEY (user_id) REFERENCES public.users (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID)");
+	await client.query("CREATE TABLE IF NOT EXISTS public.likes (post_id uuid NOT NULL, user_id uuid NOT NULL, CONSTRAINT post_id_key FOREIGN KEY (post_id) REFERENCES public.posts (id) MATCH SIMPLE ON UPDATE CASCADE ON DELETE CASCADE NOT VALID, CONSTRAINT user_id_key FOREIGN KEY (user_id) REFERENCES public.users (id) MATCH SIMPLE ON UPDATE CASCADE ON DELETE CASCADE NOT VALID)");
 
 	console.log("Events");
-	await client.query('CREATE TABLE IF NOT EXISTS public.events (post_id uuid NOT NULL, date timestamp with time zone NOT NULL, lat numeric(8,6) NOT NULL, lon numeric(9,6) NOT NULL, CONSTRAINT "Events_pkey" PRIMARY KEY (post_id), CONSTRAINT post_id_key FOREIGN KEY (post_id) REFERENCES public.posts (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID)');
+	await client.query('CREATE TABLE IF NOT EXISTS public.events (post_id uuid NOT NULL, date timestamp with time zone NOT NULL, lat numeric(8,6) NOT NULL, lon numeric(9,6) NOT NULL, CONSTRAINT "Events_pkey" PRIMARY KEY (post_id), CONSTRAINT post_id_key FOREIGN KEY (post_id) REFERENCES public.posts (id) MATCH SIMPLE ON UPDATE CASCADE ON DELETE CASCADE NOT VALID)');
 
 	console.log("Invitations");
-	await client.query('CREATE TABLE IF NOT EXISTS public.invitations (id uuid NOT NULL, from_user_id uuid NOT NULL, to_user_id uuid NOT NULL,CONSTRAINT "Invitation_pkey" PRIMARY KEY (id), CONSTRAINT from_user_id_key FOREIGN KEY (from_user_id) REFERENCES public.users (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID, CONSTRAINT to_user_id_key FOREIGN KEY (to_user_id) REFERENCES public.users (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID)');
+	await client.query('CREATE TABLE IF NOT EXISTS public.invitations (id uuid NOT NULL, from_user_id uuid NOT NULL, to_user_id uuid NOT NULL,CONSTRAINT "Invitation_pkey" PRIMARY KEY (id), CONSTRAINT from_user_id_key FOREIGN KEY (from_user_id) REFERENCES public.users (id) MATCH SIMPLE ON UPDATE CASCADE ON DELETE CASCADE NOT VALID, CONSTRAINT to_user_id_key FOREIGN KEY (to_user_id) REFERENCES public.users (id) MATCH SIMPLE ON UPDATE CASCADE ON DELETE CASCADE NOT VALID)');
 
 	console.log("Contacts");
 	await client.query('CREATE TABLE IF NOT EXISTS public.contacts( id uuid NOT NULL, chat_id uuid, CONSTRAINT "Contacts_pkey" PRIMARY KEY (id))');
@@ -49,33 +49,33 @@ const initiateTables = async (client: PoolClient) => {
 
 	console.log("Messages");
 	await client.query(
-		'CREATE TABLE IF NOT EXISTS public.messages (id uuid NOT NULL, chat_id uuid NOT NULL, text character varying(100) COLLATE pg_catalog."default" NOT NULL, created_at timestamp with time zone NOT NULL, send_by uuid NOT NULL, picture bytea, attachment character varying(200) COLLATE pg_catalog."default", is_delivered boolean NOT NULL, CONSTRAINT "Messages_pkey" PRIMARY KEY (id), CONSTRAINT message_to_chat_key FOREIGN KEY (chat_id) REFERENCES public.chats (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID, CONSTRAINT message_user_key FOREIGN KEY (send_by) REFERENCES public.users (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID)',
+		'CREATE TABLE IF NOT EXISTS public.messages (id uuid NOT NULL, chat_id uuid NOT NULL, text character varying(100) COLLATE pg_catalog."default" NOT NULL, created_at timestamp with time zone NOT NULL, send_by uuid NOT NULL, picture bytea, attachment character varying(200) COLLATE pg_catalog."default", is_delivered boolean NOT NULL, CONSTRAINT "Messages_pkey" PRIMARY KEY (id), CONSTRAINT message_to_chat_key FOREIGN KEY (chat_id) REFERENCES public.chats (id) MATCH SIMPLE ON UPDATE CASCADE ON DELETE CASCADE NOT VALID, CONSTRAINT message_user_key FOREIGN KEY (send_by) REFERENCES public.users (id) MATCH SIMPLE ON UPDATE CASCADE ON DELETE CASCADE NOT VALID)',
 	);
 
 	console.log("Notifications");
 	await client.query(
-		'CREATE TABLE IF NOT EXISTS public.notifications (id uuid NOT NULL, actor_id uuid NOT NULL, entity_id uuid NOT NULL, entity_type_id smallint NOT NULL, activity smallint NOT NULL, group_id uuid, CONSTRAINT "Notification_pkey" PRIMARY KEY (id), CONSTRAINT actor_id_key FOREIGN KEY (actor_id) REFERENCES public.users (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION, CONSTRAINT entitiy_id_event FOREIGN KEY (entity_id) REFERENCES public.events (post_id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION, CONSTRAINT entity_id_invitation FOREIGN KEY (entity_id) REFERENCES public.invitations (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION, CONSTRAINT entity_id_post FOREIGN KEY (entity_id) REFERENCES public.posts (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION)',
+		'CREATE TABLE IF NOT EXISTS public.notifications (id uuid NOT NULL, actor_id uuid NOT NULL, entity_id uuid NOT NULL, entity_type_id smallint NOT NULL, activity smallint NOT NULL, group_id uuid, CONSTRAINT "Notification_pkey" PRIMARY KEY (id), CONSTRAINT actor_id_key FOREIGN KEY (actor_id) REFERENCES public.users (id) MATCH SIMPLE ON UPDATE CASCADE ON DELETE CASCADE, CONSTRAINT entitiy_id_event FOREIGN KEY (entity_id) REFERENCES public.events (post_id) MATCH SIMPLE ON UPDATE CASCADE ON DELETE CASCADE, CONSTRAINT entity_id_invitation FOREIGN KEY (entity_id) REFERENCES public.invitations (id) MATCH SIMPLE ON UPDATE CASCADE ON DELETE CASCADE, CONSTRAINT entity_id_post FOREIGN KEY (entity_id) REFERENCES public.posts (id) MATCH SIMPLE ON UPDATE CASCADE ON DELETE CASCADE)',
 	);
 
 	console.log("Referance tables");
 
 	console.log("groups-notifications");
-	await client.query('CREATE TABLE IF NOT EXISTS public.groups_notifications (group_id uuid NOT NULL, notification_id uuid NOT NULL, CONSTRAINT group_id_key FOREIGN KEY (group_id) REFERENCES public."groups" (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID, CONSTRAINT notification_id_key FOREIGN KEY (notification_id) REFERENCES public.notifications (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID)');
+	await client.query('CREATE TABLE IF NOT EXISTS public.groups_notifications (group_id uuid NOT NULL, notification_id uuid NOT NULL, CONSTRAINT group_id_key FOREIGN KEY (group_id) REFERENCES public."groups" (id) MATCH SIMPLE ON UPDATE CASCADE ON DELETE CASCADE NOT VALID, CONSTRAINT notification_id_key FOREIGN KEY (notification_id) REFERENCES public.notifications (id) MATCH SIMPLE ON UPDATE CASCADE ON DELETE CASCADE NOT VALID)');
 
 	console.log("users_contacts");
-	await client.query("CREATE TABLE IF NOT EXISTS public.users_contacts (user_id uuid NOT NULL, contact_id uuid NOT NULL, CONSTRAINT contacts_to_users_key FOREIGN KEY (contact_id) REFERENCES public.contacts (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID,CONSTRAINT users_to_contacts_key FOREIGN KEY (user_id) REFERENCES public.users (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID)");
+	await client.query("CREATE TABLE IF NOT EXISTS public.users_contacts (user_id uuid NOT NULL, contact_id uuid NOT NULL, CONSTRAINT contacts_to_users_key FOREIGN KEY (contact_id) REFERENCES public.contacts (id) MATCH SIMPLE ON UPDATE CASCADE ON DELETE CASCADE NOT VALID,CONSTRAINT users_to_contacts_key FOREIGN KEY (user_id) REFERENCES public.users (id) MATCH SIMPLE ON UPDATE CASCADE ON DELETE CASCADE NOT VALID)");
 
 	console.log("users_chats");
-	await client.query("CREATE TABLE IF NOT EXISTS public.users_chats (user_id uuid, chat_id uuid, CONSTRAINT converstion_to_user_key FOREIGN KEY (chat_id) REFERENCES public.chats (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID, CONSTRAINT user_to_chat_key FOREIGN KEY (user_id) REFERENCES public.users (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID)");
+	await client.query("CREATE TABLE IF NOT EXISTS public.users_chats (user_id uuid, chat_id uuid, CONSTRAINT converstion_to_user_key FOREIGN KEY (chat_id) REFERENCES public.chats (id) MATCH SIMPLE ON UPDATE CASCADE ON DELETE CASCADE NOT VALID, CONSTRAINT user_to_chat_key FOREIGN KEY (user_id) REFERENCES public.users (id) MATCH SIMPLE ON UPDATE CASCADE ON DELETE CASCADE NOT VALID)");
 
 	console.log("users_events");
-	await client.query("CREATE TABLE IF NOT EXISTS public.users_events (user_id uuid NOT NULL, event_id uuid NOT NULL, CONSTRAINT event_id_key FOREIGN KEY (event_id) REFERENCES public.events (post_id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID, CONSTRAINT user_id_key FOREIGN KEY (user_id) REFERENCES public.users (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID)");
+	await client.query("CREATE TABLE IF NOT EXISTS public.users_events (user_id uuid NOT NULL, event_id uuid NOT NULL, CONSTRAINT event_id_key FOREIGN KEY (event_id) REFERENCES public.events (post_id) MATCH SIMPLE ON UPDATE CASCADE ON DELETE CASCADE NOT VALID, CONSTRAINT user_id_key FOREIGN KEY (user_id) REFERENCES public.users (id) MATCH SIMPLE ON UPDATE CASCADE ON DELETE CASCADE NOT VALID)");
 
 	console.log("users_groups");
-	await client.query('CREATE TABLE IF NOT EXISTS public.users_groups (user_id uuid NOT NULL, group_id uuid NOT NULL, role smallint NOT NULL,CONSTRAINT group_id_key FOREIGN KEY (group_id) REFERENCES public."groups" (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID,CONSTRAINT user_id_key FOREIGN KEY (user_id) REFERENCES public.users (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION NOT VALID)');
+	await client.query('CREATE TABLE IF NOT EXISTS public.users_groups (user_id uuid NOT NULL, group_id uuid NOT NULL, role smallint NOT NULL,CONSTRAINT group_id_key FOREIGN KEY (group_id) REFERENCES public."groups" (id) MATCH SIMPLE ON UPDATE CASCADE ON DELETE CASCADE NOT VALID,CONSTRAINT user_id_key FOREIGN KEY (user_id) REFERENCES public.users (id) MATCH SIMPLE ON UPDATE CASCADE ON DELETE CASCADE NOT VALID)');
 
 	console.log("users_notifications");
-	await client.query("CREATE TABLE IF NOT EXISTS public.users_notification (notification_id uuid NOT NULL, user_id uuid NOT NULL, in_unread boolean NOT NULL, CONSTRAINT notification_id_key FOREIGN KEY (notification_id) REFERENCES public.notifications (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION, CONSTRAINT user_id_key FOREIGN KEY (user_id) REFERENCES public.users (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION)");
+	await client.query("CREATE TABLE IF NOT EXISTS public.users_notification (notification_id uuid NOT NULL, user_id uuid NOT NULL, in_unread boolean NOT NULL, CONSTRAINT notification_id_key FOREIGN KEY (notification_id) REFERENCES public.notifications (id) MATCH SIMPLE ON UPDATE CASCADE ON DELETE CASCADE, CONSTRAINT user_id_key FOREIGN KEY (user_id) REFERENCES public.users (id) MATCH SIMPLE ON UPDATE CASCADE ON DELETE CASCADE)");
 
 	console.log("Tables created");
 };
