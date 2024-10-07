@@ -8,16 +8,16 @@ export class EventController {
 	}
 	createEvent = async (req: Request, res: Response, next: NextFunction) => {
 		try {
-			await this._eventService.createEvent(req.body.postData, req.body.eventData, req.body.id);
-			res.status(200).json({ success: true });
+			const dto = await this._eventService.createEvent(req.body.postData, req.body.eventData, req.body.id);
+			res.status(200).json(dto);
 		} catch (err) {
 			next(err);
 		}
 	};
 	editEvent = async (req: Request, res: Response, next: NextFunction) => {
 		try {
-			await this._eventService.editEvent(req.body.postData, req.body.eventData, req.body.id);
-			res.status(200).json({ success: true });
+			const dto = await this._eventService.editEvent(req.body.postData, req.body.eventData, req.body.id);
+			res.status(200).json(dto);
 		} catch (err) {
 			next(err);
 		}
@@ -48,7 +48,7 @@ export class EventController {
 	};
 	loadEvent = async (req: Request, res: Response, next: NextFunction) => {
 		try {
-			const event = await this._eventService.loadEvent(req.params.eventId);
+			const event = await this._eventService.loadEvent(req.body.id, req.params.eventId);
 			res.status(200).json({ event: event });
 		} catch (err) {
 			next(err);

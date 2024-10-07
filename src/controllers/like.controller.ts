@@ -16,7 +16,7 @@ export class LikeController {
 	};
 	removeLike = async (req: Request, res: Response, next: NextFunction) => {
 		try {
-			await this._likeService.removeLike(req.body.likeData, req.body.id);
+			await this._likeService.removeLike(req.body.postId, req.body.id);
 			res.status(200).json({ success: true });
 		} catch (err) {
 			next(err);

@@ -8,16 +8,16 @@ export class PostController {
 	}
 	createPost = async (req: Request, res: Response, next: NextFunction) => {
 		try {
-			await this._postService.createPost(req.body.postData, req.body.id);
-			res.status(201).json({ success: true });
+			const dto = await this._postService.createPost(req.body.postData, req.body.id);
+			res.status(201).json(dto);
 		} catch (err) {
 			next(err);
 		}
 	};
 	editPost = async (req: Request, res: Response, next: NextFunction) => {
 		try {
-			await this._postService.editPost(req.body.postData, req.body.id);
-			res.status(200).json({ success: true });
+			const dto = await this._postService.editPost(req.body.postData, req.body.id);
+			res.status(200).json(dto);
 		} catch (err) {
 			next(err);
 		}
@@ -32,8 +32,8 @@ export class PostController {
 	};
 	loadMyPosts = async (req: Request, res: Response, next: NextFunction) => {
 		try {
-			const userPosts = await this._postService.loadMyPosts(req.body.id, Number(req.params.offset));
-			res.status(200).json({ posts: userPosts });
+			const dtos = await this._postService.loadUserPosts(req.body.id, Number(req.params.offset));
+			res.status(200).json(dtos);
 		} catch (err) {
 			next(err);
 		}

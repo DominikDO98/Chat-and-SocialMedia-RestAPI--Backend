@@ -9,5 +9,5 @@
 		"esModuleInterop": true,
 		"strict": true
 	},
-	"exclude": ["node_modules", "src/tests"]
+	"exclude": ["node_modules", "__tests__"]
 }

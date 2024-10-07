@@ -39,7 +39,6 @@ app.use("/invitation", authorizeToken, InvitationRouter);
 app.use("/contact", authorizeToken, ContactRouter);
 app.use("/chat", authorizeToken, ChatRouter);
 app.use("/message", authorizeToken, MessageRouter);
-
 app.use(handleDBErrors);
 // app.use(handleError);
 
