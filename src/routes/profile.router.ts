@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response, Router } from "express";
 import { ProfileController } from "../controllers/profile.controller";
-import { convertImg } from "../tests/user.tests/testingAssets/readFile";
+import { convertImg } from "../utils/assets/readFile";
 import { validateReq } from "../utils/validateReq/validateReq";
 
 export const profileRouter = Router();

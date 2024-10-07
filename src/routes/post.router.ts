@@ -13,13 +13,14 @@ PostRouter
 		next;
 		//TODO: load posts to display on main site
 	})
-	//posts
 	.post("/createPost", async (req: Request, res: Response, next: NextFunction) => {
 		validateReq(req, ["postData", "id"]);
 		PostCreationSchema.parse(req.body.postData);
 		await postController.createPost(req, res, next);
 	})
 	.patch("/editPost", async (req: Request, res: Response, next: NextFunction) => {
+		console.log("edit");
+
 		validateReq(req, ["postData", "id"]);
 		PostEditionSchema.parse(req.body.postData);
 		await postController.editPost(req, res, next);

@@ -13,7 +13,7 @@ LikeRouter
 		await likeController.giveLike(req, res, next);
 	})
 	.delete("/removeLike", async (req: Request, res: Response, next: NextFunction) => {
-		validateReq(req, ["likeData", "id"]);
-		LikeCreationSchema.parse(req.body.likeData);
+		validateReq(req, ["postId", "id"]);
+		// LikeCreationSchema.parse(req.body.postId);
 		await likeController.removeLike(req, res, next);
 	});
