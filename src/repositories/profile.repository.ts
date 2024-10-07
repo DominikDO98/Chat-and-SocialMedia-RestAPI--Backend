@@ -27,7 +27,9 @@ export class ProfileRepository {
 			newData.description,
 			newData.user_id,
 		]);
-		console.log(rows[0]);
+		if (!rows[0]) {
+			throw new CustomError("Failed to edit user data, please try again later", 500);
+		}
 		return rows[0];
 	};
 
