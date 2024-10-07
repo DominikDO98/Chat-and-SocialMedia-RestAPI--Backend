@@ -3,7 +3,7 @@ import { IAuthEntity } from "../../entities/auth.entity/auth";
 import { IChatEntity } from "../../entities/chat.entity/chat.type";
 import { ICommentEntity } from "../../entities/comment.entity/comment";
 import { IContactEntity } from "../../entities/contact.entity/contact.type";
-import { IEventEntity } from "../../entities/event.entity/event.types";
+import { IEventEntity } from "../../entities/event.entity/event";
 import { IGroupEntity } from "../../entities/group.entity/group.types";
 import { IInvitationEntity } from "../../entities/invitation.entity/invitation.type";
 import { ILikeEntity } from "../../entities/like.entity/like";
