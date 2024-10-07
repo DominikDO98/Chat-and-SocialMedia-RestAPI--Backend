@@ -1,29 +1,40 @@
+import { ICommentDTO, TCreateComment, TEditComment } from "../entities/comment.entity/comment";
+import { CommentDTO } from "../entities/comment.entity/comment.dto";
 import { CommentEntity } from "../entities/comment.entity/comment.enitity";
-import { ICommentEntity } from "../entities/comment.entity/comment.types";
 import { CommentRepository } from "../repositories/comment.repository";
+import { AuthUtils } from "../utils/authenticationUtils/authUtils";
+import { ValidationError } from "../utils/errors/errors";
 
-export class CommnetService {
+export class CommentService {
 	private _commentReposiotory = CommentRepository;
 
-	addComment = async (commentData: Omit<ICommentEntity, "user_id">, user_id: string): Promise<void> => {
-		const newComment = new CommentEntity(commentData, user_id);
-		await this._commentReposiotory.addComment(newComment);
+	addComment = async (commentData: TCreateComment, userId: string): Promise<ICommentDTO> => {
+		const id = AuthUtils.uuid();
+		const newComment = new CommentEntity(id, userId, commentData);
+		const createdComment = await this._commentReposiotory.addComment(newComment);
+		const dto = CommentDTO.createDTO(createdComment);
+		return dto;
 	};
+	editComment = async (commentChanges: TEditComment, userId: string): Promise<ICommentDTO> => {
+		const comment = new CommentEntity(commentChanges.id, userId, commentChanges);
+		console.log(comment);
+		const editedComment = await this._commentReposiotory.editComment(comment);
+		if (!editedComment) {
+			throw new ValidationError("You can't edit this comment!", 401);
+		}
+		console.log(editedComment);
 
-	editComment = async (commentChanges: Omit<ICommentEntity, "post_id" | "user_id" | "created_at">, user_id: string): Promise<void> => {
-		await this._commentReposiotory.editComment(commentChanges, user_id);
+		const dto = CommentDTO.createDTO(editedComment);
+		return dto;
 	};
-
-	deleteComment = async (comment_id: string, user_id: string): Promise<void> => {
-		const ids = {
-			id: comment_id,
-			user_id: user_id,
-		};
-		await this._commentReposiotory.deleteComment(ids);
+	deleteComment = async (commentId: string, userId: string): Promise<void> => {
+		await this._commentReposiotory.deleteComment(commentId, userId);
 	};
-
-	loadComments = async (post_id: string, offset: number): Promise<ICommentEntity[]> => {
+	loadComments = async (post_id: string, offset: number): Promise<ICommentDTO[]> => {
 		const comments = await this._commentReposiotory.loadComments(post_id, offset);
-		return comments;
+		const dtos = comments.map((comment) => {
+			return CommentDTO.createDTO(comment);
+		});
+		return dtos;
 	};
 }

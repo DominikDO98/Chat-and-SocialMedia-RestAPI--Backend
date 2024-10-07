@@ -1,16 +1,16 @@
-import { LikeEntity } from "../entities/like.entity/like.factory";
-import { ILikeEntity } from "../entities/like.entity/like.type";
+import { LikeEntity } from "../entities/like.entity/like.entity";
+import { TCreateLike } from "../entities/like.entity/like";
 import { LikeRepository } from "../repositories/like.repository";
 
 export class LikeService {
 	private _likeRepository = LikeRepository;
 
-	giveLike = async (likeData: Omit<ILikeEntity, "user_id">, user_id: string): Promise<void> => {
-		const newLike = new LikeEntity(likeData, user_id);
+	giveLike = async (likeData: TCreateLike, userId: string): Promise<void> => {
+		const newLike = new LikeEntity(likeData, userId);
 		await this._likeRepository.giveLike(newLike);
 	};
 
-	removeLike = async (likeData: Omit<ILikeEntity, "user_id" | "created_at">, user_id: string): Promise<void> => {
-		await this._likeRepository.removeLike(likeData, user_id);
+	removeLike = async (postId: string, userId: string): Promise<void> => {
+		await this._likeRepository.removeLike(postId, userId);
 	};
 }
