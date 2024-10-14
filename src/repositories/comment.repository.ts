@@ -17,7 +17,7 @@ export class CommentRepository {
 
 	static loadComments = async (post_id: string, offset: number): Promise<ICommentEntity[]> => {
 		// const { rows } = await pool.query("SELECT id, text, picture, attachment, created_at, username FROM comments FULL JOIN users ON comments.user_id = users.id WHERE post_id = $1 LIMIT 10 OFFSET $2", [post_id, offset]);
-		const { rows } = await pool.query("SELECT id, text, picture, attachment, created_at FROM comments WHERE post_id = $1 LIMIT 10 OFFSET $2", [post_id, offset]);
+		const { rows } = await pool.query("SELECT id, text, picture, attachment, created_at, user_id FROM comments WHERE post_id = $1 LIMIT 10 OFFSET $2", [post_id, offset]);
 		return rows;
 	};
 	static loadLastComment = async (post_id: string): Promise<ICommentEntity | undefined> => {
