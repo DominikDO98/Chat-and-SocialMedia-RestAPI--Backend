@@ -23,8 +23,6 @@ export class EventService {
 		const postDto = await this._postService.editPost(postData, userId);
 		const newEvent = new EventEntity(eventData, postData.id);
 		const event = await this._eventRepository.editEvent(newEvent);
-		console.log(event);
-
 		const particiants = await this._eventRepository.countParticipants(postData.id);
 		const dto = EventDTO.createDTO(event, particiants, postDto);
 		return dto;

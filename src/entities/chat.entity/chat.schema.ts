@@ -2,7 +2,7 @@ import { string, z } from "zod";
 
 export const ChatEntitySchema = z.object({
 	id: z.string().uuid(),
-	is_group: z.boolean(),
+	isGroup: z.boolean(),
 	name: z.string().min(3).max(20).optional(),
 });
 

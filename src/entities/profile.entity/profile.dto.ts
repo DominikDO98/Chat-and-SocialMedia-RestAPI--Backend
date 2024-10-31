@@ -21,4 +21,8 @@ export class ProfileDTO implements IProfileDTO {
 		this.school = userData.school ? userData.school : undefined;
 		this.description = userData.description ? userData.description : undefined;
 	}
+
+	static createDTO(entity: IProfileEntity) {
+		return new ProfileDTO(entity);
+	}
 }

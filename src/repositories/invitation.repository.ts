@@ -1,41 +1,31 @@
-import { IInvitationEntity, IInvitationWithUser } from "../entities/invitation.entity/invitation.type";
+import { IInvitationEntity } from "../entities/invitation.entity/invitation";
 import { pool } from "../utils/db/db";
+import { CustomError } from "../utils/errors/errors";
 
 export class InvitationRepository {
-	static sendInvitation = async (invitation: IInvitationEntity): Promise<void> => {
-		await pool.query("INSERT INTO invitations (id, from_user_id, to_user_id) VALUES ($1, $2, $3)", [invitation.id, invitation.from_user_id, invitation.to_user_id]);
+	static sendInvitation = async (invitation: IInvitationEntity): Promise<IInvitationEntity> => {
+		const { rows } = await pool.query("INSERT INTO invitations (id, from_user_id, to_user_id) VALUES ($1, $2, $3) RETURNING id, from_user_id, to_user_id", [invitation.id, invitation.from_user_id, invitation.to_user_id]);
+		return rows[0];
 	};
+	static loadInvitation = async (invitation_id: string, user_id: string): Promise<IInvitationEntity> => {
+		const { rows } = await pool.query("SELECT id, from_user_id, to_user_id FROM invitations WHERE id = $1 AND to_user_id = $2", [invitation_id, user_id]);
+		console.log(rows[0]);
 
-	static acceptInvitation = async (invitaiton_id: string, contact_id: string, user_id: string): Promise<void> => {
-		const client = await pool.connect();
-		try {
-			await client.query("BEGIN");
-			const { rows } = await client.query("SELECT id, from_user_id, to_user_id FROM invitations WHERE id = $1 AND to_user_id = $2", [invitaiton_id, user_id]); // return this vaules
-			await client.query("DELETE FROM invitations WHERE id = $1 AND to_user_id = $2", [rows[0].id, user_id]);
-			await client.query("INSERT INTO contacts (id) VALUES ($1)", [contact_id]); //use contacts
-			await client.query("INSERT INTO users_contacts (user_id, contact_id) VALUES ($1, $2)", [rows[0].from_user_id, contact_id]); //use contacts
-			await client.query("INSERT INTO users_contacts (user_id, contact_id) VALUES ($1, $2)", [rows[0].to_user_id, contact_id]); //use contacts
-			client.query("COMMIT");
-		} catch (err) {
-			console.log(err);
-			client.query("ROLLBACK");
-			throw err;
-		} finally {
-			client.release();
+		if (!rows[0]) {
+			throw new CustomError("No such invitation was found", 404, true);
 		}
+		return rows[0];
 	};
-
 	static rejectInvitation = async (invitation_id: string, user_id: string): Promise<void> => {
 		await pool.query("DELETE FROM invitations WHERE id = $1 AND to_user_id = $2", [invitation_id, user_id]);
 	};
-
 	static cancelInvitation = async (invitation_id: string, user_id: string): Promise<void> => {
 		await pool.query("DELETE FROM invitations WHERE id = $1 AND from_user_id = $2", [invitation_id, user_id]);
 	};
+	static loadInvitations = async (user_id: string): Promise<IInvitationEntity[]> => {
+		const { rows } = await pool.query("SELECT id, from_user_id, to_user_id FROM invitations WHERE to_user_id = $1", [user_id]);
+		console.log(rows);
 
-	static loadInvitations = async (user_id: string): Promise<IInvitationWithUser[]> => {
-		//TODO: cahnge to return user data instead of ids
-		const { rows } = await pool.query("SELECT invitations.id as invitationid, username, firstname, lastname FROM invitations FULL JOIN users ON users.id = invitations.from_user_id WHERE to_user_id = $1", [user_id]);
 		return rows;
 	};
 }

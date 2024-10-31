@@ -1,21 +1,20 @@
-import { v4 as uuid } from "uuid";
-import { IMessageEntity } from "./message.type";
+import { TCreateMessage } from "./message";
 
 export class MessageEntity {
-	public id;
-	public chat_id;
-	public text;
-	public created_at;
-	public send_by;
-	public is_delivered;
-	public picture;
-	public attachment;
-	constructor(newMessage: Omit<IMessageEntity, "id" | "created_at" | "is_delivered" | "send_by">, senderId: string) {
-		this.id = uuid();
-		this.chat_id = newMessage.chat_id;
+	public readonly id;
+	public readonly chat_id;
+	public readonly text;
+	public readonly created_at;
+	public readonly send_by;
+	public readonly is_delivered;
+	public readonly picture;
+	public readonly attachment;
+	constructor(id: string, newMessage: TCreateMessage, createdAt: Date, sender: string) {
+		this.id = id;
+		this.chat_id = newMessage.chatId;
 		this.text = newMessage.text;
-		this.created_at = new Date();
-		this.send_by = senderId;
+		this.created_at = createdAt;
+		this.send_by = sender;
 		this.is_delivered = false;
 		this.picture = newMessage.picture ? newMessage.picture : undefined;
 		this.attachment = newMessage.attachment ? newMessage.attachment : undefined;

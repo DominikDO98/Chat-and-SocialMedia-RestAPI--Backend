@@ -6,50 +6,50 @@ export class ChatController {
 	constructor() {
 		this._chatService;
 	}
-	createChat = async (req: Request, res: Response, next: NextFunction) => {
+	createPrivateChat = async (req: Request, res: Response, next: NextFunction) => {
 		try {
-			await this._chatService.createChat(req.body.contact_id, req.body.chatData);
-			res.status(201).json({ succes: true });
+			const dto = await this._chatService.createPrivateChat(req.body.contactId, req.body.id, req.body.name);
+			res.status(201).json(dto);
 		} catch (err) {
 			next(err);
 		}
 	};
 	createGroupChat = async (req: Request, res: Response, next: NextFunction) => {
 		try {
-			await this._chatService.createGroupChat(req.body.id, req.body.participantsIds, req.body.chatData);
-			res.status(201).json({ success: true });
+			const dto = await this._chatService.createGroupChat(req.body.id, req.body.participantsIds, req.body.chatData);
+			res.status(201).json(dto);
 		} catch (err) {
 			next(err);
 		}
 	};
 	addUsersToGroup = async (req: Request, res: Response, next: NextFunction) => {
 		try {
-			await this._chatService.addUsersToGroup(req.body.participantsIds, req.body.chat_id);
-			res.status(200).json({ success: true });
+			const dto = await this._chatService.addUsersToGroup(req.body.participantsIds, req.body.chat_id);
+			res.status(200).json(dto);
 		} catch (err) {
 			next(err);
 		}
 	};
 	changeChatName = async (req: Request, res: Response, next: NextFunction) => {
 		try {
-			await this._chatService.changeChatName(req.body.chat_id, req.body.newName);
-			res.status(200).json({ success: true });
+			const dto = await this._chatService.changeChatName(req.body.chat_id, req.body.newName, req.body.id);
+			res.status(200).json(dto);
 		} catch (err) {
 			next(err);
 		}
 	};
 	loadPrivateChats = async (req: Request, res: Response, next: NextFunction) => {
 		try {
-			const chats = await this._chatService.loadPrivateChats(req.body.id);
-			res.status(200).json(chats);
+			const dtos = await this._chatService.loadPrivateChats(req.body.id);
+			res.status(200).json(dtos);
 		} catch (err) {
 			next(err);
 		}
 	};
 	loadGroupChats = async (req: Request, res: Response, next: NextFunction) => {
 		try {
-			const chats = await this._chatService.loadGroupChats(req.body.id);
-			res.status(200).json(chats);
+			const dtos = await this._chatService.loadGroupChats(req.body.id);
+			res.status(200).json(dtos);
 		} catch (err) {
 			next(err);
 		}

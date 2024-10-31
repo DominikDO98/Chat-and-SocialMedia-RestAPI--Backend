@@ -1,52 +1,47 @@
 import { PoolClient } from "pg";
 import { pool } from "../utils/db/db";
-import { IChatEntity, IPrivateChatData, IGroupChatData } from "../entities/chat.entity/chat.type";
+import { IChatEntity } from "../entities/chat.entity/chat";
+import { CustomError } from "../utils/errors/errors";
 
 export class ChatRepository {
 	//add delete private chat
-	static addUsersLoop = async (participantsId: string[], client: PoolClient, converation_id: string) => {
+	private static addUsersLoop = async (participantsId: string[], client: PoolClient, chat_id: string) => {
 		participantsId.forEach(async (user) => {
-			await client.query("INSERT INTO users_chats (user_id, chat_id) VALUES ($1, $2)", [user, converation_id]);
+			await client.query("INSERT INTO users_chats (user_id, chat_id) SELECT users.id, $1 FROM users WHERE username = $2", [chat_id, user]);
+		});
+	};
+	private static deleteUsersLoop = async (participantsId: string[], client: PoolClient, chat_id: string) => {
+		participantsId.forEach(async (user) => {
+			await client.query("DELETE FROM users_chats (user_id, chat_id) SELECT users.id, $1 FORM users WHERE username = $2", [chat_id, user]);
 		});
 	};
 
-	static createChat = async (contact_id: string, chatData: IChatEntity): Promise<void> => {
+	static createChat = async (chatData: IChatEntity, users: string[]): Promise<IChatEntity> => {
 		const client = await pool.connect();
+		let entity: IChatEntity | undefined;
 		try {
 			await client.query("BEGIN");
-			await client.query("INSERT INTO chats (id, is_group, name) VALUES ($1, false, $2)", [chatData.id, chatData.name]);
-			await client.query("UPDATE contacts SET chat_id = $1 WHERE id = $2", [chatData.id, contact_id]); //delete, use contacts.repo
-			const { rows } = await client.query("INSERT INTO users_chats (user_id, chat_id) SELECT user_id, chat_id FROM users_contacts FULL JOIN contacts ON contacts.id = users_contacts.contact_id WHERE contact_id = $1 RETURNING *", [contact_id]);
+			const { rows } = await client.query("INSERT INTO chats (id, is_group, name) VALUES ($1, $2, $3) RETURNING id, is_group, name", [chatData.id, chatData.is_group, chatData.name]);
+			await this.addUsersLoop(users, client, chatData.id);
 			await client.query("COMMIT");
-			console.log(rows);
+			entity = rows[0];
 		} catch (err) {
-			console.log(err);
 			client.query("ROLLBACK");
+			console.log(err);
 			throw err;
 		} finally {
 			client.release();
 		}
-	};
-	static createGroupChat = async (participantsIds: string[], chatData: IChatEntity): Promise<void> => {
-		const client = await pool.connect();
-		try {
-			await client.query("BEGIN");
-			await client.query("INSERT INTO chats (id, is_group, name) VALUES ($1, true, $2)", [chatData.id, chatData.name]);
-			await this.addUsersLoop(participantsIds, client, chatData.id);
-			await client.query("COMMIT");
-		} catch (err) {
-			console.log(err);
-			client.query("ROLLBACK");
-			throw err;
-		} finally {
-			client.release();
+		if (!entity) {
+			throw new CustomError("Something wnet wrong. please try again later", 500, true);
 		}
+		return entity;
 	};
-	static addUsersToGroup = async (participantsIds: string[], converation_id: string): Promise<void> => {
+	static addUsersToGroup = async (participants: string[], chat_id: string): Promise<void> => {
 		const client = await pool.connect();
 		try {
 			await client.query("BEGIN");
-			await this.addUsersLoop(participantsIds, client, converation_id);
+			await this.addUsersLoop(participants, client, chat_id);
 			await client.query("COMMIT");
 		} catch (err) {
 			console.log(err);
@@ -56,31 +51,39 @@ export class ChatRepository {
 			client.release();
 		}
 	};
-	static changeChatName = async (chat_id: string, newName: string): Promise<void> => {
-		await pool.query("UPDATE chats SET name = $1 WHERE id = $2", [newName, chat_id]);
+	static getChat = async (chat_id: string): Promise<IChatEntity> => {
+		const { rows } = await pool.query("SELECT id, is_group, name FROM chats WHERE id = $1", [chat_id]);
+		if (!rows[0]) {
+			throw new CustomError("Ooops, something went wrong", 500, true);
+		}
+
+		return rows[0];
+	};
+	static updateName = async (chat: IChatEntity): Promise<IChatEntity> => {
+		const { rows } = await pool.query("UPDATE chats SET name = $1 WHERE id = $2 RETURNING id, is_group, name", [chat.name, chat.id]);
+		if (!rows[0]) {
+			throw new CustomError("Ooops, something went wrong", 500, true);
+		}
+		return rows[0];
 	};
 
-	static loadPrivateChats = async (user_id: string): Promise<IPrivateChatData[]> => {
-		const { rows } = await pool.query(
-			"SELECT chatid, otheruser, otheruserPhoto, text, is_delivered, created_at, users.username as sender FROM (SELECT chats.id as chatid, users.username as otheruser, users.profile_photo as otheruserPhoto, messages.text, messages.created_at, messages.send_by, messages.is_delivered, ROW_NUMBER() OVER(PARTITION BY messages.chat_id ORDER BY messages.created_at DESC) FROM chats FULL JOIN messages ON messages.chat_id = chats.id FULL JOIN users_chats ON users_chats.chat_id = chats.id FULL JOIN users ON users.id = users_chats.user_id	WHERE chats.id IN (SELECT chat_id FROM users_chats WHERE user_id = $1) AND is_group = false	AND NOT users_chats.user_id = $1) as info FULL JOIN users ON users.id = send_by WHERE row_number = 1",
-			[user_id],
-		);
-		return rows;
-	};
-	static loadGoupChats = async (user_id: string): Promise<IGroupChatData[]> => {
-		const { rows } = await pool.query(
-			"SELECT chatid, name, text, is_delivered, created_at, users.username as sender FROM (SELECT chats.id as chatid, chats.is_group, chats.name, messages.text, messages.send_by, messages.is_delivered, messages.created_at, ROW_NUMBER() OVER(PARTITION BY chats.id ORDER BY messages.created_at DESC) FROM chats FULL JOIN messages ON messages.chat_id = chats.id WHERE chats.id IN (SELECT chat_id FROM users_chats WHERE user_id = $1) AND is_group = true) as info FULL JOIN users ON send_by = users.id WHERE row_number = 1",
-			[user_id],
-		);
+	static loadChats = async (user_id: string, is_group: boolean): Promise<IChatEntity[]> => {
+		const { rows } = await pool.query("SELECT chats.id, chats.is_group, chats.name FROM chats FULL JOIN contacts ON contacts.chat_id = chats.id FULL JOIN users_contacts ON users_contacts.contact_id = contacts.id WHERE users_contacts.user_id = $1 and chats.is_group = $2", [user_id, is_group]);
+		if (!rows[0]) {
+			throw new CustomError("No chats found", 404, true);
+		}
 		return rows;
 	};
 
-	static deleteGroupChat = async (chat_id: string): Promise<void> => {
+	static deleteChat = async (chat_id: string): Promise<void> => {
+		await pool.query("DELETE FROM chats WHERE id = $1", [chat_id]);
+	};
+
+	static deleteUsersFromGroup = async (participants_ids: string[], chat_id: string): Promise<void> => {
 		const client = await pool.connect();
 		try {
 			await client.query("BEGIN");
-			await client.query("DELETE FROM users_chats WHERE chat_id = $1", [chat_id]);
-			await client.query("DELETE FROM chats WHERE id = $1 AND is_group = true", [chat_id]);
+			await this.deleteUsersLoop(participants_ids, client, chat_id);
 			await client.query("COMMIT");
 		} catch (err) {
 			console.log(err);
@@ -89,9 +92,5 @@ export class ChatRepository {
 		} finally {
 			client.release();
 		}
-	};
-
-	static deleteUserFromGroup = async (user_id: string, chat_id: string): Promise<void> => {
-		await pool.query("DELETE FROM users_chats WHERE user_id = $1 AND chat_id = $2", [user_id, chat_id]);
 	};
 }

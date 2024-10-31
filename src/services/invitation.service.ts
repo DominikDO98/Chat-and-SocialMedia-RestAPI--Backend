@@ -1,27 +1,44 @@
-import { v4 as uuid } from "uuid";
+import { IInvitationDTO, TCreateInvitaiton } from "../entities/invitation.entity/invitation";
 import { InvitationEntity } from "../entities/invitation.entity/invitation.entity";
-import { IInvitationEntity, IInvitationWithUser } from "../entities/invitation.entity/invitation.type";
+import { AuthRepository } from "../repositories/auth.repository";
 import { InvitationRepository } from "../repositories/invitation.repository";
+import { AuthUtils } from "../utils/authenticationUtils/authUtils";
+import { ProfileService } from "./profile.service";
+import { InvitationDTO } from "../entities/invitation.entity/invitation.dto";
+import { ContactService } from "./contact.service";
 
 export class InvitationService {
 	private _invitationRepository = InvitationRepository;
+	private _authRepository = AuthRepository;
+	private _profileService = new ProfileService();
+	private _contactService = new ContactService();
 
-	sendInvitation = async (invitaitonData: Omit<IInvitationEntity, "id">): Promise<void> => {
-		const invitaiton = new InvitationEntity(invitaitonData);
+	sendInvitation = async (invitaitonData: TCreateInvitaiton): Promise<void> => {
+		const id = AuthUtils.uuid();
+		const invitaiton = new InvitationEntity(id, invitaitonData);
 		await this._invitationRepository.sendInvitation(invitaiton);
 	};
-	acceptInvitation = async (invitation_id: string, user_id: string): Promise<void> => {
-		const contact_id = uuid();
-		await this._invitationRepository.acceptInvitation(invitation_id, contact_id, user_id);
+	acceptInvitation = async (invitationId: string, userId: string): Promise<void> => {
+		const invitation = await this._invitationRepository.loadInvitation(invitationId, userId);
+		await this._invitationRepository.rejectInvitation(invitation.id, userId);
+		await this._contactService.createContact(invitation);
 	};
-	rejectInvitation = async (invitation_id: string, user_id: string): Promise<void> => {
-		await this._invitationRepository.rejectInvitation(invitation_id, user_id);
+	rejectInvitation = async (invitationId: string, userId: string): Promise<void> => {
+		await this._invitationRepository.rejectInvitation(invitationId, userId);
 	};
-	cancelInvitation = async (invitation_id: string, user_id: string): Promise<void> => {
-		await this._invitationRepository.cancelInvitation(invitation_id, user_id);
+	cancelInvitation = async (invitationId: string, userId: string): Promise<void> => {
+		await this._invitationRepository.cancelInvitation(invitationId, userId);
 	};
-	loadInvitations = async (user_id: string): Promise<IInvitationWithUser[]> => {
-		const invitations = await this._invitationRepository.loadInvitations(user_id);
-		return invitations;
+	loadInvitations = async (userId: string): Promise<IInvitationDTO[]> => {
+		const invitations = await this._invitationRepository.loadInvitations(userId);
+		const dtos = await Promise.all(
+			invitations.map(async (invitation) => {
+				const username = await this._authRepository.getUsernameById(invitation.from_user_id);
+				const profile = await this._profileService.loadProfile(invitation.from_user_id);
+				const dto = InvitationDTO.createDTO(invitation, username, profile, true);
+				return dto;
+			}),
+		);
+		return dtos;
 	};
 }

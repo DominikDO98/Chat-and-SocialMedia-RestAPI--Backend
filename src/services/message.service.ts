@@ -1,25 +1,45 @@
+import { IMessageDTO, TCreateMessage } from "../entities/message.entity/message";
+import { MessageDTO } from "../entities/message.entity/message.dto";
 import { MessageEntity } from "../entities/message.entity/message.entity";
-import { IMessageEntity, TMessageCreation } from "../entities/message.entity/message.type";
+import { AuthRepository } from "../repositories/auth.repository";
 import { MessageRepository } from "../repositories/message.repository";
+import { AuthUtils } from "../utils/authenticationUtils/authUtils";
 
 export class MessageService {
 	private _messageRepository = MessageRepository;
-
-	sendMessage = async (message: TMessageCreation, id: string): Promise<void> => {
-		const newMessage = new MessageEntity(message, id);
-		await this._messageRepository.sendMessage(newMessage);
+	private _authRepository = AuthRepository;
+	sendMessage = async (message: TCreateMessage, userId: string): Promise<IMessageDTO> => {
+		const id = AuthUtils.uuid();
+		const createAt = new Date();
+		const newMessage = new MessageEntity(id, message, createAt, userId);
+		const sender = await this._authRepository.getUsernameById(userId);
+		const entity = await this._messageRepository.sendMessage(newMessage);
+		const dto = MessageDTO.createDTO(entity, sender, true);
+		return dto;
 	};
 
-	loadMessages = async (chat_id: string, offsetSeed: string): Promise<IMessageEntity[]> => {
+	loadMessages = async (chatId: string, offsetSeed: string, userId: string): Promise<IMessageDTO[]> => {
 		const offset = Number(offsetSeed) * 50;
-		const messages = await this._messageRepository.loadMessages(chat_id, offset);
-		return messages;
+		const messages = await this._messageRepository.loadMessages(chatId, offset);
+		const dtos = await Promise.all(
+			messages.map(async (message) => {
+				const sender = await this._authRepository.getUsernameById(message.send_by);
+				const dto = MessageDTO.createDTO(message, sender, userId === message.send_by);
+				return dto;
+			}),
+		);
+		return dtos;
 	};
 
 	deleteMessage = async (mess_id: string): Promise<void> => {
 		await this._messageRepository.deleteMessage(mess_id);
 	};
-
+	getLastMessage = async (chatId: string, userId: string): Promise<IMessageDTO> => {
+		const mess = await this._messageRepository.getLastMessage(chatId);
+		const sender = await this._authRepository.getUsernameById(mess.id);
+		const dto = MessageDTO.createDTO(mess, sender, mess.send_by === userId);
+		return dto;
+	};
 	checkMessagesAsDelivered = async (chatId: string): Promise<void> => {
 		await this._messageRepository.checkMessagesAsDelivered(chatId);
 	};

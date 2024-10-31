@@ -3,12 +3,9 @@ import { InvitationService } from "../services/invitation.service";
 
 export class InvitationController {
 	private _invitationService = new InvitationService();
-	constructor() {
-		this._invitationService;
-	}
 	sendInvitation = async (req: Request, res: Response, next: NextFunction) => {
 		try {
-			await this._invitationService.sendInvitation({ from_user_id: req.body.id, to_user_id: req.body.toUserID });
+			await this._invitationService.sendInvitation({ fromUserId: req.body.id, toUserId: req.body.toUserID });
 			res.status(200).json({ success: true });
 		} catch (err) {
 			next(err);
@@ -16,7 +13,7 @@ export class InvitationController {
 	};
 	acceptInvitation = async (req: Request, res: Response, next: NextFunction) => {
 		try {
-			await this._invitationService.acceptInvitation(req.body.invitation_id, req.body.id);
+			await this._invitationService.acceptInvitation(req.body.invitationId, req.body.id);
 			res.status(200).json({ success: true });
 		} catch (err) {
 			next(err);
@@ -24,7 +21,7 @@ export class InvitationController {
 	};
 	rejectInvitation = async (req: Request, res: Response, next: NextFunction) => {
 		try {
-			await this._invitationService.rejectInvitation(req.body.invitation_id, req.body.id);
+			await this._invitationService.rejectInvitation(req.body.invitationId, req.body.id);
 			res.status(200).json({ success: true });
 		} catch (err) {
 			next(err);
@@ -32,7 +29,7 @@ export class InvitationController {
 	};
 	cancelInvitation = async (req: Request, res: Response, next: NextFunction) => {
 		try {
-			await this._invitationService.cancelInvitation(req.body.invitation_id, req.body.id);
+			await this._invitationService.cancelInvitation(req.body.invitationId, req.body.id);
 			res.status(200).json({ success: true });
 		} catch (err) {
 			next(err);

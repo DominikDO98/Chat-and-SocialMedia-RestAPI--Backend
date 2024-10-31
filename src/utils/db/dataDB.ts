@@ -1,15 +1,15 @@
 import { hashSync } from "bcrypt";
 import { IAuthEntity } from "../../entities/auth.entity/auth";
-import { IChatEntity } from "../../entities/chat.entity/chat.type";
+import { IChatEntity } from "../../entities/chat.entity/chat";
 import { ICommentEntity } from "../../entities/comment.entity/comment";
-import { IContactEntity } from "../../entities/contact.entity/contact.type";
+import { IContactEntity } from "../../entities/contact.entity/contact";
 import { IEventEntity } from "../../entities/event.entity/event";
 import { IGroupEntity } from "../../entities/group.entity/group.types";
-import { IInvitationEntity } from "../../entities/invitation.entity/invitation.type";
+import { IInvitationEntity } from "../../entities/invitation.entity/invitation";
 import { ILikeEntity } from "../../entities/like.entity/like";
-import { IMessageEntity } from "../../entities/message.entity/message.type";
+import { IMessageEntity } from "../../entities/message.entity/message";
 import { IPostEntity } from "../../entities/post.entity/post";
-import { IProfileEntity } from "../../entities/user.entity/profile";
+import { IProfileEntity } from "../../entities/profile.entity/profile";
 import { convertImg } from "../assets/readFile";
 
 export const DBIds = {

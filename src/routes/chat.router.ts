@@ -1,22 +1,22 @@
 import { NextFunction, Request, Response, Router } from "express";
 import { z } from "zod";
 import { ChatController } from "../controllers/chat.controller";
+import { ChatParticipantsIdsSchema } from "../entities/chat.entity/chat.schema";
 import { validateReq } from "../utils/validateReq/validateReq";
-import { ChatCreationSchema, ChatParticipantsIdsSchema } from "../entities/chat.entity/chat.schema";
 
 export const ChatRouter = Router();
 const chatController = new ChatController();
 ChatRouter
 	//prettier-ignore
 	.post("/createChat", async (req: Request, res: Response, next: NextFunction) => {
-		validateReq(req, ["contact_id", "chatData"]);
-		ChatCreationSchema.parse(req.body.chatData);
-		await chatController.createChat(req, res, next);
+		// validateReq(req, ["contactId", "isGroup"]);
+		// ChatCreationSchema.parse(req.body.chatData);
+		await chatController.createPrivateChat(req, res, next);
 	})
 	.post("/createGroupChat", async (req: Request, res: Response, next: NextFunction) => {
-		validateReq(req, ["participantsIds", "chatData"]);
-		ChatParticipantsIdsSchema.parse(req.body.participantsIds);
-		ChatCreationSchema.parse(req.body.chatData);
+		// validateReq(req, ["participantsIds", "chatData"]);
+		// ChatParticipantsIdsSchema.parse(req.body.participantsIds);
+		// ChatCreationSchema.parse(req.body.chatData);
 		await chatController.createGroupChat(req, res, next);
 	})
 	.patch("/addUsersToGroupChat", async (req: Request, res: Response, next: NextFunction) => {

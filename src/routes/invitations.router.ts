@@ -13,15 +13,15 @@ InvitationRouter
 		await invitationController.sendInvitation(req, res, next);
 	})
 	.post("/acceptInvitation", async (req: Request, res: Response, next: NextFunction) => {
-		validateReq(req, ["invitation_id", "id"]);
+		validateReq(req, ["invitationId", "id"]);
 		await invitationController.acceptInvitation(req, res, next);
 	})
 	.delete("/rejectInvitation", async (req: Request, res: Response, next: NextFunction) => {
-		validateReq(req, ["invitation_id", "id"]);
+		validateReq(req, ["invitationId", "id"]);
 		await invitationController.rejectInvitation(req, res, next);
 	})
 	.delete("/cancelInvitation", async (req: Request, res: Response, next: NextFunction) => {
-		validateReq(req, ["invitation_id", "id"]);
+		validateReq(req, ["invitationId", "id"]);
 		await invitationController.cancelInvitation(req, res, next);
 	})
 	.get("/loadInvitations", async (req: Request, res: Response, next: NextFunction) => {

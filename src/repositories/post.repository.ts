@@ -11,14 +11,6 @@ export class PostRepository {
 		return rows[0];
 	};
 
-	static selectPost = async (post_id: string): Promise<IPostEntity> => {
-		const { rows } = await pool.query("SELECT id, user_id, group_id, title, text, picture, attachment, created_at, type FROM posts WHERE id = $1", [post_id]);
-		if (!rows[0]) {
-			throw new CustomError("Failed to find a post, please try again later", 500);
-		}
-		return rows[0];
-	};
-
 	static editPost = async (post: IPostEntity): Promise<IPostEntity> => {
 		const { rows } = await pool.query("UPDATE posts SET title = COALESCE($1, title), text = COALESCE($2, text), picture = COALESCE($3, picture), attachment = COALESCE($4, attachment) WHERE id = $5 AND user_id = $6 RETURNING id, user_id, group_id, title, text, picture, attachment, created_at, type", [post.title, post.text, post.picture, post.attachment, post.id, post.user_id]);
 		if (!rows[0]) {
@@ -41,6 +33,9 @@ export class PostRepository {
 
 	static loadPost = async (post_id: string): Promise<IPostEntity> => {
 		const { rows } = await pool.query("SELECT id, user_id, group_id, title, text, picture, attachment, created_at, type FROM posts WHERE id = $1", [post_id]);
+		if (!rows[0]) {
+			throw new CustomError("Failed to load post, please try again later", 500);
+		}
 		return rows[0];
 	};
 }

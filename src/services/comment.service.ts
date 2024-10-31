@@ -40,8 +40,6 @@ export class CommentService {
 			comments.map(async (comment) => {
 				const profile = await this._profileService.loadProfile(comment.user_id);
 				const username = await this._authRepository.getUsernameById(comment.user_id);
-				console.log(username);
-
 				return CommentDTO.createDTO(comment, username, profile);
 			}),
 		);

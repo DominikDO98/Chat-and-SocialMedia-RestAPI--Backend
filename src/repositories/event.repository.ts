@@ -10,8 +10,6 @@ export class EventRepository {
 
 	static editEvent = async (eventData: IEventEntity): Promise<IEventEntity> => {
 		const { rows } = await pool.query("UPDATE events SET date = COALESCE($2, date), lat = COALESCE($3, lat), lon = COALESCE($4, lon) WHERE post_id = $1 RETURNING post_id, date, lat, lon", [eventData.post_id, eventData.date, eventData.lat, eventData.lon]);
-		console.log(eventData.post_id);
-
 		return rows[0];
 	};
 	static countParticipants = async (event_id: string): Promise<number> => {

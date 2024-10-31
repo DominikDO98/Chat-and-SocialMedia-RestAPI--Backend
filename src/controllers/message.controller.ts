@@ -8,8 +8,8 @@ export class MessageController {
 	}
 	sendMessage = async (req: Request, res: Response, next: NextFunction) => {
 		try {
-			await this._messageService.sendMessage(req.body.message, req.body.id);
-			res.status(201).json({ success: true });
+			const dto = await this._messageService.sendMessage(req.body.message, req.body.id);
+			res.status(201).json(dto);
 		} catch (err) {
 			next(err);
 		}
@@ -17,8 +17,8 @@ export class MessageController {
 
 	loadMessages = async (req: Request, res: Response, next: NextFunction) => {
 		try {
-			const messages = await this._messageService.loadMessages(req.params.chatId, req.params.offset);
-			res.status(200).json({ messages: messages });
+			const dtos = await this._messageService.loadMessages(req.params.chatId, req.params.offset, req.body.id);
+			res.status(200).json(dtos);
 		} catch (err) {
 			next(err);
 		}

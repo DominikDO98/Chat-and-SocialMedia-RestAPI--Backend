@@ -15,6 +15,10 @@ export interface ICommentDTO {
 	createdAt: Date;
 	picture?: Buffer;
 	attachment?: string;
+	username: string;
+	lastname?: string;
+	firstname?: string;
+	profilePhoto?: Buffer;
 }
 
 export type TCreateComment = {

@@ -28,14 +28,14 @@ export class PostService {
 		const likes = await this._likeRepository.countLikes(editedPost.id);
 		const comments = await this._commentRepository.countComments(editedPost.id);
 		const liked = Boolean(await this._likeRepository.getLike(userId, editedPost.id));
-		const dto = new PostDTO(editedPost, likes, comments, liked);
+		const dto = PostDTO.createDTO(editedPost, likes, comments, liked);
 		return dto;
 	};
 	deletePost = async (userId: string, postId: string): Promise<void> => {
 		await this._postRepository.deletePost(userId, postId);
 	};
 	loadUserPosts = async (userId: string, offset: number): Promise<IPostDTO[]> => {
-		const userPosts: IPostEntity[] = await this._postRepository.loadUserPosts(userId, offset);
+		const userPosts: IPostEntity[] = await this._postRepository.loadUserPosts(userId, offset * 10);
 		const dtos = await Promise.all(
 			userPosts.map(async (post) => {
 				const likes = await this._likeRepository.countLikes(post.id);

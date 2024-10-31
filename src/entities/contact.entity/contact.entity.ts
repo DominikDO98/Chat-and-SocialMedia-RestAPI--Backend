@@ -1,11 +1,10 @@
-import { v4 as uuid } from "uuid";
-import { IContactEntity } from "./contact.type";
+import { IContactEntity } from "./contact";
 
 export class ContactEntity implements IContactEntity {
-	public id;
-	public chat_id;
-	constructor(newContact: Omit<IContactEntity, "id">) {
-		this.id = uuid();
-		this.chat_id = newContact.chat_id;
+	public readonly id: string;
+	public readonly chat_id: string | undefined;
+	constructor(id: string, chatId: string) {
+		this.id = id;
+		this.chat_id = chatId ? chatId : undefined;
 	}
 }
