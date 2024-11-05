@@ -16,7 +16,7 @@ export class ChatController {
 	};
 	createGroupChat = async (req: Request, res: Response, next: NextFunction) => {
 		try {
-			const dto = await this._chatService.createGroupChat(req.body.id, req.body.participantsIds, req.body.chatData);
+			const dto = await this._chatService.createGroupChat(req.body.id, req.body.participantsIds, req.body.name);
 			res.status(201).json(dto);
 		} catch (err) {
 			next(err);

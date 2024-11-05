@@ -4,7 +4,6 @@ import { IChatEntity } from "../entities/chat.entity/chat";
 import { CustomError } from "../utils/errors/errors";
 
 export class ChatRepository {
-	//add delete private chat
 	private static addUsersLoop = async (participantsId: string[], client: PoolClient, chat_id: string) => {
 		participantsId.forEach(async (user) => {
 			await client.query("INSERT INTO users_chats (user_id, chat_id) SELECT users.id, $1 FROM users WHERE username = $2", [chat_id, user]);
