@@ -34,9 +34,10 @@ export class MessageService {
 	deleteMessage = async (mess_id: string): Promise<void> => {
 		await this._messageRepository.deleteMessage(mess_id);
 	};
-	getLastMessage = async (chatId: string, userId: string): Promise<IMessageDTO> => {
+	getLastMessage = async (chatId: string, userId: string): Promise<IMessageDTO | undefined> => {
 		const mess = await this._messageRepository.getLastMessage(chatId);
-		const sender = await this._authRepository.getUsernameById(mess.id);
+		if (!mess) return undefined;
+		const sender = await this._authRepository.getUsernameById(mess.send_by);
 		const dto = MessageDTO.createDTO(mess, sender, mess.send_by === userId);
 		return dto;
 	};

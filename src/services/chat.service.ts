@@ -1,7 +1,6 @@
-import { IChatDTO, IChatEntity } from "../entities/chat.entity/chat";
+import { IChatDTO } from "../entities/chat.entity/chat";
 import { ChatDTO } from "../entities/chat.entity/chat.dto";
 import { ChatEntity } from "../entities/chat.entity/chat.entity";
-import { IMessageDTO } from "../entities/message.entity/message";
 import { IProfileDTO } from "../entities/profile.entity/profile";
 import { AuthRepository } from "../repositories/auth.repository";
 import { ChatRepository } from "../repositories/chat.repository";
