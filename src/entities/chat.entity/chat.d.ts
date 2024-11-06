@@ -9,7 +9,7 @@ export interface IChatDTO {
 	name: string;
 	photo?: Buffer;
 	text?: string;
-	sender?: string;
+	senderUsername?: string;
 	isDelivered?: boolean;
 	createdAt?: Date;
 }

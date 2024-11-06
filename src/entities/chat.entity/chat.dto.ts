@@ -8,14 +8,14 @@ export class ChatDTO implements IChatDTO {
 	public readonly name: string;
 	public readonly photo?: Buffer | undefined;
 	public readonly text?: string | undefined;
-	public readonly sender?: string | undefined;
+	public readonly senderUsername?: string | undefined;
 	public readonly isDelivered?: boolean | undefined;
 	public readonly createdAt?: Date | undefined;
 	constructor(chat: IChatEntity, sender?: string, message?: IMessageDTO, profile?: IProfileDTO) {
 		this.chatId = chat.id;
 		this.name = chat.name ? chat.name : profile?.firstname || "Unnamed Chat";
 		this.photo = profile && profile.profilePhoto ? profile.profilePhoto : undefined;
-		this.sender = sender ? sender : undefined;
+		this.senderUsername = sender ? sender : undefined;
 		this.text = message?.text ? message?.text : undefined;
 		this.isDelivered = message?.isDelivered ? message?.isDelivered : false;
 		this.createdAt = message?.createdAt ? message?.createdAt : undefined;
