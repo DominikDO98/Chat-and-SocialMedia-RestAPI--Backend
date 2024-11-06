@@ -5,17 +5,40 @@ import { CustomError } from "../utils/errors/errors";
 
 export class ChatRepository {
 	private static addUsersLoop = async (participantsId: string[], client: PoolClient, chat_id: string) => {
-		participantsId.forEach(async (user) => {
-			await client.query("INSERT INTO users_chats (user_id, chat_id) SELECT users.id, $1 FROM users WHERE username = $2", [chat_id, user]);
+		participantsId.forEach(async (user_id) => {
+			await client.query("INSERT INTO users_chats (user_id, chat_id) VALUES ($1, $2)", [user_id, chat_id]);
 		});
 	};
 	private static deleteUsersLoop = async (participantsId: string[], client: PoolClient, chat_id: string) => {
-		participantsId.forEach(async (user) => {
-			await client.query("DELETE FROM users_chats (user_id, chat_id) SELECT users.id, $1 FORM users WHERE username = $2", [chat_id, user]);
+		participantsId.forEach(async (user_id) => {
+			await client.query("DELETE FROM users_chats WHERE user_id = $1 AND chat_id = $2", [user_id, chat_id]);
 		});
 	};
+	static createPrivateChat = async (contact_id: string, chatData: IChatEntity): Promise<IChatEntity> => {
+		const client = await pool.connect();
+		let entity: IChatEntity | undefined;
+		try {
+			await client.query("BEGIN");
+			const { rows: users } = await client.query("SELECT user_id FROM users_contacts WHERE contact_id = $1", [contact_id]);
+			const { rows: chat } = await client.query("INSERT INTO chats (id, is_group, name) VALUES ($1, $2, $3) RETURNING id, is_group, name", [chatData.id, chatData.is_group, chatData.name]);
+			console.log("repo users: ", users);
+			this.addUsersLoop([users[0].user_id, users[1].user_id], client, chat[0].id);
+			entity = chat[0];
+			await client.query("COMMIT");
+		} catch (err) {
+			await client.query("ROLLBACK");
+			console.log(err);
+			throw new CustomError("Chat creation was unsuccesful", 500, true);
+		} finally {
+			client.release();
+		}
+		if (!entity) {
+			throw new CustomError("Something wnet wrong. please try again later", 500, true);
+		}
+		return entity;
+	};
 
-	static createChat = async (chatData: IChatEntity, users: string[]): Promise<IChatEntity> => {
+	static createGroupChat = async (chatData: IChatEntity, users: string[]): Promise<IChatEntity> => {
 		const client = await pool.connect();
 		let entity: IChatEntity | undefined;
 		try {
