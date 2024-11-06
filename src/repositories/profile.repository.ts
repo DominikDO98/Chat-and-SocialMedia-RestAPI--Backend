@@ -31,6 +31,11 @@ export class ProfileRepository {
 		return rows[0];
 	};
 
+	static loadProfileByChatId = async (user_id: string, chat_id: string): Promise<IProfileEntity> => {
+		const { rows } = await pool.query("SELECT profiles.profile_photo, profiles.lastname, profiles.firstname, profiles.birthday, profiles.country, profiles.city, profiles.occupation, profiles.school, profiles.description FROM profiles FULL JOIN users_chats ON profiles.user_id = users_chats.user_id WHERE users_chats.chat_id = $1 AND NOT profiles.user_id = $2", [chat_id, user_id]);
+		return rows[0];
+	};
+
 	static editProfile = async (newData: IProfileEntity): Promise<IProfileEntity> => {
 		const { rows } = await pool.query("UPDATE profiles SET lastname = COALESCE($1, lastname), firstname = COALESCE($2, firstname), birthday = COALESCE($3, birthday), city = COALESCE($4, city), occupation = COALESCE($5, occupation), school = COALESCE($6, school), description = COALESCE($7, description) WHERE user_id = $8 RETURNING lastname, firstname, birthday, city, occupation, school, description", [
 			newData.lastname,

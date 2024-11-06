@@ -16,6 +16,13 @@ export class ProfileService {
 		return dto;
 	};
 
+	loadProfileByChat = async (chatId: string, userId: string): Promise<IProfileDTO> => {
+		const returnEnity = await this._profileRepository.loadProfileByChatId(userId, chatId);
+		console.log("profile service", returnEnity);
+		const dto = ProfileDTO.createDTO(returnEnity);
+		return dto;
+	};
+
 	loadChatParticipants = async (chatId: string): Promise<IProfileDTO[]> => {
 		const participantsIds = await this._profileRepository.loadChatParticipants(chatId);
 		const dtos = participantsIds.map((entity) => {
