@@ -20,13 +20,13 @@ ChatRouter
 		await chatController.createGroupChat(req, res, next);
 	})
 	.patch("/addUsersToGroupChat", async (req: Request, res: Response, next: NextFunction) => {
-		validateReq(req, ["participantsIds", "chat_id"]);
-		ChatParticipantsIdsSchema.parse(req.body.participantsIds);
-		z.string().uuid().parse(req.body.chat_id);
+		// validateReq(req, ["participantsIds", "chatId"]);
+		// ChatParticipantsIdsSchema.parse(req.body.participantsIds);
+		// z.string().uuid().parse(req.body.chatId);
 		await chatController.addUsersToGroup(req, res, next);
 	})
 	.patch("/changeChatName", async (req: Request, res: Response, next: NextFunction) => {
-		validateReq(req, ["chat_id", "newName"]);
+		validateReq(req, ["chatId", "newName"]);
 		await chatController.changeChatName(req, res, next);
 	})
 	.get("/loadPrivateChats", async (req: Request, res: Response, next: NextFunction) => {
