@@ -24,7 +24,7 @@ export class ChatController {
 	};
 	addUsersToGroup = async (req: Request, res: Response, next: NextFunction) => {
 		try {
-			const dto = await this._chatService.addUsersToGroup(req.body.participantsIds, req.body.chat_id);
+			const dto = await this._chatService.addUsersToGroup(req.body.participantsIds, req.body.chatId);
 			res.status(200).json(dto);
 		} catch (err) {
 			next(err);
@@ -32,7 +32,7 @@ export class ChatController {
 	};
 	changeChatName = async (req: Request, res: Response, next: NextFunction) => {
 		try {
-			const dto = await this._chatService.changeChatName(req.body.chat_id, req.body.newName, req.body.id);
+			const dto = await this._chatService.changeChatName(req.body.chatId, req.body.newName, req.body.id);
 			res.status(200).json(dto);
 		} catch (err) {
 			next(err);
