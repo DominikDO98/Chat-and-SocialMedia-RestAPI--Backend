@@ -5,7 +5,7 @@ import { CustomError } from "../utils/errors/errors";
 export class MessageRepository {
 	//add delete all messages by chat_id
 	static sendMessage = async (message: IMessageEntity): Promise<IMessageEntity> => {
-		const { rows } = await pool.query("INSERT INTO messages (id, chat_id, text, created_at, send_by, picture, attachment, is_delivered) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)", [message.id, message.chat_id, message.text, message.created_at, message.send_by, message.picture, message.attachment, message.is_delivered]);
+		const { rows } = await pool.query("INSERT INTO messages (id, chat_id, text, created_at, send_by, picture, attachment, is_delivered) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING id, chat_id, text, created_at, send_by, picture, attachment, is_delivered", [message.id, message.chat_id, message.text, message.created_at, message.send_by, message.picture, message.attachment, message.is_delivered]);
 		if (!rows[0]) {
 			throw new CustomError("Ooops! Something Went wrong", 500, true);
 		}
